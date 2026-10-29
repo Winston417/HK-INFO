@@ -17,6 +17,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -43,5 +46,4 @@ jobs:
         with:
           name: app-release-apk
           path: |
-            my-app/platforms/android/app/build/outputs/apk/release/*.apk
-            my-app/platforms/android/app/build/outputs/apk/debug/*.apk
+            **/*.apk
