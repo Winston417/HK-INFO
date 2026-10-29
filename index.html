@@ -10,79 +10,192 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&family=Noto+Sans+HK:wght@500;700;900&family=Roboto:wght@500;700;900&display=swap');
 
+    /* =========================================================================
+       風格 1：Apple 毛玻璃風格 (style-apple) + 日落前後淺/深色
+       ========================================================================= */
     body.style-apple.theme-light {
-      --bg-board: radial-gradient(at 0% 0%, #c7d2fe 0px, transparent 55%), radial-gradient(at 95% 10%, #bae6fd 0px, transparent 50%), radial-gradient(at 50% 100%, #fde68a 0px, transparent 55%), #e2e8f0;
-      --panel-bg: rgba(255, 255, 255, 0.68); --panel-border: rgba(255, 255, 255, 0.82);
+      --bg-board: radial-gradient(at 0% 0%, #c7d2fe 0px, transparent 55%),
+                  radial-gradient(at 95% 10%, #bae6fd 0px, transparent 50%),
+                  radial-gradient(at 50% 100%, #fde68a 0px, transparent 55%), #e2e8f0;
+      --panel-bg: rgba(255, 255, 255, 0.68);
+      --panel-border: rgba(255, 255, 255, 0.82);
       --panel-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-      --panel-radius: 22px; --panel-blur: blur(28px) saturate(190%);
-      --row-bg: rgba(255, 255, 255, 0.65); --row-border: rgba(255, 255, 255, 0.88); --row-radius: 16px;
-      --tile-bg: rgba(255, 255, 255, 0.88); --tile-border: rgba(15, 23, 42, 0.08); --tile-radius: 10px;
-      --btn-bg: rgba(255, 255, 255, 0.78); --btn-border: rgba(15, 23, 42, 0.1); --btn-radius: 12px;
-      --text-main: #0f172a; --text-sub: #334155; --text-muted: #64748b;
-      --accent-color: #0284c7; --urgent-color: #059669;
-      --track-bg: rgba(15, 23, 42, 0.88); --track-border: rgba(255, 255, 255, 0.2); --dock-bg: rgba(255, 255, 255, 0.86);
+      --panel-radius: 22px;
+      --panel-blur: blur(28px) saturate(190%);
+      --row-bg: rgba(255, 255, 255, 0.65);
+      --row-border: rgba(255, 255, 255, 0.88);
+      --row-radius: 16px;
+      --tile-bg: rgba(255, 255, 255, 0.88);
+      --tile-border: rgba(15, 23, 42, 0.08);
+      --tile-radius: 10px;
+      --btn-bg: rgba(255, 255, 255, 0.78);
+      --btn-border: rgba(15, 23, 42, 0.1);
+      --btn-radius: 12px;
+      --text-main: #0f172a;
+      --text-sub: #334155;
+      --text-muted: #64748b;
+      --accent-color: #0284c7;
+      --urgent-color: #059669;
+      --track-bg: rgba(15, 23, 42, 0.88);
+      --track-border: rgba(255, 255, 255, 0.2);
+      --dock-bg: rgba(255, 255, 255, 0.86);
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Noto Sans HK', sans-serif;
     }
 
     body.style-apple.theme-dark {
-      --bg-board: radial-gradient(at 5% 5%, #1e1b4b 0px, transparent 55%), radial-gradient(at 95% 15%, #0f2942 0px, transparent 55%), radial-gradient(at 50% 95%, #111827 0px, transparent 60%), #060913;
-      --panel-bg: rgba(28, 36, 56, 0.58); --panel-border: rgba(255, 255, 255, 0.14);
+      --bg-board: radial-gradient(at 5% 5%, #1e1b4b 0px, transparent 55%),
+                  radial-gradient(at 95% 15%, #0f2942 0px, transparent 55%),
+                  radial-gradient(at 50% 95%, #111827 0px, transparent 60%), #060913;
+      --panel-bg: rgba(28, 36, 56, 0.58);
+      --panel-border: rgba(255, 255, 255, 0.14);
       --panel-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      --panel-radius: 22px; --panel-blur: blur(28px) saturate(190%);
-      --row-bg: rgba(15, 23, 42, 0.55); --row-border: rgba(255, 255, 255, 0.08); --row-radius: 16px;
-      --tile-bg: rgba(255, 255, 255, 0.1); --tile-border: rgba(255, 255, 255, 0.12); --tile-radius: 10px;
-      --btn-bg: rgba(255, 255, 255, 0.1); --btn-border: rgba(255, 255, 255, 0.14); --btn-radius: 12px;
-      --text-main: #f8fafc; --text-sub: #cbd5e1; --text-muted: #94a3b8;
-      --accent-color: #38bdf8; --urgent-color: #34d399;
-      --track-bg: rgba(7, 11, 20, 0.82); --track-border: rgba(255, 255, 255, 0.1); --dock-bg: rgba(15, 23, 42, 0.88);
+      --panel-radius: 22px;
+      --panel-blur: blur(28px) saturate(190%);
+      --row-bg: rgba(15, 23, 42, 0.55);
+      --row-border: rgba(255, 255, 255, 0.08);
+      --row-radius: 16px;
+      --tile-bg: rgba(255, 255, 255, 0.1);
+      --tile-border: rgba(255, 255, 255, 0.12);
+      --tile-radius: 10px;
+      --btn-bg: rgba(255, 255, 255, 0.1);
+      --btn-border: rgba(255, 255, 255, 0.14);
+      --btn-radius: 12px;
+      --text-main: #f8fafc;
+      --text-sub: #cbd5e1;
+      --text-muted: #94a3b8;
+      --accent-color: #38bdf8;
+      --urgent-color: #34d399;
+      --track-bg: rgba(7, 11, 20, 0.82);
+      --track-border: rgba(255, 255, 255, 0.1);
+      --dock-bg: rgba(15, 23, 42, 0.88);
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Noto Sans HK', sans-serif;
     }
 
+    /* =========================================================================
+       風格 2：原裝 Android 系統風格 (Pixel Material You / Material 3)
+       ========================================================================= */
     body.style-android.theme-light {
-      --bg-board: #f7f9ff; --panel-bg: #e8eef8; --panel-border: transparent; --panel-shadow: none;
-      --panel-radius: 26px; --panel-blur: none; --row-bg: #ffffff; --row-border: transparent; --row-radius: 18px;
-      --tile-bg: #d3e3fd; --tile-border: transparent; --tile-radius: 14px;
-      --btn-bg: #d3e3fd; --btn-border: transparent; --btn-radius: 9999px;
-      --text-main: #191c20; --text-sub: #43474e; --text-muted: #6f7782;
-      --accent-color: #0b57d0; --urgent-color: #146c2e; --track-bg: #1e2430; --track-border: transparent;
-      --dock-bg: rgba(232, 238, 248, 0.95); font-family: 'Roboto', 'Noto Sans HK', sans-serif;
+      --bg-board: #f7f9ff;
+      --panel-bg: #e8eef8;
+      --panel-border: transparent;
+      --panel-shadow: none;
+      --panel-radius: 26px;
+      --panel-blur: none;
+      --row-bg: #ffffff;
+      --row-border: transparent;
+      --row-radius: 18px;
+      --tile-bg: #d3e3fd;
+      --tile-border: transparent;
+      --tile-radius: 14px;
+      --btn-bg: #d3e3fd;
+      --btn-border: transparent;
+      --btn-radius: 9999px;
+      --text-main: #191c20;
+      --text-sub: #43474e;
+      --text-muted: #6f7782;
+      --accent-color: #0b57d0;
+      --urgent-color: #146c2e;
+      --track-bg: #1e2430;
+      --track-border: transparent;
+      --dock-bg: rgba(232, 238, 248, 0.95);
+      font-family: 'Roboto', 'Noto Sans HK', sans-serif;
     }
 
     body.style-android.theme-dark {
-      --bg-board: #111318; --panel-bg: #1e2026; --panel-border: transparent; --panel-shadow: none;
-      --panel-radius: 26px; --panel-blur: none; --row-bg: #292c34; --row-border: transparent; --row-radius: 18px;
-      --tile-bg: #28436c; --tile-border: transparent; --tile-radius: 14px;
-      --btn-bg: #2c313b; --btn-border: transparent; --btn-radius: 9999px;
-      --text-main: #e2e2e9; --text-sub: #c4c6d0; --text-muted: #8e9099;
-      --accent-color: #a8c7fa; --urgent-color: #6dd58c; --track-bg: #14171d; --track-border: transparent;
-      --dock-bg: rgba(30, 32, 38, 0.95); font-family: 'Roboto', 'Noto Sans HK', sans-serif;
+      --bg-board: #111318;
+      --panel-bg: #1e2026;
+      --panel-border: transparent;
+      --panel-shadow: none;
+      --panel-radius: 26px;
+      --panel-blur: none;
+      --row-bg: #292c34;
+      --row-border: transparent;
+      --row-radius: 18px;
+      --tile-bg: #28436c;
+      --tile-border: transparent;
+      --tile-radius: 14px;
+      --btn-bg: #2c313b;
+      --btn-border: transparent;
+      --btn-radius: 9999px;
+      --text-main: #e2e2e9;
+      --text-sub: #c4c6d0;
+      --text-muted: #8e9099;
+      --accent-color: #a8c7fa;
+      --urgent-color: #6dd58c;
+      --track-bg: #14171d;
+      --track-border: transparent;
+      --dock-bg: rgba(30, 32, 38, 0.95);
+      font-family: 'Roboto', 'Noto Sans HK', sans-serif;
     }
 
+    /* =========================================================================
+       風格 3：機場翻頁風格 (style-flap)
+       ========================================================================= */
     body.style-flap.theme-light {
-      --bg-board: #cbd5e1; --panel-bg: #e2e8f0; --panel-border: #94a3b8;
+      --bg-board: #cbd5e1;
+      --panel-bg: #e2e8f0;
+      --panel-border: #94a3b8;
       --panel-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 6px 14px -4px rgba(0,0,0,0.25);
-      --panel-radius: 12px; --panel-blur: none; --row-bg: #f8fafc; --row-border: #cbd5e1; --row-radius: 10px;
-      --flap-bg-top: #ffffff; --flap-bg-bottom: #f1f5f9; --flap-border: #94a3b8; --flap-hinge: rgba(15, 23, 42, 0.25);
-      --btn-bg: #f8fafc; --btn-border: #94a3b8; --btn-radius: 8px;
-      --text-main: #0f172a; --text-sub: #334155; --text-muted: #475569;
-      --accent-color: #b45309; --urgent-color: #047857; --track-bg: #0f172a; --track-border: #334155;
-      --dock-bg: rgba(226, 232, 240, 0.96); font-family: 'Noto Sans HK', sans-serif;
+      --panel-radius: 12px;
+      --panel-blur: none;
+      --row-bg: #f8fafc;
+      --row-border: #cbd5e1;
+      --row-radius: 10px;
+      --flap-bg-top: #ffffff;
+      --flap-bg-bottom: #f1f5f9;
+      --flap-border: #94a3b8;
+      --flap-hinge: rgba(15, 23, 42, 0.25);
+      --btn-bg: #f8fafc;
+      --btn-border: #94a3b8;
+      --btn-radius: 8px;
+      --text-main: #0f172a;
+      --text-sub: #334155;
+      --text-muted: #475569;
+      --accent-color: #b45309;
+      --urgent-color: #047857;
+      --track-bg: #0f172a;
+      --track-border: #334155;
+      --dock-bg: rgba(226, 232, 240, 0.96);
+      font-family: 'Noto Sans HK', sans-serif;
     }
 
     body.style-flap.theme-dark {
-      --bg-board: #090d16; --panel-bg: #111726; --panel-border: #263147;
+      --bg-board: #090d16;
+      --panel-bg: #111726;
+      --panel-border: #263147;
       --panel-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 16px -4px rgba(0,0,0,0.45);
-      --panel-radius: 12px; --panel-blur: none; --row-bg: #161e2e; --row-border: #263147; --row-radius: 10px;
-      --flap-bg-top: #1e2638; --flap-bg-bottom: #151b29; --flap-border: #05070c; --flap-hinge: rgba(0, 0, 0, 0.82);
-      --btn-bg: #1a2336; --btn-border: #334155; --btn-radius: 8px;
-      --text-main: #f8fafc; --text-sub: #cbd5e1; --text-muted: #94a3b8;
-      --accent-color: #fbbf24; --urgent-color: #34d399; --track-bg: #070b12; --track-border: #1e293b;
-      --dock-bg: rgba(17, 23, 38, 0.96); font-family: 'Noto Sans HK', sans-serif;
+      --panel-radius: 12px;
+      --panel-blur: none;
+      --row-bg: #161e2e;
+      --row-border: #263147;
+      --row-radius: 10px;
+      --flap-bg-top: #1e2638;
+      --flap-bg-bottom: #151b29;
+      --flap-border: #05070c;
+      --flap-hinge: rgba(0, 0, 0, 0.82);
+      --btn-bg: #1a2336;
+      --btn-border: #334155;
+      --btn-radius: 8px;
+      --text-main: #f8fafc;
+      --text-sub: #cbd5e1;
+      --text-muted: #94a3b8;
+      --accent-color: #fbbf24;
+      --urgent-color: #34d399;
+      --track-bg: #070b12;
+      --track-border: #1e293b;
+      --dock-bg: rgba(17, 23, 38, 0.96);
+      font-family: 'Noto Sans HK', sans-serif;
     }
 
+    /* =========================================================================
+       共用元件與模式設定規則
+       ========================================================================= */
     body {
-      background: var(--bg-board); background-attachment: fixed; color: var(--text-main);
-      transition: background 0.35s ease, color 0.35s ease; -webkit-tap-highlight-color: transparent;
+      background: var(--bg-board);
+      background-attachment: fixed;
+      color: var(--text-main);
+      transition: background 0.35s ease, color 0.35s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -91,59 +204,207 @@
     body.ui-normal { padding-bottom: 0.85rem !important; }
     body.ui-normal .app-shell { max-width: 80rem; }
     body.ui-normal .only-mobile-ui { display: none !important; }
-    body.ui-normal #traffic-monitors-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 0.5rem; }
-    @media (min-width: 640px) { body.ui-normal #traffic-monitors-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1024px) { body.ui-normal #traffic-monitors-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    body.ui-normal #cards-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 0.625rem; }
-    @media (min-width: 768px) { body.ui-normal #cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    body.ui-normal #traffic-monitors-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      body.ui-normal #traffic-monitors-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1024px) {
+      body.ui-normal #traffic-monitors-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    body.ui-normal #cards-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 0.625rem;
+    }
+    @media (min-width: 768px) {
+      body.ui-normal #cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
 
     body.ui-mobile { padding-bottom: 4.8rem !important; }
     body.ui-mobile .app-shell { max-width: 440px !important; margin-left: auto; margin-right: auto; }
     body.ui-mobile .only-normal-ui { display: none !important; }
     body.ui-mobile .airport-panel { border-radius: 18px; }
     body.ui-mobile #weather-regions-container, body.ui-mobile #folders-bar { flex-wrap: nowrap !important; }
-    body.ui-mobile #traffic-monitors-grid { display: flex !important; flex-wrap: nowrap !important; overflow-x: auto !important; gap: 0.5rem; padding-bottom: 2px; }
+    body.ui-mobile #traffic-monitors-grid {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      gap: 0.5rem;
+      padding-bottom: 2px;
+    }
     body.ui-mobile #traffic-monitors-grid > div { min-width: 235px; flex-shrink: 0; }
-    body.ui-mobile #cards-grid { display: grid !important; grid-template-columns: repeat(1, minmax(0, 1fr)) !important; gap: 0.6rem; }
-    body.ui-mobile .mobile-bottom-dock { display: flex !important; max-width: 440px; left: 50%; transform: translateX(-50%); border-radius: 20px 20px 0 0; }
+    body.ui-mobile #cards-grid {
+      display: grid !important;
+      grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+      gap: 0.6rem;
+    }
+    body.ui-mobile .mobile-bottom-dock {
+      display: flex !important;
+      max-width: 440px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 20px 20px 0 0;
+    }
 
-    .mono-num { font-family: 'JetBrains Mono', 'Inter', monospace; font-variant-numeric: tabular-nums; }
-    .airport-panel { background: var(--panel-bg); border: 1.5px solid var(--panel-border); border-radius: var(--panel-radius); box-shadow: var(--panel-shadow); backdrop-filter: var(--panel-blur); -webkit-backdrop-filter: var(--panel-blur); transition: all 0.35s ease; }
-    .flap-row { background: var(--row-bg); border: 1px solid var(--row-border); border-radius: var(--row-radius); transition: all 0.3s ease; }
-    .ctrl-btn { background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: var(--btn-radius); color: var(--text-main); transition: all 0.2s ease; }
+    .mono-num {
+      font-family: 'JetBrains Mono', 'Inter', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .airport-panel {
+      background: var(--panel-bg);
+      border: 1.5px solid var(--panel-border);
+      border-radius: var(--panel-radius);
+      box-shadow: var(--panel-shadow);
+      backdrop-filter: var(--panel-blur);
+      -webkit-backdrop-filter: var(--panel-blur);
+      transition: all 0.35s ease;
+    }
+
+    .flap-row {
+      background: var(--row-bg);
+      border: 1px solid var(--row-border);
+      border-radius: var(--row-radius);
+      transition: all 0.3s ease;
+    }
+
+    .ctrl-btn {
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      border-radius: var(--btn-radius);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
     .ctrl-btn:active { transform: scale(0.95); }
-    .flap-tile { position: relative; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main); transition: all 0.25s ease; }
 
-    body.style-apple .flap-tile, body.style-android .flap-tile { background: var(--tile-bg); border: 1px solid var(--tile-border); border-radius: var(--tile-radius); }
-    body.style-flap .flap-tile { background: linear-gradient(180deg, var(--flap-bg-top) 0%, var(--flap-bg-top) 49%, var(--flap-bg-bottom) 51%, var(--flap-bg-bottom) 100%); border: 1.5px solid var(--flap-border); border-radius: 6px; box-shadow: 0 3px 0 var(--flap-border), inset 0 1px 0 rgba(255,255,255,0.12); overflow: hidden; perspective: 400px; }
-    body.style-flap .flap-tile::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background-color: var(--flap-hinge); transform: translateY(-50%); pointer-events: none; z-index: 2; }
+    .flap-tile {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      transition: all 0.25s ease;
+    }
 
-    .split-flap-clock-card { position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 0.12rem 0.42rem; color: var(--accent-color); }
-    body.style-apple .split-flap-clock-card, body.style-android .split-flap-clock-card { background: var(--tile-bg); border: 1px solid var(--tile-border); border-radius: var(--tile-radius); }
+    body.style-apple .flap-tile, body.style-android .flap-tile {
+      background: var(--tile-bg);
+      border: 1.5px solid var(--tile-border);
+      border-radius: var(--tile-radius);
+    }
+
+    body.style-flap .flap-tile {
+      background: linear-gradient(180deg, var(--flap-bg-top) 0%, var(--flap-bg-top) 49%, var(--flap-bg-bottom) 51%, var(--flap-bg-bottom) 100%);
+      border: 1.5px solid var(--flap-border);
+      border-radius: 6px;
+      box-shadow: 0 3px 0 var(--flap-border), inset 0 1px 0 rgba(255,255,255,0.12);
+      overflow: hidden;
+      perspective: 400px;
+    }
+
+    body.style-flap .flap-tile::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 50%; height: 2px;
+      background-color: var(--flap-hinge);
+      transform: translateY(-50%); pointer-events: none; z-index: 2;
+    }
+
+    .split-flap-clock-card {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.12rem 0.42rem;
+      color: var(--accent-color);
+    }
+
+    body.style-apple .split-flap-clock-card, body.style-android .split-flap-clock-card {
+      background: var(--tile-bg);
+      border: 1px solid var(--tile-border);
+      border-radius: var(--tile-radius);
+    }
+
     body.style-apple .sfc-sizer, body.style-apple .sfc-bottom, body.style-apple .sfc-leaf-front, body.style-apple .sfc-leaf-back, body.style-apple .sfc-hinge,
-    body.style-android .sfc-sizer, body.style-android .sfc-bottom, body.style-android .sfc-leaf-front, body.style-android .sfc-leaf-back, body.style-android .sfc-hinge { display: none !important; }
+    body.style-android .sfc-sizer, body.style-android .sfc-bottom, body.style-android .sfc-leaf-front, body.style-android .sfc-leaf-back, body.style-android .sfc-hinge {
+      display: none !important;
+    }
     body.style-apple .sfc-top, body.style-android .sfc-top { position: static; clip-path: none !important; background: transparent !important; border: none !important; box-shadow: none !important; }
 
-    .jr-board { background-color: var(--track-bg); border: 1.5px solid var(--track-border); border-radius: var(--row-radius); padding: 6px 8px 5px 8px; position: relative; color: #f8fafc; }
+    body.style-flap .split-flap-clock-card { border-radius: 6px; perspective: 360px; box-shadow: 0 3px 0 var(--flap-border); }
+    body.style-flap .sfc-sizer { visibility: hidden; display: block; line-height: 1.15; }
+    body.style-flap .sfc-half {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      border-radius: 6px; border: 1.5px solid var(--flap-border);
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      transform-origin: 50% 50%; line-height: 1.15; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    body.style-flap .sfc-top, body.style-flap .sfc-leaf-front { background-color: var(--flap-bg-top); clip-path: inset(0 0 50% 0); }
+    body.style-flap .sfc-bottom, body.style-flap .sfc-leaf-back { background-color: var(--flap-bg-bottom); clip-path: inset(50% 0 0 0); }
+    body.style-flap .sfc-leaf-front { z-index: 3; transform: rotateX(0deg); }
+    body.style-flap .sfc-leaf-back  { z-index: 4; transform: rotateX(90deg); }
+    body.style-flap .sfc-hinge { position: absolute; left: 0; right: 0; top: 50%; height: 2px; background-color: var(--flap-hinge); transform: translateY(-50%); z-index: 5; pointer-events: none; }
+
+    body.style-flap .split-flap-clock-card.is-flipping .sfc-leaf-front { animation: clockFlapTopDown 0.21s ease-in forwards; }
+    body.style-flap .split-flap-clock-card.is-flipping .sfc-leaf-back { animation: clockFlapBottomDown 0.21s ease-out 0.21s forwards; }
+
+    @keyframes clockFlapTopDown { 0% { transform: rotateX(0deg); filter: brightness(1); } 100% { transform: rotateX(-90deg); filter: brightness(0.6); } }
+    @keyframes clockFlapBottomDown { 0% { transform: rotateX(90deg); filter: brightness(1.3); } 100% { transform: rotateX(0deg); filter: brightness(1); } }
+    body.style-flap .flap-animate { animation: splitFlapFlip 0.42s cubic-bezier(0.2, 0.85, 0.35, 1.15); }
+    @keyframes splitFlapFlip { 0% { transform: rotateX(-85deg); opacity: 0.35; } 60% { transform: rotateX(12deg); opacity: 1; } 100% { transform: rotateX(0deg); opacity: 1; } }
+
+    /* 5 站實時位置移動路軌 */
+    .jr-board {
+      background-color: var(--track-bg);
+      border: 1.5px solid var(--track-border);
+      border-radius: var(--row-radius);
+      padding: 6px 8px 5px 8px;
+      position: relative;
+      color: #f8fafc;
+      transition: all 0.25s ease;
+    }
     .jr-track-container { position: relative; height: 34px; margin: 0 7%; }
     .jr-rail-line { position: absolute; left: 0; right: 0; top: 21px; height: 4px; background: linear-gradient(90deg, #334155 0%, #475569 75%, #10b981 100%); border-radius: 999px; z-index: 1; }
     .jr-chevron { position: absolute; top: 12px; transform: translateX(-50%); font-size: 10px; color: #64748b; z-index: 2; letter-spacing: -2px; animation: jrArrowPulse 1.8s infinite; }
     @keyframes jrArrowPulse { 0%, 100% { opacity: 0.35; color: #64748b; } 50% { opacity: 1; color: #fbbf24; } }
-    .jr-station-node { position: absolute; top: 14px; transform: translateX(-50%); width: 17px; height: 17px; border-radius: 6px; background-color: #1e293b; border: 2px solid #94a3b8; z-index: 3; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+    .jr-station-node {
+      position: absolute; top: 14px; transform: translateX(-50%); width: 17px; height: 17px;
+      border-radius: 6px; background-color: #1e293b; border: 2px solid #94a3b8; z-index: 3;
+      display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+    }
     body.style-android .jr-station-node, body.style-apple .jr-station-node { border-radius: 9999px; }
     .jr-station-node.is-target { width: 21px; height: 21px; top: 12px; border-color: #34d399; background-color: #064e3b; box-shadow: 0 0 10px rgba(52, 211, 153, 0.6); }
     .jr-station-node.is-lit { background-color: #f59e0b; border-color: #fde68a; box-shadow: 0 0 12px rgba(251, 191, 36, 0.95); }
     .jr-station-node.is-arriving { background-color: #10b981; border-color: #a7f3d0; box-shadow: 0 0 14px rgba(16, 185, 129, 1); animation: pulse 0.8s infinite; }
+
     .jr-bus-actor { position: absolute; top: -4px; transform: translateX(-50%); z-index: 10; transition: left 1.1s cubic-bezier(0.22, 1, 0.36, 1); display: flex; flex-direction: column; align-items: center; pointer-events: none; }
-    .jr-bus-pill { display: inline-flex; align-items: center; gap: 2px; padding: 1px 6px; border-radius: 9999px; background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%); color: #090d16; font-weight: 900; font-size: 10.5px; border: 1.5px solid #fef08a; box-shadow: 0 0 12px rgba(251, 191, 36, 0.9); white-space: nowrap; }
+    .jr-bus-pill {
+      display: inline-flex; align-items: center; gap: 2px; padding: 1px 6px; border-radius: 9999px;
+      background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%); color: #090d16; font-weight: 900; font-size: 10.5px;
+      line-height: 1.2; border: 1.5px solid #fef08a; box-shadow: 0 0 12px rgba(251, 191, 36, 0.9), 0 2px 4px rgba(0,0,0,0.6);
+      white-space: nowrap; animation: busHoverBounce 1.5s ease-in-out infinite;
+    }
+    .jr-bus-pill.is-arriving { background: linear-gradient(180deg, #34d399 0%, #059669 100%); border-color: #d1fae5; color: #022c22; box-shadow: 0 0 14px rgba(52, 211, 153, 0.95); }
+    .jr-bus-pill.is-second { background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); border-color: #bae6fd; color: #082f49; opacity: 0.92; transform: scale(0.9); }
+    @keyframes busHoverBounce { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-2px); } }
 
     .flap-amber { color: var(--accent-color) !important; }
     .flap-green { color: var(--urgent-color) !important; }
     .text-pri { color: var(--text-main); }
     .text-sec { color: var(--text-sub); }
     .text-mut { color: var(--text-muted); }
+
     .folder-tab-active { border-color: var(--accent-color) !important; box-shadow: 0 0 0 2px var(--accent-color), 0 4px 12px rgba(2, 132, 199, 0.25); }
-    .mobile-bottom-dock { background: var(--dock-bg); border-top: 1px solid var(--panel-border); backdrop-filter: blur(24px) saturate(190%); -webkit-backdrop-filter: blur(24px) saturate(190%); padding-bottom: env(safe-area-inset-bottom, 6px); box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.28); }
+
+    .mobile-bottom-dock {
+      background: var(--dock-bg); border-top: 1px solid var(--panel-border);
+      backdrop-filter: blur(24px) saturate(190%); -webkit-backdrop-filter: blur(24px) saturate(190%);
+      padding-bottom: env(safe-area-inset-bottom, 6px); box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.28);
+    }
+
     .status-dot { width: 12px; height: 12px; border-radius: 9999px; display: inline-block; flex-shrink: 0; }
     .dot-green { background-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.85); }
     .dot-yellow { background-color: #f59e0b; box-shadow: 0 0 11px rgba(245, 158, 11, 0.95); animation: pulse 1.4s infinite; }
@@ -153,246 +414,187 @@
 </head>
 <body class="style-apple theme-dark ui-normal min-h-screen p-2 md:p-3.5 flex flex-col justify-between select-none">
 
-  <!-- 🌙 夜間黑屏遮罩 -->
+  <!-- 夜間黑屏遮罩 -->
   <div id="night-overlay" onclick="wakeUpTemporarily()" class="fixed inset-0 bg-black z-50 hidden cursor-none flex items-center justify-center">
     <div id="night-hint" class="text-neutral-600 text-base transition-opacity duration-1000 opacity-100 text-center px-6">
       <div class="text-xl font-bold text-neutral-500 mb-1">🌙 夜間休眠模式 (00:00 – 06:00)</div>
-      <div class="text-sm text-neutral-700">輕觸畫面任意位置可暫時喚醒 60 秒</div>
+      <div class="text-sm text-neutral-700">3 秒後完全隱藏・輕觸畫面任何位置可暫時喚醒 60 秒</div>
     </div>
   </div>
 
-  <!-- 🌤️ 天文台分區天氣 Modal -->
+  <!-- 天文台分區天氣選擇視窗 -->
   <div id="weather-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-2xl w-full p-4 sm:p-5 max-h-[85vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
       <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3">
-        <h2 class="text-lg font-black text-pri">🌤️ 選擇香港天文台分區天氣</h2>
-        <button onclick="closeWeatherModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold">✕ 關閉</button>
+        <div>
+          <h2 class="text-lg sm:text-xl font-black text-pri">🌤️ 選擇香港天文台分區天氣</h2>
+          <p class="text-xs font-bold text-mut mt-0.5">點擊即可加入或移除頂部顯示的分區氣象站（至少保留 1 個）</p>
+        </div>
+        <button onclick="closeWeatherModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
       <div id="weather-stations-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-sm"></div>
     </div>
   </div>
 
-  <!-- ⚙️ 集中設定介面 (Settings Modal) -->
-  <div id="settings-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
-    <div class="airport-panel max-w-xl w-full p-4 sm:p-6 max-h-[90vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
-      <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
-      <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-4">
-        <h2 class="text-lg sm:text-xl font-black text-pri">⚙️ 系統與版面全功能設定</h2>
-        <button onclick="closeSettingsModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold">✕ 關閉</button>
-      </div>
-      <div class="space-y-4 text-sm">
-        <div>
-          <label class="block font-black text-pri mb-1.5">介面模式：</label>
-          <div class="grid grid-cols-2 gap-2">
-            <button type="button" onclick="setUiMode('normal')" id="set-mode-normal" class="ctrl-btn py-2.5 font-black text-xs">🖥️ 普通模式（寬屏大看板）</button>
-            <button type="button" onclick="setUiMode('mobile')" id="set-mode-mobile" class="ctrl-btn py-2.5 font-black text-xs">📱 手機模式（直向豎屏 UI）</button>
-          </div>
-        </div>
-        <div>
-          <label class="block font-black text-pri mb-1.5">日夜模式與外觀：</label>
-          <div class="grid grid-cols-3 gap-2">
-            <button type="button" onclick="setThemeMode('auto')" id="set-theme-auto" class="ctrl-btn py-2 font-bold text-xs">🌓 日落自動</button>
-            <button type="button" onclick="setThemeMode('light')" id="set-theme-light" class="ctrl-btn py-2 font-bold text-xs">☀️ 強制白天</button>
-            <button type="button" onclick="setThemeMode('dark')" id="set-theme-dark" class="ctrl-btn py-2 font-bold text-xs">🌙 強制黑夜</button>
-          </div>
-        </div>
-        <div class="flap-row p-3.5 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="font-black text-pri">🚌 5 站到站路軌動畫：</span>
-            <button type="button" onclick="toggleTrackAnimation()" id="set-track-btn" class="ctrl-btn px-3 py-1.5 font-black text-xs">開啟</button>
-          </div>
-          <div class="flex items-center justify-between border-t border-slate-500/20 pt-2">
-            <span class="font-black text-pri">🌙 00:00–06:00 自動黑屏省電：</span>
-            <button type="button" onclick="toggleAutoNightSleep()" id="set-sleep-btn" class="ctrl-btn px-3 py-1.5 font-black text-xs">開啟</button>
-          </div>
-        </div>
-        <div>
-          <label class="block font-black text-pri mb-1.5">自由編排區塊順序與顯示狀態：</label>
-          <div id="layout-builder-list" class="space-y-2"></div>
-        </div>
-        <div class="pt-2 border-t border-slate-500/30 flex justify-end">
-          <button onclick="saveAndApplySettings()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-sm shadow">
-            ✅ 儲存並套用設定
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 🔍 快速直接搜尋巴士時間 Modal -->
-  <div id="search-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
-    <div class="airport-panel max-w-xl w-full p-4 sm:p-5 max-h-[85vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
-      <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
-      <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3">
-        <h2 class="text-lg font-black text-pri">🔍 實時路線快速搜尋</h2>
-        <button onclick="closeSearchModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold">✕ 關閉</button>
-      </div>
-      <div class="space-y-3">
-        <input id="quick-search-input" type="text" oninput="runQuickSearch()" placeholder="輸入巴士、小巴或港鐵線路 (如: 64K, 25K, EAL, 705)..."
-          class="w-full px-3.5 py-2.5 rounded-xl border border-slate-500 bg-slate-900 text-white font-black text-sm focus:outline-none" />
-        <div id="quick-search-results" class="space-y-2 max-h-[50vh] overflow-y-auto">
-          <div class="text-xs text-mut text-center py-4">請在上方輸入要查詢的路線號碼</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 🚏 巴士路線詳情子頁面 Modal (內含垂直路線圖、前3班車、進站路軌動畫) -->
-  <div id="route-detail-modal" class="fixed inset-0 bg-black/85 z-50 hidden flex-col p-2 sm:p-6 overflow-y-auto">
-    <div class="airport-panel max-w-2xl w-full mx-auto p-4 sm:p-6 my-auto flex flex-col gap-3">
-      <div class="flex items-center justify-between border-b border-slate-500/30 pb-3">
-        <div class="flex items-center gap-2 min-w-0">
-          <div id="detail-route-badge" class="flap-tile px-3 py-1 text-xl font-black mono-num"></div>
-          <div class="min-w-0">
-            <h2 id="detail-route-title" class="text-base sm:text-lg font-black text-pri truncate">路線詳情</h2>
-            <p id="detail-route-sub" class="text-xs font-bold text-mut truncate">載入沿線站點中...</p>
-          </div>
-        </div>
-        <button onclick="closeRouteDetailModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold shrink-0">✕ 關閉</button>
-      </div>
-
-      <!-- 接下來 3 班車預報卡 -->
-      <div>
-        <div class="text-xs font-black text-mut mb-1.5">⏱️ 接下來實時班次預報：</div>
-        <div id="detail-etas-box" class="space-y-1.5"></div>
-      </div>
-
-      <!-- 可上下滑動的垂直路線圖 (站點超過10個時自動滾動) -->
-      <div>
-        <div class="text-xs font-black text-mut mb-1.5">🗺️ 垂直實時路線圖（可上下滑動）：</div>
-        <div id="detail-stops-container" class="flap-row p-3 max-h-[45vh] overflow-y-auto space-y-2 border border-slate-500/30">
-          <div class="text-xs text-mut text-center py-4">正在獲取沿線站點資料...</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 🚦 交通監測與路線設定 Modals (保留原有) -->
+  <!-- 實時交通狀態監測視窗 -->
   <div id="traffic-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-2xl w-full p-4 sm:p-5 max-h-[88vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
+      <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-4">
-        <h2 id="traffic-modal-title" class="text-lg font-black text-pri">🚦 新增實時交通監測項目</h2>
-        <button onclick="closeTrafficModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold">✕ 關閉</button>
+        <div>
+          <h2 id="traffic-modal-title" class="text-lg sm:text-xl font-black text-pri">🚦 新增實時交通監測項目</h2>
+          <p class="text-xs font-bold text-mut mt-0.5">支援 18 區、兩區 A➔B 連接道路、指定幹道、港鐵綫路及各隧道橋梁</p>
+        </div>
+        <button onclick="closeTrafficModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
       <div class="space-y-4 text-sm">
-        <div class="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
-          <button type="button" onclick="selectTrafficCategory('district')" id="tcat-district" class="ctrl-btn py-2 px-1 font-black text-xs">📍 18區</button>
-          <button type="button" onclick="selectTrafficCategory('corridor')" id="tcat-corridor" class="ctrl-btn py-2 px-1 font-black text-xs">🔗 A➔B</button>
-          <button type="button" onclick="selectTrafficCategory('road')" id="tcat-road" class="ctrl-btn py-2 px-1 font-black text-xs">🛣️ 道路</button>
-          <button type="button" onclick="selectTrafficCategory('mtr')" id="tcat-mtr" class="ctrl-btn py-2 px-1 font-black text-xs">🚆 鐵路</button>
-          <button type="button" onclick="selectTrafficCategory('tunnel')" id="tcat-tunnel" class="ctrl-btn py-2 px-1 font-black text-xs">🌉 隧道</button>
+        <div>
+          <label class="block font-black text-pri mb-1.5">1. 選擇監測類別：</label>
+          <div class="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
+            <button type="button" onclick="selectTrafficCategory('district')" id="tcat-district" class="ctrl-btn py-2 px-2 font-black text-xs">📍 18區地區</button>
+            <button type="button" onclick="selectTrafficCategory('corridor')" id="tcat-corridor" class="ctrl-btn py-2 px-2 font-black text-xs">🔗 A➔B 連接</button>
+            <button type="button" onclick="selectTrafficCategory('road')" id="tcat-road" class="ctrl-btn py-2 px-2 font-black text-xs">🛣️ 指定道路</button>
+            <button type="button" onclick="selectTrafficCategory('mtr')" id="tcat-mtr" class="ctrl-btn py-2 px-2 font-black text-xs">🚆 鐵路綫路</button>
+            <button type="button" onclick="selectTrafficCategory('tunnel')" id="tcat-tunnel" class="ctrl-btn py-2 px-2 font-black text-xs">🌉 隧道橋梁</button>
+          </div>
         </div>
-        <div id="traffic-form-body" class="flap-row p-3.5 space-y-3"></div>
-        <div class="pt-2 flex justify-between border-t border-slate-500/30">
-          <button type="button" onclick="resetTrafficMonitorsToDefault()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500">↺ 還原預設</button>
-          <button type="button" onclick="saveTrafficMonitorItem()" class="px-5 py-2.5 rounded-xl bg-amber-500 text-black font-black text-sm shadow">✅ 儲存</button>
+        <div id="traffic-form-body" class="flap-row p-3.5 sm:p-4 space-y-3"></div>
+        <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-500/30">
+          <button type="button" onclick="resetTrafficMonitorsToDefault()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500">↺ 還原預設 3 項監測</button>
+          <button type="button" onclick="saveTrafficMonitorItem()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-sm shadow-lg">✅ 儲存交通監測</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- 路線設定視窗 (支援大嶼山巴士 NLB) -->
   <div id="route-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-xl w-full p-4 sm:p-5 max-h-[90vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
+      <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3.5">
         <div>
-          <h2 id="route-modal-title" class="text-lg font-black text-pri">⚙️ 設定交通工具、路線及站點</h2>
+          <h2 id="route-modal-title" class="text-lg sm:text-xl font-black text-pri">⚙️ 設定交通工具、路線及站點</h2>
           <p id="route-modal-slot-label" class="text-xs font-bold text-mut mt-0.5">正在設定看板路線</p>
         </div>
-        <button onclick="closeRouteModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold">✕ 關閉</button>
+        <button onclick="closeRouteModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
+
       <div class="space-y-3 text-sm">
         <div>
           <label class="block font-black text-pri mb-1">📁 擺放至哪個資料夾：</label>
-          <select id="modal-folder-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-sky-300 font-black text-sm"></select>
+          <select id="modal-folder-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-sky-300 font-black text-sm focus:outline-none"></select>
         </div>
+
         <div>
-          <label class="block font-black text-pri mb-1">1. 選擇交通工具（含大嶼山巴士、機場快線、輕鐵等）：</label>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-            <button type="button" onclick="selectModalOperator('KMB')" id="op-btn-KMB" class="ctrl-btn py-2 px-2 font-black text-xs">🚌 九巴</button>
-            <button type="button" onclick="selectModalOperator('NLB')" id="op-btn-NLB" class="ctrl-btn py-2 px-2 font-black text-xs">🚍 大嶼山</button>
-            <button type="button" onclick="selectModalOperator('GMB')" id="op-btn-GMB" class="ctrl-btn py-2 px-2 font-black text-xs">🚐 小巴</button>
-            <button type="button" onclick="selectModalOperator('CTB')" id="op-btn-CTB" class="ctrl-btn py-2 px-2 font-black text-xs">🚍 城巴</button>
-            <button type="button" onclick="selectModalOperator('MTR')" id="op-btn-MTR" class="ctrl-btn py-2 px-2 font-black text-xs">🚆 地鐵全線</button>
-            <button type="button" onclick="selectModalOperator('LRT')" id="op-btn-LRT" class="ctrl-btn py-2 px-2 font-black text-xs">🚊 輕鐵(車廂)</button>
+          <label class="block font-black text-pri mb-1">1. 選擇交通工具：</label>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
+            <button type="button" onclick="selectModalOperator('KMB')" id="op-btn-KMB" class="ctrl-btn py-2 px-2 font-black text-xs">🚌 九巴 KMB</button>
+            <button type="button" onclick="selectModalOperator('NLB')" id="op-btn-NLB" class="ctrl-btn py-2 px-2 font-black text-xs">🚎 大嶼山巴士</button>
+            <button type="button" onclick="selectModalOperator('GMB')" id="op-btn-GMB" class="ctrl-btn py-2 px-2 font-black text-xs">🚐 專線小巴</button>
+            <button type="button" onclick="selectModalOperator('CTB')" id="op-btn-CTB" class="ctrl-btn py-2 px-2 font-black text-xs">🚍 城巴 CTB</button>
+            <button type="button" onclick="selectModalOperator('MTR')" id="op-btn-MTR" class="ctrl-btn py-2 px-2 font-black text-xs">🚆 港鐵 MTR</button>
           </div>
         </div>
+
         <div id="gmb-region-box" class="hidden">
           <label class="block font-black text-pri mb-1">選擇小巴地區：</label>
           <div class="grid grid-cols-3 gap-2">
-            <button type="button" onclick="selectGmbRegion('NT')" id="gmb-reg-NT" class="ctrl-btn py-1.5 font-bold text-xs">新界</button>
-            <button type="button" onclick="selectGmbRegion('KLN')" id="gmb-reg-KLN" class="ctrl-btn py-1.5 font-bold text-xs">九龍</button>
-            <button type="button" onclick="selectGmbRegion('HKI')" id="gmb-reg-HKI" class="ctrl-btn py-1.5 font-bold text-xs">港島</button>
+            <button type="button" onclick="selectGmbRegion('NT')" id="gmb-reg-NT" class="ctrl-btn py-1.5 font-bold text-xs">新界 (NT)</button>
+            <button type="button" onclick="selectGmbRegion('KLN')" id="gmb-reg-KLN" class="ctrl-btn py-1.5 font-bold text-xs">九龍 (KLN)</button>
+            <button type="button" onclick="selectGmbRegion('HKI')" id="gmb-reg-HKI" class="ctrl-btn py-1.5 font-bold text-xs">港島 (HKI)</button>
           </div>
         </div>
+
         <div>
           <label class="block font-black text-pri mb-1">2. 輸入或選擇路線：</label>
           <div class="flex gap-2">
-            <input id="modal-route-Filter" type="text" oninput="onModalRouteSearch()" placeholder="搜尋 (如: 64K, B2, TKL, 705)" class="w-5/12 px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm" />
-            <select id="modal-route-select" onchange="onModalRouteSelected()" class="w-7/12 px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black text-sm">
+            <input id="modal-route-Filter" type="text" oninput="onModalRouteSearch()" placeholder="搜尋 (如: 64K, 1, 23)"
+              class="w-5/12 px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm focus:outline-none" />
+            <select id="modal-route-select" onchange="onModalRouteSelected()"
+              class="w-7/12 px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black text-sm focus:outline-none">
               <option value="">載入路線中...</option>
             </select>
           </div>
         </div>
+
         <div>
           <label class="block font-black text-pri mb-1">3. 選擇方向：</label>
-          <select id="modal-dir-select" onchange="onModalDirSelected()" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm">
+          <select id="modal-dir-select" onchange="onModalDirSelected()"
+            class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm focus:outline-none">
             <option value="">請先選擇路線...</option>
           </select>
         </div>
+
         <div>
           <label class="block font-black text-pri mb-1">4. 選擇目標站點：</label>
-          <select id="modal-stop-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-emerald-300 font-black text-sm">
+          <select id="modal-stop-select"
+            class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-emerald-300 font-black text-sm focus:outline-none">
             <option value="">請先選擇方向...</option>
           </select>
         </div>
-        <div class="pt-2 flex justify-between border-t border-slate-500/30">
-          <button type="button" onclick="resetAllCardsToDefault()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500">↺ 還原預設</button>
-          <button type="button" id="modal-save-btn" onclick="saveModalRouteCard()" class="px-5 py-2.5 rounded-xl bg-amber-500 text-black font-black text-sm shadow">✅ 儲存套用</button>
+
+        <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-500/30">
+          <button type="button" onclick="resetAllCardsToDefault()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500">↺ 還原預設路線</button>
+          <button type="button" id="modal-save-btn" onclick="saveModalRouteCard()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-sm shadow-lg">✅ 儲存套用</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- 資料夾設定視窗 -->
   <div id="folder-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-xl w-full p-4 sm:p-5 max-h-[90vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
+      <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3.5">
-        <h2 id="folder-modal-title" class="text-lg font-black text-pri">📁 編輯資料夾與 1,800+ 座標點</h2>
-        <button onclick="closeFolderModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold">✕ 關閉</button>
+        <div>
+          <h2 id="folder-modal-title" class="text-lg sm:text-xl font-black text-pri">📁 新增路線資料夾與定位條件</h2>
+          <p class="text-xs font-bold text-mut mt-0.5">設定座標後，系統可根據你目前所在位置優先顯示最接近的資料夾</p>
+        </div>
+        <button onclick="closeFolderModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
+
       <div class="space-y-3.5 text-sm">
         <div class="grid grid-cols-4 gap-2">
           <div class="col-span-1">
             <label class="block font-black text-pri mb-1">圖示：</label>
-            <select id="folder-icon-input" class="w-full px-2 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-black text-sm">
-              <option value="🏡">🏡 屋企</option><option value="🏢">🏢 公司</option><option value="🚉">🚉 車站</option><option value="🚌">🚌 巴士</option><option value="🏙️">🏙️ 市區</option><option value="⭐">⭐ 常用</option>
+            <select id="folder-icon-input" class="w-full px-2 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-black text-sm focus:outline-none">
+              <option value="🏡">🏡 屋企</option><option value="🏢">🏢 公司</option><option value="🚉">🚉 車站</option><option value="🚌">🚌 巴士</option><option value="🚐">🚐 小巴</option><option value="🏙️">🏙️ 市區</option><option value="🛍️">🛍️ 商場</option><option value="🏫">🏫 學校</option><option value="⭐">⭐ 常用</option>
             </select>
           </div>
           <div class="col-span-3">
             <label class="block font-black text-pri mb-1">資料夾名稱：</label>
-            <input id="folder-name-input" type="text" placeholder="例如：屋企出門（林村）、太和轉車..." class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm" />
+            <input id="folder-name-input" type="text" placeholder="例如：大嶼山遊玩、東涌返工..." class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm focus:outline-none" />
           </div>
         </div>
+
         <div class="flap-row p-3.5 space-y-2.5">
           <div class="flex items-center justify-between flex-wrap gap-2">
-            <label class="font-black text-pri text-xs sm:text-sm">📍 綁定觸發地點（18區 1,800+ 座標任選）：</label>
-            <button type="button" onclick="fillFolderWithCurrentGps()" class="px-2.5 py-1 rounded-lg bg-sky-500 text-white font-black text-xs shadow">🎯 讀取目前 GPS</button>
+            <label class="font-black text-pri text-xs sm:text-sm">📍 綁定觸發地點：</label>
+            <button type="button" onclick="fillFolderWithCurrentGps()" class="px-2.5 py-1 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-black text-xs shadow active:scale-95">🎯 讀取目前 GPS</button>
           </div>
           <div>
-            <label class="block text-xs font-bold text-mut mb-1">從全港 18 區 1,800+ 座標資料庫中選擇：</label>
-            <select id="folder-preset-loc" onchange="onFolderPresetChange()" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-bold text-xs"></select>
+            <label class="block text-xs font-bold text-mut mb-1">從香港常用地區／地標快速帶入座標：</label>
+            <select id="folder-preset-loc" onchange="onFolderPresetChange()" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-bold text-xs focus:outline-none">
+              <option value="">-- 選擇預設地點快速帶入座標 --</option>
+            </select>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <div><label class="block text-[11px] font-bold text-mut mb-0.5">標籤名稱</label><input id="folder-loc-label" type="text" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-white font-bold text-xs" /></div>
-            <div><label class="block text-[11px] font-bold text-mut mb-0.5">緯度 (Lat)</label><input id="folder-lat-input" type="number" step="0.00001" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-emerald-300 font-bold text-xs mono-num" /></div>
-            <div><label class="block text-[11px] font-bold text-mut mb-0.5">經度 (Lng)</label><input id="folder-lng-input" type="number" step="0.00001" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-emerald-300 font-bold text-xs mono-num" /></div>
+            <div><label class="block text-[11px] font-bold text-mut mb-0.5">地點名稱</label><input id="folder-loc-label" type="text" placeholder="如：東涌站" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-white font-bold text-xs focus:outline-none" /></div>
+            <div><label class="block text-[11px] font-bold text-mut mb-0.5">緯度 (Lat)</label><input id="folder-lat-input" type="number" step="0.00001" placeholder="22.28" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-emerald-300 font-bold text-xs mono-num focus:outline-none" /></div>
+            <div><label class="block text-[11px] font-bold text-mut mb-0.5">經度 (Lng)</label><input id="folder-lng-input" type="number" step="0.00001" placeholder="113.94" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-emerald-300 font-bold text-xs mono-num focus:outline-none" /></div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-mut pt-1">
+            <span id="folder-gps-hint">開啟定位優先時自動依距離排序。</span>
+            <button type="button" onclick="clearFolderLocationFields()" class="underline text-rose-400 hover:text-rose-300 shrink-0 ml-2">清除座標</button>
           </div>
         </div>
-        <div class="pt-2 flex justify-between border-t border-slate-500/30">
+
+        <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-500/30">
           <button type="button" id="folder-delete-btn" onclick="deleteCurrentEditingFolder()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500 hidden">🗑️ 刪除</button>
           <div class="flex items-center gap-2 ml-auto">
             <button type="button" onclick="closeFolderModal()" class="ctrl-btn px-4 py-2 text-xs font-bold">取消</button>
-            <button type="button" onclick="saveFolderModal()" class="px-5 py-2.5 rounded-xl bg-amber-500 text-black font-black text-sm shadow">✅ 儲存資料夾</button>
+            <button type="button" onclick="saveFolderModal()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-sm shadow-lg">✅ 儲存資料夾</button>
           </div>
         </div>
       </div>
@@ -401,85 +603,154 @@
 
   <!-- 主體外層容器 -->
   <div class="app-shell w-full mx-auto flex-1 flex flex-col gap-2">
-    <div id="modular-container" class="flex flex-col gap-2.5 flex-1"></div>
+
+    <!-- 第一排：頂部資訊欄 -->
+    <header class="airport-panel px-3 py-2">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="flap-tile px-2 py-0.5 text-xl sm:text-2xl font-black flap-amber shrink-0">🚌</div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <h1 class="text-base sm:text-lg md:text-xl font-black tracking-wide text-pri truncate">香港實時交通及天氣看板</h1>
+              <span id="wake-badge" class="hidden text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-600 text-white shrink-0">🌙 <span id="wake-remaining">60</span>s</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-[11px] font-bold text-mut truncate">
+              <span id="current-date">載入中...</span><span>｜</span><span id="sun-theme-badge">🌅 --:-- 🌇 --:--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 模式切換 -->
+        <div class="flap-row p-1 flex items-center gap-1 shrink-0">
+          <button onclick="setUiMode('normal')" id="ui-mode-normal" class="px-2.5 py-1 rounded-lg text-xs font-black transition">🖥️ 普通模式</button>
+          <button onclick="setUiMode('mobile')" id="ui-mode-mobile" class="px-2.5 py-1 rounded-lg text-xs font-black transition">📱 手機模式</button>
+        </div>
+
+        <!-- 時鐘 -->
+        <div class="text-right ml-auto sm:ml-0 shrink-0">
+          <div class="flex items-center gap-1 justify-end">
+            <div id="clock-hh" class="split-flap-clock-card mono-num text-lg sm:text-2xl md:text-3xl font-extrabold" data-val="--">
+              <span class="sfc-sizer">88</span><div class="sfc-half sfc-top">--</div><div class="sfc-half sfc-bottom">--</div><div class="sfc-half sfc-leaf-front">--</div><div class="sfc-half sfc-leaf-back">--</div><div class="sfc-hinge"></div>
+            </div>
+            <span class="text-sm sm:text-xl font-black text-mut">:</span>
+            <div id="clock-mm" class="split-flap-clock-card mono-num text-lg sm:text-2xl md:text-3xl font-extrabold" data-val="--">
+              <span class="sfc-sizer">88</span><div class="sfc-half sfc-top">--</div><div class="sfc-half sfc-bottom">--</div><div class="sfc-half sfc-leaf-front">--</div><div class="sfc-half sfc-leaf-back">--</div><div class="sfc-hinge"></div>
+            </div>
+            <span class="text-sm sm:text-xl font-black text-mut">:</span>
+            <div id="clock-ss" class="split-flap-clock-card mono-num text-lg sm:text-2xl md:text-3xl font-extrabold" data-val="--">
+              <span class="sfc-sizer">88</span><div class="sfc-half sfc-top">--</div><div class="sfc-half sfc-bottom">--</div><div class="sfc-half sfc-leaf-front">--</div><div class="sfc-half sfc-leaf-back">--</div><div class="sfc-hinge"></div>
+            </div>
+          </div>
+          <div class="text-[10px] font-bold text-mut mt-0.5">更新倒數：<span id="countdown" class="text-pri mono-num">5</span>s</div>
+        </div>
+      </div>
+
+      <!-- 天氣列 -->
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 mt-2 border-t border-slate-500/20">
+        <div class="flex items-center gap-1 shrink-0">
+          <img id="weather-icon" src="" alt="天氣" class="w-7 h-7 hidden" /><span id="weather-icon-fallback" class="text-lg">🌤️</span><div id="weather-warnings" class="flex gap-1"></div>
+        </div>
+        <div id="weather-regions-container" class="flex items-center gap-1.5 flex-wrap shrink-0"></div>
+        <button onclick="openWeatherModal()" class="ctrl-btn px-2.5 py-1 text-xs font-black hover:opacity-85 shrink-0">＋ 天氣地區</button>
+      </div>
+
+      <!-- 風格與開關 -->
+      <div class="flex items-center justify-between gap-1.5 overflow-x-auto no-scrollbar pt-2 mt-1.5 border-t border-slate-500/20">
+        <div class="flap-row p-0.5 flex items-center gap-0.5 shrink-0">
+          <button onclick="setUiStyle('apple')" id="style-btn-apple" class="px-2 py-1 rounded-lg text-[11px] font-black transition">🍎 Apple</button>
+          <button onclick="setUiStyle('android')" id="style-btn-android" class="px-2 py-1 rounded-lg text-[11px] font-black transition">🤖 Android</button>
+          <button onclick="setUiStyle('flap')" id="style-btn-flap" class="px-2 py-1 rounded-lg text-[11px] font-black transition">✈️ 翻頁</button>
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+          <button onclick="toggleTrackAnimation()" id="track-anim-btn" class="ctrl-btn px-2.5 py-1 text-xs font-black shrink-0">🚌 路軌: 開</button>
+          <button onclick="toggleAutoNightSleep()" id="auto-sleep-btn" class="ctrl-btn px-2.5 py-1 text-xs font-bold shrink-0">🌙 自動黑屏: 開</button>
+          <button onclick="cycleThemeMode()" id="theme-mode-btn" class="ctrl-btn px-2 py-1 text-xs font-bold shrink-0">🌓 自動</button>
+          <button onclick="openAddRouteModal()" class="only-normal-ui px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500 hover:bg-amber-400 text-black shadow shrink-0">➕ 路線</button>
+          <button onclick="refreshAll(true)" class="only-normal-ui ctrl-btn px-2 py-1 text-xs font-bold shrink-0">🔄 刷新</button>
+          <button onclick="toggleFullScreen()" class="ctrl-btn px-2 py-1 text-xs font-bold shrink-0">⛶ 全屏</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 第二排：交通監測 -->
+    <section class="airport-panel px-3.5 py-2.5">
+      <div class="flex items-center justify-between gap-2 mb-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span class="text-xs sm:text-sm font-black tracking-wider text-pri truncate">🚦 實時交通狀態及路況預測</span>
+          <div class="only-normal-ui hidden sm:flex items-center gap-2 text-[11px] font-bold text-mut">
+            <span class="flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></i>正常</span>
+            <span class="flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></i>異常</span>
+            <span class="flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></i>嚴重事故</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button onclick="toggleTrafficDetail()" class="ctrl-btn px-2.5 py-1 text-xs font-bold">📋 事故原文</button>
+          <button onclick="openAddTrafficModal()" class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500 hover:bg-emerald-400 text-black shadow active:scale-95">＋ 新增監測</button>
+        </div>
+      </div>
+      <div id="traffic-monitors-grid" class="no-scrollbar"></div>
+      <div id="traffic-detail-box" class="hidden mt-2 pt-2 border-t border-slate-500/30 text-xs font-bold text-sec space-y-1"></div>
+    </section>
+
+    <!-- 第三排：資料夾與定位 -->
+    <section class="airport-panel px-3.5 py-2">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-1 min-w-0">
+          <span class="only-normal-ui text-xs font-black text-mut shrink-0 mr-0.5">📁 路線分類：</span>
+          <div id="folders-bar" class="flex items-center gap-1.5 flex-wrap shrink-0"></div>
+          <button onclick="openAddFolderModal()" class="ctrl-btn px-2.5 py-1 text-xs font-black hover:opacity-85 shrink-0">＋ 新增資料夾</button>
+        </div>
+        <div class="flex items-center justify-between sm:justify-end gap-1.5 shrink-0 w-full sm:w-auto border-t sm:border-t-0 border-slate-500/20 pt-1.5 sm:pt-0">
+          <span id="gps-status-badge" class="text-[11px] font-bold text-mut truncate">📍 定位準備中</span>
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="requestUserGpsNow(true)" class="ctrl-btn px-2 py-1 text-xs font-bold">🎯 重新定位</button>
+            <button onclick="toggleGeoAutoFolder()" id="geo-priority-btn" class="ctrl-btn px-2.5 py-1 text-xs font-black">📍 定位優先: 開</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 第四排：路線看板區 -->
+    <section id="cards-grid" class="flex-1"></section>
+
+    <!-- 底部狀態列 -->
+    <footer class="mt-1 pt-1 flex flex-wrap items-center justify-between text-[11px] font-bold text-mut gap-2">
+      <div>每 5 秒極速更新 ・ 已補充大嶼山巴士及將軍澳線、南港島線、東涌線、機場快線</div>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleTrackAnimation()" class="underline hover:opacity-80">🚌 切換路軌動畫</button>
+        <button onclick="resetAllCardsToDefault()" class="underline hover:opacity-80">↺ 還原預設</button>
+        <button onclick="activateSleepNow()" class="underline hover:opacity-80">🌙 立即黑屏</button>
+        <span id="last-updated">最後更新：--:--:--</span>
+      </div>
+    </footer>
+
   </div>
 
-  <!-- 手機模式專用底部懸浮導航列 (Mobile Bottom Dock) -->
+  <!-- 手機模式專用底部導航列 -->
   <nav class="mobile-bottom-dock only-mobile-ui fixed bottom-0 left-0 right-0 z-30 hidden items-center justify-around px-2 py-1.5">
     <button onclick="openAddRouteModal()" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95"><span class="text-base leading-none">➕</span><span class="text-[10px] font-black mt-0.5">加路線</span></button>
-    <button onclick="openSearchModal()" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95"><span class="text-base leading-none">🔍</span><span class="text-[10px] font-black mt-0.5">搜尋</span></button>
-    <button onclick="openAddFolderModal()" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95"><span class="text-base leading-none">📁</span><span class="text-[10px] font-black mt-0.5">分類</span></button>
-    <button onclick="openSettingsModal()" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95"><span class="text-base leading-none">⚙️</span><span class="text-[10px] font-black mt-0.5">設定</span></button>
-    <button onclick="requestUserGpsNow(true)" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95"><span class="text-base leading-none">📍</span><span id="dock-gps-label" class="text-[10px] font-black mt-0.5">定位</span></button>
+    <button onclick="openAddFolderModal()" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95"><span class="text-base leading-none">📁</span><span class="text-[10px] font-black mt-0.5">加資料夾</span></button>
+    <button onclick="toggleTrackAnimation()" class="flex flex-col items-center justify-center py-0.5 px-2 active:scale-95"><span class="text-base leading-none">🚌</span><span id="dock-track-label" class="text-[10px] font-black mt-0.5 text-emerald-400">路軌:開</span></button>
+    <button onclick="requestUserGpsNow(true)" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95"><span class="text-base leading-none">📍</span><span id="dock-gps-label" class="text-[10px] font-black mt-0.5">重新定位</span></button>
+    <button onclick="setUiMode('normal')" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95"><span class="text-base leading-none">🖥️</span><span class="text-[10px] font-black mt-0.5">普通模式</span></button>
   </nav>
 
   <script>
-    // =========================================================================
-    // 基礎工具與防卡死 Fetch 引擎
-    // =========================================================================
     async function fetchWithTimeout(url, timeoutMs = 4500) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
-      try { return await fetch(url, { signal: controller.signal }); } finally { clearTimeout(timer); }
+      try { return await fetch(url, { signal: controller.signal }); }
+      finally { clearTimeout(timer); }
     }
+
     async function fetchJsonWithTimeout(url, timeoutMs = 4500) {
       const res = await fetchWithTimeout(url, timeoutMs);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     }
 
-    // =========================================================================
-    // 6. 全港 18 區 1,800+ 座標點生成器 (每區平均 100+ 座標)
-    // =========================================================================
-    const DISTRICT_CENTERS = [
-      { code: 'CW', name: '中西區', lat: 22.2819, lng: 114.1581 }, { code: 'WC', name: '灣仔區', lat: 22.2800, lng: 114.1835 },
-      { code: 'EA', name: '東區', lat: 22.2855, lng: 114.2177 }, { code: 'SO', name: '南區', lat: 22.2475, lng: 114.1588 },
-      { code: 'YTM', name: '油尖旺區', lat: 22.3193, lng: 114.1694 }, { code: 'SSP', name: '深水埗區', lat: 22.3310, lng: 114.1600 },
-      { code: 'KLC', name: '九龍城區', lat: 22.3230, lng: 114.1880 }, { code: 'WTS', name: '黃大仙區', lat: 22.3420, lng: 114.1920 },
-      { code: 'KT', name: '觀塘區', lat: 22.3133, lng: 114.2258 }, { code: 'ST', name: '沙田區', lat: 22.3820, lng: 114.1875 },
-      { code: 'TP', name: '大埔區', lat: 22.4450, lng: 114.1650 }, { code: 'NO', name: '北區', lat: 22.5011, lng: 114.1277 },
-      { code: 'SK', name: '西貢區', lat: 22.3815, lng: 114.2705 }, { code: 'TW', name: '荃灣區', lat: 22.3737, lng: 114.1177 },
-      { code: 'KC', name: '葵青區', lat: 22.3570, lng: 114.1280 }, { code: 'TM', name: '屯門區', lat: 22.3918, lng: 113.9772 },
-      { code: 'YL', name: '元朗區', lat: 22.4445, lng: 114.0222 }, { code: 'IS', name: '離島區', lat: 22.2620, lng: 113.9480 }
-    ];
-
-    function generateMassiveHongKongCoords() {
-      const list = [];
-      DISTRICT_CENTERS.forEach(d => {
-        list.push({ label: `📍 ${d.name}核心中心點`, name: `${d.name}中心`, lat: d.lat, lng: d.lng });
-        // 每區生成 100 個網格衍生座標點，合共 1,800+ 座標
-        for (let i = 1; i <= 100; i++) {
-          const dLat = (Math.sin(i * 13) * 0.035);
-          const dLng = (Math.cos(i * 17) * 0.035);
-          const lat = Number((d.lat + dLat).toFixed(5));
-          const lng = Number((d.lng + dLng).toFixed(5));
-          list.push({ label: `📍 ${d.name}地標/屋苑 #${i}`, name: `${d.name}點${i}`, lat, lng });
-        }
-      });
-      return list;
-    }
-    const HK_MASSIVE_LOCATIONS = generateMassiveHongKongCoords();
-
-    // =========================================================================
-    // 0. 全域設定與模組化版面順序編排
-    // =========================================================================
-    const LAYOUT_CONFIG_KEY = 'dashboard_modular_layout_v1';
-    let layoutModules = JSON.parse(localStorage.getItem(LAYOUT_CONFIG_KEY)) || [
-      { id: 'weather_time', name: '頂部時鐘與分區天氣', enabled: true },
-      { id: 'traffic_monitor', name: '實時交通狀態監測', enabled: true },
-      { id: 'folder_cards', name: '分類資料夾與路線看板', enabled: true }
-    ];
-
     const UI_STYLE_KEY = 'dashboard_ui_style_v1';
     let currentUiStyle = localStorage.getItem(UI_STYLE_KEY) || 'apple';
-    const UI_LAYOUT_MODE_KEY = 'dashboard_ui_layout_mode_v2';
-    let currentUiMode = localStorage.getItem(UI_LAYOUT_MODE_KEY) || (window.innerWidth < 768 ? 'mobile' : 'normal');
-    const SHOW_TRACK_ANIM_KEY = 'dashboard_show_track_anim_v1';
-    let showTrackAnimation = localStorage.getItem(SHOW_TRACK_ANIM_KEY) !== 'false';
-    const AUTO_NIGHT_SLEEP_KEY = 'dashboard_auto_night_sleep_v1';
-    let autoNightSleepEnabled = localStorage.getItem(AUTO_NIGHT_SLEEP_KEY) !== 'false';
-    const THEME_MODE_KEY = 'dashboard_theme_mode_v2';
-    let themeMode = localStorage.getItem(THEME_MODE_KEY) || 'auto';
 
     function setUiStyle(styleName) {
       if (!['apple', 'android', 'flap'].includes(styleName)) styleName = 'apple';
@@ -489,544 +760,777 @@
       document.body.classList.add(`style-${styleName}`);
       ['apple', 'android', 'flap'].forEach(s => {
         const btn = document.getElementById(`style-btn-${s}`);
-        if (btn) btn.className = (s === styleName) ? 'px-2 py-1 rounded-lg text-[11px] font-black bg-sky-500 text-white shadow' : 'px-2 py-1 rounded-lg text-[11px] font-bold text-mut';
+        if (!btn) return;
+        if (s === styleName) btn.className = 'px-2 py-1 rounded-lg text-[11px] font-black bg-sky-500 text-white shadow transition';
+        else btn.className = 'px-2 py-1 rounded-lg text-[11px] font-bold text-mut hover:text-pri transition';
       });
     }
 
+    const UI_LAYOUT_MODE_KEY = 'dashboard_ui_layout_mode_v2';
+    let currentUiMode = localStorage.getItem(UI_LAYOUT_MODE_KEY) || (window.innerWidth < 768 ? 'mobile' : 'normal');
+
     function setUiMode(mode) {
+      if (!['normal', 'mobile'].includes(mode)) mode = 'normal';
       currentUiMode = mode;
       localStorage.setItem(UI_LAYOUT_MODE_KEY, mode);
       document.body.classList.toggle('ui-normal', mode === 'normal');
       document.body.classList.toggle('ui-mobile', mode === 'mobile');
-      renderModularLayout();
+      const btnNormal = document.getElementById('ui-mode-normal');
+      const btnMobile = document.getElementById('ui-mode-mobile');
+      if (btnNormal && btnMobile) {
+        if (mode === 'normal') {
+          btnNormal.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500 text-black shadow transition';
+          btnMobile.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-mut hover:text-pri transition';
+        } else {
+          btnMobile.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500 text-black shadow transition';
+          btnNormal.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-mut hover:text-pri transition';
+        }
+      }
     }
 
-    function setThemeMode(mode) {
-      themeMode = mode;
-      localStorage.setItem(THEME_MODE_KEY, mode);
-      applyDayNightTheme(new Date());
+    const SHOW_TRACK_ANIM_KEY = 'dashboard_show_track_anim_v1';
+    let showTrackAnimation = localStorage.getItem(SHOW_TRACK_ANIM_KEY) !== 'false';
+    const perCardTrackOverride = {};
+
+    function updateTrackAnimButtonUI() {
+      const topBtn = document.getElementById('track-anim-btn');
+      const dockLabel = document.getElementById('dock-track-label');
+      if (topBtn) {
+        if (showTrackAnimation) {
+          topBtn.textContent = '🚌 路軌動畫: 開';
+          topBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500 text-black shadow shrink-0 transition';
+        } else {
+          topBtn.textContent = '🚌 路軌動畫: 關';
+          topBtn.className = 'ctrl-btn px-2.5 py-1 text-xs font-bold text-mut shrink-0 transition';
+        }
+      }
+      if (dockLabel) {
+        dockLabel.textContent = showTrackAnimation ? '路軌:開' : '路軌:關';
+        dockLabel.className = showTrackAnimation ? 'text-[10px] font-black mt-0.5 text-emerald-400' : 'text-[10px] font-bold mt-0.5 text-mut';
+      }
+    }
+
+    function isCardTrackVisible(cardIdx) {
+      if (perCardTrackOverride[cardIdx] !== undefined) return perCardTrackOverride[cardIdx];
+      return showTrackAnimation;
     }
 
     function toggleTrackAnimation() {
       showTrackAnimation = !showTrackAnimation;
       localStorage.setItem(SHOW_TRACK_ANIM_KEY, String(showTrackAnimation));
+      Object.keys(perCardTrackOverride).forEach(k => delete perCardTrackOverride[k]);
+      updateTrackAnimButtonUI();
       buildCardsSkeleton();
       refreshAll(true);
     }
 
-    function toggleAutoNightSleep() {
-      autoNightSleepEnabled = !autoNightSleepEnabled;
-      localStorage.setItem(AUTO_NIGHT_SLEEP_KEY, String(autoNightSleepEnabled));
-      updateSettingsModalUI();
-    }
-
-    // 集中設定 Modal
-    function openSettingsModal() {
-      updateSettingsModalUI();
-      renderLayoutBuilder();
-      const m = document.getElementById('settings-modal');
-      m.classList.remove('hidden'); m.classList.add('flex');
-    }
-    function closeSettingsModal() {
-      document.getElementById('settings-modal').classList.add('hidden');
-      document.getElementById('settings-modal').classList.remove('flex');
-    }
-    function updateSettingsModalUI() {
-      document.getElementById('set-mode-normal').className = currentUiMode === 'normal' ? 'px-2.5 py-2.5 font-black text-xs bg-amber-500 text-black rounded-xl' : 'ctrl-btn py-2.5 font-black text-xs';
-      document.getElementById('set-mode-mobile').className = currentUiMode === 'mobile' ? 'px-2.5 py-2.5 font-black text-xs bg-amber-500 text-black rounded-xl' : 'ctrl-btn py-2.5 font-black text-xs';
-      ['auto', 'light', 'dark'].forEach(m => {
-        document.getElementById(`set-theme-${m}`).className = themeMode === m ? 'px-2 py-2 font-bold text-xs bg-sky-500 text-white rounded-xl' : 'ctrl-btn py-2 font-bold text-xs';
-      });
-      document.getElementById('set-track-btn').textContent = showTrackAnimation ? '開啟' : '關閉';
-      document.getElementById('set-sleep-btn').textContent = autoNightSleepEnabled ? '開啟' : '關閉';
-    }
-
-    function renderLayoutBuilder() {
-      const list = document.getElementById('layout-builder-list');
-      list.innerHTML = layoutModules.map((mod, idx) => `
-        <div class="flap-row p-2.5 flex items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <input type="checkbox" id="mod-chk-${mod.id}" ${mod.enabled ? 'checked' : ''} class="w-4 h-4 accent-amber-500" />
-            <span class="text-xs font-black text-pri">${mod.name}</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <button onclick="moveLayoutModule(${idx}, -1)" class="ctrl-btn px-2 py-1 text-xs font-bold">⬆️</button>
-            <button onclick="moveLayoutModule(${idx}, 1)" class="ctrl-btn px-2 py-1 text-xs font-bold">⬇️</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function moveLayoutModule(idx, dir) {
-      const targetIdx = idx + dir;
-      if (targetIdx < 0 || targetIdx >= layoutModules.length) return;
-      const temp = layoutModules[idx];
-      layoutModules[idx] = layoutModules[targetIdx];
-      layoutModules[targetIdx] = temp;
-      renderLayoutBuilder();
-    }
-
-    function saveAndApplySettings() {
-      layoutModules.forEach(mod => {
-        const chk = document.getElementById(`mod-chk-${mod.id}`);
-        if (chk) mod.enabled = chk.checked;
-      });
-      localStorage.setItem(LAYOUT_CONFIG_KEY, JSON.stringify(layoutModules));
-      closeSettingsModal();
-      renderModularLayout();
-    }
-
-    // 模組化排版動態渲染
-    function renderModularLayout() {
-      const container = document.getElementById('modular-container');
-      container.innerHTML = layoutModules.map(mod => {
-        if (!mod.enabled) return '';
-        if (mod.id === 'weather_time') {
-          return `
-            <header class="airport-panel px-3 py-2">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <div class="flex items-center gap-2.5 min-w-0">
-                  <div class="flap-tile px-2 py-0.5 text-xl font-black flap-amber shrink-0">🚌</div>
-                  <div class="min-w-0">
-                    <h1 class="text-sm sm:text-base font-black tracking-wide text-pri truncate">香港實時交通及分區天氣</h1>
-                    <div class="flex items-center gap-1.5 text-[11px] font-bold text-mut truncate">
-                      <span id="current-date">載入中...</span><span>｜</span><span id="sun-theme-badge">🌅 --:-- 🌇 --:--</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-right shrink-0">
-                  <div class="flex items-center gap-1 justify-end">
-                    <div id="clock-hh" class="split-flap-clock-card mono-num text-lg sm:text-2xl font-extrabold" data-val="--"><span class="sfc-sizer">88</span><div class="sfc-half sfc-top">--</div><div class="sfc-half sfc-bottom">--</div><div class="sfc-half sfc-leaf-front">--</div><div class="sfc-half sfc-leaf-back">--</div><div class="sfc-hinge"></div></div>
-                    <span class="text-sm font-black text-mut">:</span>
-                    <div id="clock-mm" class="split-flap-clock-card mono-num text-lg sm:text-2xl font-extrabold" data-val="--"><span class="sfc-sizer">88</span><div class="sfc-half sfc-top">--</div><div class="sfc-half sfc-bottom">--</div><div class="sfc-half sfc-leaf-front">--</div><div class="sfc-half sfc-leaf-back">--</div><div class="sfc-hinge"></div></div>
-                    <span class="text-sm font-black text-mut">:</span>
-                    <div id="clock-ss" class="split-flap-clock-card mono-num text-lg sm:text-2xl font-extrabold" data-val="--"><span class="sfc-sizer">88</span><div class="sfc-half sfc-top">--</div><div class="sfc-half sfc-bottom">--</div><div class="sfc-half sfc-leaf-front">--</div><div class="sfc-half sfc-leaf-back">--</div><div class="sfc-hinge"></div></div>
-                  </div>
-                  <div class="text-[10px] font-bold text-mut"><span id="countdown" class="text-pri mono-num">5</span>s 更新</div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 mt-2 border-t border-slate-500/20">
-                <div class="flex items-center gap-1 shrink-0"><img id="weather-icon" src="" alt="天氣" class="w-6 h-6 hidden" /><span id="weather-icon-fallback">🌤️</span><div id="weather-warnings" class="flex gap-1"></div></div>
-                <div id="weather-regions-container" class="flex items-center gap-1.5 flex-nowrap shrink-0"></div>
-                <button onclick="openWeatherModal()" class="ctrl-btn px-2 py-1 text-xs font-black shrink-0">＋地區</button>
-              </div>
-              <div class="flex items-center justify-between gap-1.5 overflow-x-auto no-scrollbar pt-2 mt-1.5 border-t border-slate-500/20">
-                <div class="flap-row p-0.5 flex items-center gap-0.5 shrink-0">
-                  <button onclick="setUiStyle('apple')" id="style-btn-apple" class="px-2 py-1 rounded-lg text-[11px] font-black">🍎 蘋果</button>
-                  <button onclick="setUiStyle('android')" id="style-btn-android" class="px-2 py-1 rounded-lg text-[11px] font-black">🤖 安卓</button>
-                  <button onclick="setUiStyle('flap')" id="style-btn-flap" class="px-2 py-1 rounded-lg text-[11px] font-black">✈️ 機場</button>
-                </div>
-                <div class="flex items-center gap-1 shrink-0">
-                  <button onclick="openSettingsModal()" class="ctrl-btn px-2.5 py-1 text-xs font-black bg-amber-500/25 text-amber-400">⚙️ 集中設定</button>
-                  <button onclick="toggleFullScreen()" class="ctrl-btn px-2 py-1 text-xs font-bold">⛶</button>
-                </div>
-              </div>
-            </header>
-          `;
-        }
-        if (mod.id === 'traffic_monitor') {
-          return `
-            <section class="airport-panel px-3 py-2">
-              <div class="flex items-center justify-between gap-2 mb-1.5">
-                <span class="text-xs sm:text-sm font-black tracking-wider text-pri truncate">🚦 實時交通狀態及路況預測</span>
-                <div class="flex items-center gap-1 shrink-0">
-                  <button onclick="toggleTrafficDetail()" class="ctrl-btn px-2 py-0.5 text-[11px] font-bold">📋 詳情</button>
-                  <button onclick="openAddTrafficModal()" class="px-2 py-0.5 rounded-lg text-[11px] font-black bg-emerald-500 text-black shadow">＋ 監測</button>
-                </div>
-              </div>
-              <div id="traffic-monitors-grid" class="no-scrollbar"></div>
-              <div id="traffic-detail-box" class="hidden mt-2 pt-2 border-t border-slate-500/30 text-xs font-bold text-sec space-y-1"></div>
-            </section>
-          `;
-        }
-        if (mod.id === 'folder_cards') {
-          return `
-            <section class="airport-panel px-3 py-2">
-              <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-                <div id="folders-bar" class="flex items-center gap-1.5 flex-nowrap shrink-0"></div>
-                <button onclick="openAddFolderModal()" class="ctrl-btn px-2 py-1 text-xs font-black shrink-0">＋ 資料夾</button>
-              </div>
-            </section>
-            <section id="cards-grid" class="flex-1"></section>
-          `;
-        }
-        return '';
-      }).join('');
-
-      renderWeatherRegionsBar();
-      evaluateAndRenderAllTrafficMonitors();
-      renderFoldersBar();
-      buildCardsSkeleton();
-    }
-
-    // =========================================================================
-    // 4. 直接搜尋路線查看時間功能
-    // =========================================================================
-    function openSearchModal() {
-      document.getElementById('quick-search-input').value = '';
-      document.getElementById('quick-search-results').innerHTML = '<div class="text-xs text-mut text-center py-4">請在上方輸入要查詢的路線號碼（如 64K, 25K, B2, TKL）</div>';
-      const m = document.getElementById('search-modal');
-      m.classList.remove('hidden'); m.classList.add('flex');
-    }
-    function closeSearchModal() {
-      document.getElementById('search-modal').classList.add('hidden');
-      document.getElementById('search-modal').classList.remove('flex');
-    }
-    async function runQuickSearch() {
-      const q = document.getElementById('quick-search-input').value.trim().toUpperCase();
-      const resBox = document.getElementById('quick-search-results');
-      if (!q) { resBox.innerHTML = '<div class="text-xs text-mut text-center py-4">請輸入路線號碼</div>'; return; }
-      resBox.innerHTML = '<div class="text-xs text-amber-400 text-center py-4">正在全港交通資料庫搜尋中...</div>';
-
-      try {
-        // 同時檢索九巴、城巴與小巴
-        const [kmbRes, ctbRes] = await Promise.all([
-          fetchJsonWithTimeout('https://data.etabus.gov.hk/v1/transport/kmb/route/', 4000).catch(() => ({ data: [] })),
-          fetchJsonWithTimeout('https://rt.data.gov.hk/v2/transport/citybus/route/ctb', 4000).catch(() => ({ data: [] }))
-        ]);
-
-        const hits = [];
-        (kmbRes.data || []).forEach(r => {
-          if (r.route.toUpperCase().includes(q)) hits.push({ op: 'KMB', route: r.route, dest: r.dest_tc, orig: r.orig_tc, bound: r.bound, sType: r.service_type });
-        });
-        (ctbRes.data || []).forEach(r => {
-          if (r.route.toUpperCase().includes(q)) hits.push({ op: 'CTB', route: r.route, dest: r.dest_tc, orig: r.orig_tc });
-        });
-
-        if (hits.length === 0) {
-          resBox.innerHTML = `<div class="text-xs text-rose-400 text-center py-4">找不到符合「${q}」的路線，請嘗試其他號碼</div>`;
-          return;
-        }
-
-        resBox.innerHTML = hits.slice(0, 15).map((h, i) => `
-          <div class="flap-row p-3 flex items-center justify-between gap-2 cursor-pointer hover:opacity-90" onclick="addSearchedRouteToBoard('${h.op}', '${h.route}', '${h.dest}', '${h.bound || 'I'}', '${h.sType || '1'}')">
-            <div>
-              <div class="text-xs font-black text-amber-400">${h.op === 'KMB' ? '🚌 九巴' : '🚍 城巴'} ${h.route}</div>
-              <div class="text-xs font-bold text-pri">往 ${h.dest}（由 ${h.orig} 開出）</div>
-            </div>
-            <span class="ctrl-btn px-2.5 py-1 text-xs font-black bg-amber-500 text-black">＋ 加入看板</span>
-          </div>
-        `).join('');
-      } catch (e) {
-        resBox.innerHTML = '<div class="text-xs text-rose-400 text-center py-4">搜尋出錯，請稍後重試</div>';
+    function toggleSingleCardTrack(cardIdx) {
+      const current = isCardTrackVisible(cardIdx);
+      perCardTrackOverride[cardIdx] = !current;
+      const trackBox = document.getElementById(`jr-board-wrap-${cardIdx}`);
+      const toggleBtn = document.getElementById(`card-track-btn-${cardIdx}`);
+      if (trackBox) trackBox.classList.toggle('hidden', !perCardTrackOverride[cardIdx]);
+      if (toggleBtn) {
+        toggleBtn.className = perCardTrackOverride[cardIdx] ? 'ctrl-btn px-2 py-1 text-xs font-black flap-amber' : 'ctrl-btn px-2 py-1 text-xs font-bold text-mut opacity-70';
       }
     }
 
-    function addSearchedRouteToBoard(op, route, dest, bound, sType) {
-      activeCards.push({
-        folderId: currentFolderId !== 'ALL' ? currentFolderId : (routeFolders[0]?.id || 'folder_home'),
-        operator: op, route, bound, serviceType: sType, destName: dest,
-        stopId: '', stopSeq: 0, stopName: dest, fiveStops: ['沿線1', '沿線2', '沿線3', '沿線4', dest]
-      });
-      saveActiveCards();
-      closeSearchModal();
-      buildCardsSkeleton();
-      refreshAll(true);
-      alert(`✅ 成功將 ${op} ${route} 往 ${dest} 加入目前資料夾！`);
-    }
+    const REFRESH_INTERVAL_SEC = 5;
+    let refreshCountdown = REFRESH_INTERVAL_SEC;
+    let isFetchingEtas = false;
+    let slowSyncCounter = 0;
+    const previousFlapValues = {};
+    let latestTdAllMessages = [];
+    let latestCorridorMinutes = null;
 
-    // =========================================================================
-    // 5. 沉浸式路線詳情子頁面與垂直互動路線圖
-    // =========================================================================
-    async function openRouteDetailModal(slotIdx) {
-      const card = activeCards[slotIdx];
-      if (!card) return;
-      const modal = document.getElementById('route-detail-modal');
-      modal.classList.remove('hidden'); modal.classList.add('flex');
+    const HK_PRESET_LOCATIONS = [
+      { label: '大埔林村（塘面村 / 鍾屋村 / 許願樹）', name: '大埔林村', lat: 22.4562, lng: 114.1425 },
+      { label: '太和站 / 太和廣場', name: '太和站', lat: 22.4513, lng: 114.1613 },
+      { label: '東涌站 / 昂坪 360', name: '東涌市中心', lat: 22.2902, lng: 113.9422 },
+      { label: '昂坪市集（大嶼山巴士總站）', name: '昂坪', lat: 22.2575, lng: 113.9055 },
+      { label: '大澳（大嶼山巴士總站）', name: '大澳', lat: 22.2540, lng: 113.8647 },
+      { label: '將軍澳站 / 寶琳', name: '將軍澳', lat: 22.3082, lng: 114.2558 },
+      { label: '海洋公園 / 黃竹坑（南港島線）', name: '黃竹坑/海洋公園', lat: 22.2476, lng: 114.1738 },
+      { label: '香港國際機場 / 博覽館（機場快線）', name: '機場/博覽館', lat: 22.3167, lng: 113.9360 },
+      { label: '中環 / 香港站', name: '中環/香港', lat: 22.2819, lng: 114.1581 }
+    ];
 
-      document.getElementById('detail-route-badge').textContent = card.route;
-      document.getElementById('detail-route-title').textContent = `${card.operator} ${card.route} 往 ${card.destName}`;
-      document.getElementById('detail-route-sub').textContent = `本站：${card.stopName}（正在載入完整沿線站點...）`;
+    const HK_18_DISTRICTS = [
+      { code: 'CW', name: '中西區', subAreas: ['中環', '上環', '西營盤'], roads: ['干諾道中', '德輔道中', '紅棉路'] },
+      { code: 'WC', name: '灣仔區', subAreas: ['灣仔', '銅鑼灣'], roads: ['告士打道', '軒尼詩道'] },
+      { code: 'EA', name: '東區', subAreas: ['北角', '鰂魚涌', '柴灣'], roads: ['東區走廊', '英皇道'] },
+      { code: 'SO', name: '南區', subAreas: ['香港仔', '黃竹坑', '海洋公園'], roads: ['黃竹坑道', '香島道'] },
+      { code: 'YTM', name: '油尖旺區', subAreas: ['油麻地', '尖沙咀', '旺角'], roads: ['彌敦道', '梳士巴利道'] },
+      { code: 'SSP', name: '深水埗區', subAreas: ['深水埗', '長沙灣'], roads: ['長沙灣道', '呈祥道'] },
+      { code: 'KLC', name: '九龍城區', subAreas: ['九龍城', '紅磡', '何文田'], roads: ['公主道', '窩打老道'] },
+      { code: 'WTS', name: '黃大仙區', subAreas: ['黃大仙', '鑽石山'], roads: ['龍翔道', '彩虹道'] },
+      { code: 'KT', name: '觀塘區', subAreas: ['觀塘', '九龍灣', '藍田'], roads: ['觀塘道', '觀塘繞道'] },
+      { code: 'ST', name: '沙田區', subAreas: ['沙田', '大圍', '馬鞍山'], roads: ['沙田路', '大埔公路'] },
+      { code: 'TP', name: '大埔區', subAreas: ['大埔', '太和', '林村'], roads: ['吐露港公路', '林錦公路'] },
+      { code: 'NO', name: '北區', subAreas: ['上水', '粉嶺'], roads: ['粉嶺公路', '新運路'] },
+      { code: 'SK', name: '西貢區', subAreas: ['西貢', '將軍澳', '坑口', '寶琳'], roads: ['環保大道', '寶琳北路'] },
+      { code: 'TW', name: '荃灣區', subAreas: ['荃灣', '大窩口'], roads: ['荃灣路', '屯門公路'] },
+      { code: 'KC', name: '葵青區', subAreas: ['葵涌', '青衣'], roads: ['葵涌道', '青葵公路'] },
+      { code: 'TM', name: '屯門區', subAreas: ['屯門'], roads: ['屯門公路', '皇珠路'] },
+      { code: 'YL', name: '元朗區', name: '元朗區', subAreas: ['元朗', '天水圍'], roads: ['元朗公路', '新田公路'] },
+      { code: 'IS', name: '離島區', subAreas: ['東涌', '大澳', '昂坪', '機場'], roads: ['北大嶼山公路', '翔東路', '東涌道'] }
+    ];
 
-      const etasBox = document.getElementById('detail-etas-box');
-      const stopsContainer = document.getElementById('detail-stops-container');
-      etasBox.innerHTML = '<div class="text-xs text-mut">正在獲取接下來 3 班車預報...</div>';
-      stopsContainer.innerHTML = '<div class="text-xs text-mut text-center py-4">正在加載垂直站點地圖與實時位置...</div>';
+    const HK_TUNNELS_AND_BRIDGES = [
+      { id: 'CHT', name: '紅磡海底隧道 (紅隧)', keywords: ['紅磡海底隧道', '紅隧', '康莊道'] },
+      { id: 'EHT', name: '東區海底隧道 (東隧)', keywords: ['東區海底隧道', '東隧'] },
+      { id: 'WHT', name: '西區海底隧道 (西隧)', keywords: ['西區海底隧道', '西隧'] },
+      { id: 'LRT', name: '獅子山隧道 (獅隧)', keywords: ['獅子山隧道', '獅隧'] },
+      { id: 'TCT', name: '大老山隧道', keywords: ['大老山隧道'] },
+      { id: 'TMB', name: '青馬大橋 / 汲水門大橋', keywords: ['青馬大橋', '汲水門大橋', '青嶼幹線'] },
+      { id: 'TMCLK', name: '屯門赤鱲角隧道 (屯赤)', keywords: ['屯門－赤鱲角隧道', '屯赤隧道', '屯赤'] }
+    ];
 
-      try {
-        // 獲取該路線全部站點
-        let allStops = [];
-        if (card.operator === 'KMB' && card.stopId) {
-          const boundWord = card.bound === 'I' ? 'inbound' : 'outbound';
-          const rsd = await fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${card.route}/${boundWord}/${card.serviceType || '1'}`, 4500);
-          allStops = (rsd.data || []).map(s => ({ stopId: s.stop, name: kmbStopNameMap?.get(s.stop)?.name_tc || s.stop }));
-        } else {
-          allStops = (card.fiveStops || []).map(n => ({ stopId: '', name: n }));
-          if (allStops.length < 10) {
-            // 補充模擬多站以展示垂直滾動效果
-            for (let i = 1; i <= 12; i++) allStops.push({ stopId: '', name: `沿線中途站 #${i}` });
-          }
-        }
+    const HK_MAJOR_ROADS = [
+      '林錦公路', '吐露港公路', '大埔太和路', '粉嶺公路', '新田公路', '屯門公路', '龍翔道', '觀塘道', '北大嶼山公路', '東涌道'
+    ];
 
-        stopsContainer.innerHTML = allStops.map((st, i) => `
-          <div class="flex items-center gap-3 py-1.5 border-b last:border-b-0 border-slate-500/20">
-            <span class="flap-tile w-6 h-6 text-[10px] font-black mono-num text-mut shrink-0">${i + 1}</span>
-            <span class="text-xs font-black text-pri truncate">${st.name}</span>
-            ${st.name === card.stopName ? '<span class="ml-auto flap-tile px-1.5 py-0.5 text-[10px] font-black flap-amber shrink-0">📍 目標本站</span>' : ''}
-          </div>
-        `).join('');
+    /* 包含：東鐵、屯馬、荃灣、觀塘、港島、將軍澳、南港島、東涌、機場快線 */
+    const MTR_LINES_META = [
+      { code: 'EAL', name: '港鐵東鐵綫', sampleSta: 'TWO', keywords: ['東鐵綫', '東鐵線', '太和站', '大埔墟站', '九龍塘站'] },
+      { code: 'TML', name: '港鐵屯馬綫', sampleSta: 'TAW', keywords: ['屯馬綫', '屯馬線', '大圍站', '鑽石山站'] },
+      { code: 'TWL', name: '港鐵荃灣綫', sampleSta: 'MOK', keywords: ['荃灣綫', '荃灣線', '旺角站', '金鐘站'] },
+      { code: 'KTL', name: '港鐵觀塘綫', sampleSta: 'KOT', keywords: ['觀塘綫', '觀塘線', '九龍塘站', '黃埔站'] },
+      { code: 'ISL', name: '港島綫', sampleSta: 'ADM', keywords: ['港島綫', '港島線', '金鐘站', '中環站'] },
+      { code: 'TKL', name: '港鐵將軍澳綫', sampleSta: 'TKO', keywords: ['將軍澳綫', '將軍澳線', '將軍澳站', '調景嶺站', '北角站'] },
+      { code: 'SIL', name: '港鐵南港島綫', sampleSta: 'OCP', keywords: ['南港島綫', '南港島線', '海洋公園站', '黃竹坑站', '金鐘站'] },
+      { code: 'TCL', name: '港鐵東涌綫', sampleSta: 'OLY', keywords: ['東涌綫', '東涌線', '東涌站', '香港站', '奧運站'] },
+      { code: 'AEL', name: '港鐵機場快綫', sampleSta: 'AIR', keywords: ['機場快綫', '機場快線', '機場站', '博覽館站', '香港站'] }
+    ];
 
-        // 模擬接下來 3 班車
-        etasBox.innerHTML = `
-          <div class="flap-row p-2.5 flex items-center justify-between">
-            <span class="text-xs font-black text-emerald-400">頭班車：即將到達 / 3分鐘</span>
-            <span class="text-[10px] font-bold text-mut">實時定位中</span>
-          </div>
-          <div class="flap-row p-2.5 flex items-center justify-between">
-            <span class="text-xs font-bold text-pri">第二班：約 9 分鐘後</span>
-            <span class="text-[10px] font-bold text-mut">途經中途站</span>
-          </div>
-          <div class="flap-row p-2.5 flex items-center justify-between">
-            <span class="text-xs font-bold text-pri">第三班：約 18 分鐘後</span>
-            <span class="text-[10px] font-bold text-mut">開出中</span>
-          </div>
-        `;
-        document.getElementById('detail-route-sub').textContent = `共 ${allStops.length} 個沿線站點・實時運行正常`;
-      } catch (e) {
-        stopsContainer.innerHTML = '<div class="text-xs text-rose-400 text-center py-4">無法載入詳細路線圖</div>';
-      }
-    }
-    function closeRouteDetailModal() {
-      document.getElementById('route-detail-modal').classList.add('hidden');
-      document.getElementById('route-detail-modal').classList.remove('flex');
-    }
+    const HKO_WEATHER_STATIONS = [
+      { place: '大埔', district: '大埔區' }, { place: '沙田', district: '沙田區' }, { place: '屯門', district: '屯門區' },
+      { place: '西貢', district: '西貢區' }, { place: '將軍澳', district: '西貢區' }, { place: '香港天文台', district: '油尖旺區' },
+      { place: '赤鱲角', district: '離島區(機場)' }, { place: '長洲', district: '離島區' }
+    ];
 
-    // =========================================================================
-    // 1. 大嶼山巴士、地鐵全線及輕鐵（附車廂數） API 引擎
-    // =========================================================================
-    // 輕鐵車廂數與即時預報 (使用 data.etabus 或 mtr rt API)
-    async function fetchLrtCardData(slotIdx, card) {
-      try {
-        // 輕鐵模擬實時預報 (帶車廂數標註)
-        const mockLrtEtas = [
-          { timestamp: new Date(Date.now() + 120000).toISOString(), diffMin: 2, remark: '2 列車卡 (拖卡)' },
-          { timestamp: new Date(Date.now() + 480000).toISOString(), diffMin: 8, remark: '1 列車卡' }
-        ];
-        renderEtaFlapBoard(`eta-card-${slotIdx}`, mockLrtEtas, '輕鐵實時預報');
-        if (isCardTrackVisible(slotIdx)) updateJrApproachBoard(slotIdx, card, mockLrtEtas, null);
-      } catch (e) {
-        renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '輕鐵數據暫不可用');
-      }
-    }
-
-    async function fetchNlbCardData(slotIdx, card) {
-      try {
-        const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/nlb/eta.php?stopId=${card.stopId}&routeId=${card.route}`, 4500);
-        const etas = (json.estimatedArrivals || []).map(e => ({ timestamp: e.estimatedArrivalTime, remark: '大嶼山巴士' }));
-        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '暫無大嶼山巴士班次');
-        if (isCardTrackVisible(slotIdx)) updateJrApproachBoard(slotIdx, card, etas, null);
-      } catch (e) {
-        renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '大嶼山巴士資料讀取中');
-      }
-    }
-
-    // =========================================================================
-    // 3. 調整線路顯示順序功能 (卡片上移 / 下移)
-    // =========================================================================
-    function moveRouteCardOrder(slotIdx, direction) {
-      const visibleItems = getVisibleCardsWithOriginalIndex();
-      const currentObj = visibleItems[slotIdx];
-      if (!currentObj) return;
-      const realIndex = currentObj.originalIdx;
-      const targetRealIndex = realIndex + direction;
-
-      if (targetRealIndex < 0 || targetRealIndex >= activeCards.length) return;
-
-      // 交換 activeCards 中的順序
-      const temp = activeCards[realIndex];
-      activeCards[realIndex] = activeCards[targetRealIndex];
-      activeCards[targetRealIndex] = temp;
-
-      saveActiveCards();
-      buildCardsSkeleton();
-      refreshAll(true);
-    }
-
-    // =========================================================================
-    // 餘下核心模組 (天氣、交通監測、GPS 定位、時鐘翻頁)
-    // =========================================================================
+    // 天氣模組
     const WEATHER_REGIONS_KEY = 'selected_hko_weather_places_v1';
-    let selectedWeatherPlaces = ['大埔'];
+    let selectedWeatherPlaces = loadSelectedWeatherPlaces();
     let latestHkoTempMap = new Map();
     let latestHkoHumidity = '--';
+
+    function loadSelectedWeatherPlaces() {
+      const raw = localStorage.getItem(WEATHER_REGIONS_KEY);
+      if (raw) {
+        try { const arr = JSON.parse(raw); if (Array.isArray(arr) && arr.length >= 1) return arr; } catch (e) {}
+      }
+      return ['大埔', '赤鱲角'];
+    }
+    function saveSelectedWeatherPlaces() { localStorage.setItem(WEATHER_REGIONS_KEY, JSON.stringify(selectedWeatherPlaces)); }
+
+    function toggleWeatherPlace(placeName) {
+      const idx = selectedWeatherPlaces.indexOf(placeName);
+      if (idx !== -1) {
+        if (selectedWeatherPlaces.length <= 1) { alert('請至少保留 1 個天氣顯示地區！'); return; }
+        selectedWeatherPlaces.splice(idx, 1);
+      } else { selectedWeatherPlaces.push(placeName); }
+      saveSelectedWeatherPlaces();
+      renderWeatherRegionsBar();
+      renderWeatherStationsModalGrid();
+    }
+
+    function openWeatherModal() { renderWeatherStationsModalGrid(); document.getElementById('weather-modal').classList.remove('hidden'); document.getElementById('weather-modal').classList.add('flex'); }
+    function closeWeatherModal() { document.getElementById('weather-modal').classList.add('hidden'); document.getElementById('weather-modal').classList.remove('flex'); }
+
+    function renderWeatherStationsModalGrid() {
+      const grid = document.getElementById('weather-stations-grid');
+      const knownPlaces = new Set(HKO_WEATHER_STATIONS.map(s => s.place));
+      const allStations = [...HKO_WEATHER_STATIONS];
+      latestHkoTempMap.forEach((val, key) => { if (!knownPlaces.has(key)) allStations.push({ place: key, district: '香港天文台' }); });
+
+      grid.innerHTML = allStations.map(st => {
+        const isSelected = selectedWeatherPlaces.includes(st.place);
+        const tempVal = latestHkoTempMap.has(st.place) ? `${latestHkoTempMap.get(st.place)}°C` : '--°C';
+        return `
+          <button type="button" onclick="toggleWeatherPlace('${st.place}')" class="flap-row p-2.5 flex items-center justify-between text-left transition ${isSelected ? 'ring-2 ring-sky-500' : 'opacity-75 hover:opacity-100'}">
+            <div class="min-w-0"><div class="text-xs font-black text-pri truncate">${st.place}</div><div class="text-[10px] font-bold text-mut truncate">${st.district}</div></div>
+            <div class="flex items-center gap-1.5 shrink-0"><span class="flap-tile px-1.5 py-0.5 text-xs font-extrabold mono-num ${isSelected ? 'flap-amber' : ''}">${tempVal}</span><span class="text-xs font-black ${isSelected ? 'text-sky-400' : 'text-mut'}">${isSelected ? '✓' : '＋'}</span></div>
+          </button>
+        `;
+      }).join('');
+    }
 
     function renderWeatherRegionsBar() {
       const container = document.getElementById('weather-regions-container');
       if (!container) return;
-      container.innerHTML = selectedWeatherPlaces.map(place => `
-        <div class="flap-row px-2 py-0.5 flex items-center gap-1 shrink-0">
-          <span class="text-xs font-black text-pri">${place}</span>
-          <span class="flap-tile px-1.5 py-0.2 text-sm font-extrabold mono-num flap-amber">${latestHkoTempMap.get(place) || '--'}°C</span>
-        </div>
-      `).join('');
-    }
-
-    async function fetchWeather() {
-      try {
-        const rhr = await fetchJsonWithTimeout('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc', 4500);
-        (rhr?.temperature?.data || []).forEach(t => latestHkoTempMap.set(t.place, t.value));
-        latestHkoHumidity = rhr?.humidity?.data?.[0]?.value || '--';
-        renderWeatherRegionsBar();
-      } catch (e) {}
-    }
-
-    const TRAFFIC_MONITORS_KEY = 'custom_traffic_monitors_v1';
-    let trafficMonitors = JSON.parse(localStorage.getItem(TRAFFIC_MONITORS_KEY)) || [
-      { id: 'tm_1', type: 'mtr', title: '港鐵東鐵綫', mtrLine: 'EAL', subLabel: '全線服務正常', keywords: ['東鐵綫'] },
-      { id: 'tm_2', type: 'district', title: '大埔區交通', districtCode: 'TP', subArea: 'ALL', subLabel: '交通暢順', keywords: ['大埔'] }
-    ];
-
-    function evaluateAndRenderAllTrafficMonitors() {
-      const grid = document.getElementById('traffic-monitors-grid');
-      if (!grid) return;
-      grid.innerHTML = trafficMonitors.map((item, idx) => `
-        <div onclick="toggleTrafficDetail()" class="flap-row px-2.5 py-1.5 flex items-center justify-between gap-2 cursor-pointer">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="status-dot dot-green"></span>
-            <div class="min-w-0">
-              <div class="text-xs font-black text-pri truncate">${item.title}</div>
-              <div class="text-[10px] font-bold text-mut truncate">${item.subLabel}</div>
-            </div>
-          </div>
-          <span class="flap-tile px-1.5 py-0.5 text-[11px] font-black flap-green">正常</span>
-        </div>
-      `).join('');
-    }
-
-    // 資料夾與 1,800+ 座標點選擇
-    const FOLDERS_STORAGE_KEY = 'transit_custom_folders_v1';
-    let routeFolders = JSON.parse(localStorage.getItem(FOLDERS_STORAGE_KEY)) || [
-      { id: 'folder_home', name: '林村 / 鍾屋村', icon: '🏡', locationName: '大埔林村', lat: 22.4562, lng: 114.1425 },
-      { id: 'folder_taiwo', name: '太和轉車', icon: '🚉', locationName: '太和站', lat: 22.4513, lng: 114.1613 },
-      { id: 'folder_urban', name: '九龍市區', icon: '🏙️', locationName: '旺角', lat: 22.3193, lng: 114.1694 }
-    ];
-    let currentFolderId = routeFolders[0].id;
-    let geoPriorityEnabled = true;
-    let userCurrentCoords = null;
-
-    function saveRouteFolders() { localStorage.setItem(FOLDERS_STORAGE_KEY, JSON.stringify(routeFolders)); }
-
-    function renderFoldersBar() {
-      const bar = document.getElementById('folders-bar');
-      if (!bar) return;
-      bar.innerHTML = routeFolders.map(f => `
-        <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer shrink-0 transition ${currentFolderId === f.id ? 'folder-tab-active' : 'opacity-80'}" onclick="selectFolderTab('${f.id}')">
-          <span>${f.icon}</span><span class="text-xs font-black text-pri">${f.name}</span>
-          <button onclick="openEditFolderModal('${f.id}', event)" class="text-[10px] text-mut ml-0.5">⚙️</button>
-        </div>
-      `).join('') + `
-        <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer shrink-0 transition ${currentFolderId === 'ALL' ? 'folder-tab-active' : 'opacity-75'}" onclick="selectFolderTab('ALL')">
-          <span>🗂️</span><span class="text-xs font-black text-pri">全部</span>
-        </div>
-      `;
-    }
-    function selectFolderTab(id) { currentFolderId = id; renderFoldersBar(); buildCardsSkeleton(); refreshAll(true); }
-
-    function populateFolderPresetLocationsSelect() {
-      const sel = document.getElementById('folder-preset-loc');
-      if (!sel) return;
-      sel.innerHTML = `<option value="">-- 從全港 18 區 1,800+ 座標點中選擇 --</option>` +
-        HK_MASSIVE_LOCATIONS.map((loc, idx) => `<option value="${idx}">${loc.label} (${loc.lat}, ${loc.lng})</option>`).join('');
-    }
-    function onFolderPresetChange() {
-      const idx = document.getElementById('folder-preset-loc').value;
-      if (idx === '') return;
-      const loc = HK_MASSIVE_LOCATIONS[Number(idx)];
-      document.getElementById('folder-loc-label').value = loc.name;
-      document.getElementById('folder-lat-input').value = loc.lat;
-      document.getElementById('folder-lng-input').value = loc.lng;
-    }
-    function openAddFolderModal() { populateFolderPresetLocationsSelect(); document.getElementById('folder-modal').classList.remove('hidden'); document.getElementById('folder-modal').classList.add('flex'); }
-    function closeFolderModal() { document.getElementById('folder-modal').classList.add('hidden'); document.getElementById('folder-modal').classList.remove('flex'); }
-
-    // 路線卡片渲染
-    const CARDS_STORAGE_KEY = 'transit_custom_cards_v6';
-    let activeCards = JSON.parse(localStorage.getItem(CARDS_STORAGE_KEY)) || [
-      { folderId: 'folder_home', operator: 'KMB', route: '64K', bound: 'I', serviceType: '1', destName: '大埔墟站', stopId: '', stopSeq: 0, stopName: '鍾屋村', fiveStops: ['川背', '新塘', '新村', '放馬莆', '鍾屋村'] },
-      { folderId: 'folder_home', operator: 'LRT', route: '705', bound: 'UP', serviceType: '1', destName: '天水圍循環線', stopId: '', stopSeq: 0, stopName: '天瑞站', fiveStops: ['天耀', '樂湖', '天慈', '天湖', '天瑞'] }
-    ];
-    function saveActiveCards() { localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(activeCards)); }
-
-    function getVisibleCardsWithOriginalIndex() {
-      const fallbackId = routeFolders[0]?.id || 'folder_home';
-      return activeCards.map((card, originalIdx) => ({ card, originalIdx }))
-        .filter(item => currentFolderId === 'ALL' || (item.card.folderId || fallbackId) === currentFolderId);
-    }
-
-    function buildCardsSkeleton() {
-      const grid = document.getElementById('cards-grid');
-      if (!grid) return;
-      const visibleItems = getVisibleCardsWithOriginalIndex();
-
-      if (visibleItems.length === 0) {
-        grid.innerHTML = `<div class="airport-panel p-6 text-center text-xs font-bold text-mut">此資料夾尚未加入路線</div>`;
-        return;
-      }
-
-      grid.innerHTML = visibleItems.map(({ card, originalIdx: idx }, vIdx) => {
-        const trackVisible = showTrackAnimation;
+      container.innerHTML = selectedWeatherPlaces.map(place => {
+        const temp = latestHkoTempMap.has(place) ? `${latestHkoTempMap.get(place)}°C` : '--°C';
         return `
-          <div class="airport-panel p-3 flex flex-col justify-between gap-2">
-            <div class="flex items-center justify-between border-b border-slate-500/25 pb-2 gap-1.5">
-              <div class="flex items-center gap-2 min-w-0 cursor-pointer" onclick="openRouteDetailModal(${idx})">
-                <div class="flap-tile px-2.5 py-0.5 text-lg font-black mono-num bg-red-600 text-white shrink-0">${card.route}</div>
-                <div class="min-w-0">
-                  <div class="text-sm font-black text-pri truncate">往 ${card.destName}（撳入睇路線圖）</div>
-                  <div class="text-[11px] font-bold text-mut truncate">📍 本站：${card.stopName}</div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 shrink-0">
-                <button onclick="moveRouteCardOrder(${idx}, -1)" class="ctrl-btn px-1.5 py-1 text-xs" title="上移">⬆️</button>
-                <button onclick="moveRouteCardOrder(${idx}, 1)" class="ctrl-btn px-1.5 py-1 text-xs" title="下移">⬇️</button>
-                <button onclick="openRouteModal(${idx})" class="ctrl-btn px-2 py-1 text-xs">⚙️</button>
-              </div>
-            </div>
-            <div id="jr-board-wrap-${idx}" class="jr-board ${trackVisible ? '' : 'hidden'}">
-              <div class="flex items-center justify-between text-[10px] font-bold mb-1"><span class="text-slate-400">實時進站路軌</span><span id="jr-status-text-${idx}" class="text-emerald-300">追蹤中...</span></div>
-              <div class="jr-track-container"><div class="jr-rail-line"></div><div id="jr-vehicles-${idx}"></div></div>
-            </div>
-            <div id="eta-card-${idx}" class="space-y-1"><div class="flap-row py-2 text-center text-xs text-mut">讀取中...</div></div>
+          <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 shrink-0">
+            <span class="text-xs font-black text-pri">${place}</span>
+            <span class="flap-tile px-1.5 py-0.5 text-sm sm:text-base font-extrabold mono-num flap-amber">${temp}</span>
+            <span class="text-[11px] font-extrabold mono-num text-mut">${latestHkoHumidity}%</span>
+            ${selectedWeatherPlaces.length > 1 ? `<button onclick="toggleWeatherPlace('${place}')" class="text-[11px] font-black text-mut hover:text-rose-400 pl-0.5" title="移除">✕</button>` : ''}
           </div>
         `;
       }).join('');
     }
 
-    // 核心刷新
-    async function refreshAll(isManual = false) {
-      document.getElementById('countdown').textContent = --refreshCountdown;
-      if (refreshCountdown <= 0) refreshCountdown = 5;
-      await Promise.all(activeCards.map(async (c, idx) => {
-        if (c.operator === 'LRT') await fetchLrtCardData(idx, c);
-        else if (c.operator === 'NLB') await fetchNlbCardData(idx, c);
-        else renderEtaFlapBoard(`eta-card-${idx}`, [{ timestamp: new Date(Date.now() + 180000).toISOString(), diffMin: 3, remark: '實時預報' }]);
-      }));
-    }
-    function renderEtaFlapBoard(id, etas) {
-      const box = document.getElementById(id);
-      if (!box) return;
-      box.innerHTML = etas.map(e => `
-        <div class="flap-row px-2.5 py-1 flex items-center justify-between text-xs font-bold">
-          <span class="flap-amber">實時班次</span><span class="flap-green">${e.diffMin} 分鐘</span>
-        </div>
-      `).join('');
+    async function fetchWeather() {
+      try {
+        const [rhr, warn] = await Promise.all([
+          fetchJsonWithTimeout('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc', 4500),
+          fetchJsonWithTimeout('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=warnsum&lang=tc', 4500)
+        ]);
+        const tempArr = rhr?.temperature?.data || [];
+        latestHkoTempMap.clear();
+        tempArr.forEach(t => { if (t && t.place && t.value !== undefined) latestHkoTempMap.set(t.place, t.value); });
+        const humObj = rhr?.humidity?.data?.[0];
+        if (humObj && humObj.value !== undefined) latestHkoHumidity = humObj.value;
+        const iconCode = rhr?.icon?.[0];
+        if (iconCode) {
+          document.getElementById('weather-icon').src = `https://www.hko.gov.hk/images/HKOWxIconOutline/pic${iconCode}.png`;
+          document.getElementById('weather-icon').classList.remove('hidden');
+          document.getElementById('weather-icon-fallback').classList.add('hidden');
+        }
+        const warnContainer = document.getElementById('weather-warnings');
+        warnContainer.innerHTML = '';
+        if (warn && typeof warn === 'object') {
+          Object.values(warn).forEach(w => {
+            if (w && w.name) {
+              const badge = document.createElement('span');
+              badge.className = 'flap-tile px-1.5 py-0.5 text-[10px] font-black flap-amber truncate';
+              badge.textContent = w.name;
+              warnContainer.appendChild(badge);
+            }
+          });
+        }
+        renderWeatherRegionsBar();
+      } catch (err) { renderWeatherRegionsBar(); }
     }
 
-    // 時鐘與主題
+    // 交通監測
+    const TRAFFIC_MONITORS_KEY = 'custom_traffic_monitors_v1';
+    const DEFAULT_TRAFFIC_MONITORS = [
+      { id: 'tm_default_eal', type: 'mtr', title: '港鐵東鐵綫', mtrLine: 'EAL', subLabel: '實時監測', keywords: ['東鐵綫', '東鐵線'] },
+      { id: 'tm_default_tkl', type: 'mtr', title: '港鐵將軍澳綫', mtrLine: 'TKL', subLabel: '將軍澳/調景嶺', keywords: ['將軍澳綫', '將軍澳線'] },
+      { id: 'tm_default_tcl', type: 'mtr', title: '港鐵東涌綫', mtrLine: 'TCL', subLabel: '東涌/機場快線', keywords: ['東涌綫', '東涌線', '機場快線'] }
+    ];
+    let trafficMonitors = loadTrafficMonitors();
+    let mtrLiveStatusCache = {};
+
+    function loadTrafficMonitors() {
+      const raw = localStorage.getItem(TRAFFIC_MONITORS_KEY);
+      if (raw) { try { const p = JSON.parse(raw); if (Array.isArray(p) && p.length >= 1) return p; } catch (e) {} }
+      return JSON.parse(JSON.stringify(DEFAULT_TRAFFIC_MONITORS));
+    }
+    function saveTrafficMonitors() { localStorage.setItem(TRAFFIC_MONITORS_KEY, JSON.stringify(trafficMonitors)); }
+    function resetTrafficMonitorsToDefault() { localStorage.removeItem(TRAFFIC_MONITORS_KEY); trafficMonitors = JSON.parse(JSON.stringify(DEFAULT_TRAFFIC_MONITORS)); closeTrafficModal(); evaluateAndRenderAllTrafficMonitors(); fetchTdTrafficNews(); }
+    function removeTrafficMonitor(idx, event) {
+      if (event) event.stopPropagation();
+      if (trafficMonitors.length <= 1) { alert('請至少保留 1 項！'); return; }
+      trafficMonitors.splice(idx, 1); saveTrafficMonitors(); evaluateAndRenderAllTrafficMonitors();
+    }
+    function toggleTrafficDetail() { document.getElementById('traffic-detail-box').classList.toggle('hidden'); }
+
+    async function fetchTdTrafficNews() {
+      const xmlUrl = 'https://resource.data.one.gov.hk/td/tc/specialtrafficnews.xml';
+      let xmlText = '';
+      try { const res = await fetchWithTimeout(xmlUrl, 3500); if (res.ok) xmlText = await res.text(); } catch (e) {}
+      if (xmlText) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+        latestTdAllMessages = Array.from(xmlDoc.querySelectorAll('message')).map(n => (n.querySelector('ChinText')?.textContent || n.textContent || '').replace(/\s+/g, ' ').trim()).filter(Boolean);
+      }
+      await fetchRequiredMtrLinesStatus();
+      evaluateAndRenderAllTrafficMonitors();
+    }
+
+    async function fetchRequiredMtrLinesStatus() {
+      const mtrItems = trafficMonitors.filter(m => m.type === 'mtr');
+      const uniqueLines = [...new Set(mtrItems.map(m => m.mtrLine || 'EAL'))];
+      await Promise.all(uniqueLines.map(async (lineCode) => {
+        const meta = MTR_LINES_META.find(l => l.code === lineCode) || MTR_LINES_META[0];
+        try {
+          const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${lineCode}&sta=${meta.sampleSta}&lang=TC`, 4000);
+          if (json.status === 0) {
+            mtrLiveStatusCache[lineCode] = { level: 'yellow', badge: '異常', sub: (json.message || '服務受阻').slice(0, 24) };
+          } else {
+            mtrLiveStatusCache[lineCode] = { level: 'green', badge: '正常', sub: '鐵路列車服務正常' };
+          }
+        } catch (e) { mtrLiveStatusCache[lineCode] = { level: 'green', badge: '正常', sub: '服務正常運作' }; }
+      }));
+    }
+
+    function evaluateSingleMonitor(item) {
+      if (item.type === 'mtr') return mtrLiveStatusCache[item.mtrLine || 'EAL'] || { level: 'green', badge: '正常', sub: '服務正常' };
+      return { level: 'green', badge: '正常', sub: item.subLabel || '交通暢順' };
+    }
+
+    function evaluateAndRenderAllTrafficMonitors() {
+      const grid = document.getElementById('traffic-monitors-grid');
+      if (!grid) return;
+      grid.innerHTML = trafficMonitors.map((item, idx) => {
+        const res = evaluateSingleMonitor(item);
+        const dotClass = res.level === 'red' ? 'dot-red' : res.level === 'yellow' ? 'dot-yellow' : 'dot-green';
+        const badgeColor = res.level === 'red' ? 'text-red-500' : res.level === 'yellow' ? 'flap-amber' : 'flap-green';
+        return `
+          <div onclick="toggleTrafficDetail()" class="flap-row px-2.5 py-1.5 flex items-center justify-between gap-2 cursor-pointer hover:opacity-95">
+            <div class="flex items-center gap-2 min-w-0"><span class="status-dot ${dotClass}"></span><div class="min-w-0"><div class="text-xs font-black text-pri truncate">${item.title}</div><div class="text-[10px] font-bold text-mut truncate">${res.sub}</div></div></div>
+            <div class="flex items-center gap-1 shrink-0"><span class="flap-tile px-1.5 py-0.5 text-[11px] font-black ${badgeColor}">${res.badge}</span><button onclick="removeTrafficMonitor(${idx}, event)" class="ctrl-btn px-1.5 py-0.5 text-[10px] font-bold text-rose-500">✕</button></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    let currentTrafficModalCat = 'district';
+    function openAddTrafficModal() { document.getElementById('traffic-modal').classList.remove('hidden'); document.getElementById('traffic-modal').classList.add('flex'); selectTrafficCategory('district'); }
+    function closeTrafficModal() { document.getElementById('traffic-modal').classList.add('hidden'); document.getElementById('traffic-modal').classList.remove('flex'); }
+    function selectTrafficCategory(cat) {
+      currentTrafficModalCat = cat;
+      ['district', 'corridor', 'road', 'mtr', 'tunnel'].forEach(c => {
+        const btn = document.getElementById(`tcat-${c}`);
+        if (btn) btn.classList.toggle('ring-2', c === cat);
+      });
+      const body = document.getElementById('traffic-form-body');
+      if (cat === 'mtr') {
+        body.innerHTML = `<div><label class="block font-black text-pri mb-1">選擇港鐵綫路：</label><select id="tm-mtr-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black">${MTR_LINES_META.map(l => `<option value="${l.code}">${l.name}</option>`).join('')}</select></div>`;
+      } else {
+        body.innerHTML = `<div><label class="block font-black text-pri mb-1">選擇地區：</label><select id="tm-dist-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black">${HK_18_DISTRICTS.map(d => `<option value="${d.code}">${d.name}</option>`).join('')}</select></div>`;
+      }
+    }
+    async function saveTrafficMonitorItem() {
+      let newItem = null;
+      if (currentTrafficModalCat === 'mtr') {
+        const code = document.getElementById('tm-mtr-select').value;
+        const meta = MTR_LINES_META.find(l => l.code === code);
+        newItem = { id: 'tm_' + Date.now(), type: 'mtr', title: meta.name, mtrLine: meta.code, subLabel: '實時監測', keywords: meta.keywords };
+      } else {
+        const code = document.getElementById('tm-dist-select').value;
+        const dist = HK_18_DISTRICTS.find(d => d.code === code);
+        newItem = { id: 'tm_' + Date.now(), type: 'district', title: `${dist.name}交通`, subLabel: '交通暢順', keywords: [dist.name.replace('區', ''), ...dist.subAreas] };
+      }
+      trafficMonitors.push(newItem);
+      saveTrafficMonitors();
+      closeTrafficModal();
+      await fetchRequiredMtrLinesStatus();
+      evaluateAndRenderAllTrafficMonitors();
+    }
+
+    // 資料夾與定位
+    const FOLDERS_STORAGE_KEY = 'transit_custom_folders_v1';
+    const GEO_PRIORITY_KEY = 'transit_geo_priority_enabled_v1';
+    const DEFAULT_FOLDERS = [
+      { id: 'folder_home', name: '林村 / 鍾屋村', icon: '🏡', locationName: '大埔林村', lat: 22.4562, lng: 114.1425 },
+      { id: 'folder_lantau', name: '大嶼山 / 東涌線', icon: '⛰️', locationName: '東涌站', lat: 22.2902, lng: 113.9422 },
+      { id: 'folder_tkl', name: '將軍澳線沿線', icon: '🚇', locationName: '將軍澳站', lat: 22.3082, lng: 114.2558 }
+    ];
+    let routeFolders = loadSavedFolders();
+    let currentFolderId = routeFolders[0]?.id || 'ALL';
+    let geoPriorityEnabled = localStorage.getItem(GEO_PRIORITY_KEY) !== 'false';
+    let userManualSelectedFolder = false;
+    let userCurrentCoords = null;
+    let editingFolderId = null;
+
+    function loadSavedFolders() {
+      const raw = localStorage.getItem(FOLDERS_STORAGE_KEY);
+      if (raw) { try { const p = JSON.parse(raw); if (Array.isArray(p) && p.length >= 1) return p; } catch (e) {} }
+      return JSON.parse(JSON.stringify(DEFAULT_FOLDERS));
+    }
+    function saveRouteFolders() { localStorage.setItem(FOLDERS_STORAGE_KEY, JSON.stringify(routeFolders)); }
+
+    function computeDistanceKm(lat1, lng1, lat2, lng2) {
+      if (lat1 == null || lng1 == null || lat2 == null || lng2 == null) return Infinity;
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLng = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+    function formatDistanceBadge(km) {
+      if (!isFinite(km)) return '';
+      if (km < 1) return `${Math.max(50, Math.round(km * 1000))}m`;
+      return `${km.toFixed(1)}km`;
+    }
+    function getSortedFoldersByGps() {
+      return routeFolders.map(f => {
+        const hasCoords = typeof f.lat === 'number' && !isNaN(f.lat) && typeof f.lng === 'number' && !isNaN(f.lng);
+        const distKm = (userCurrentCoords && hasCoords) ? computeDistanceKm(userCurrentCoords.lat, userCurrentCoords.lng, f.lat, f.lng) : Infinity;
+        return { ...f, distKm };
+      }).sort((a, b) => (geoPriorityEnabled && userCurrentCoords) ? a.distKm - b.distKm : 0);
+    }
+
+    function toggleGeoAutoFolder() {
+      geoPriorityEnabled = !geoPriorityEnabled;
+      localStorage.setItem(GEO_PRIORITY_KEY, String(geoPriorityEnabled));
+      userManualSelectedFolder = false;
+      updateGeoPriorityButtonUI();
+      if (geoPriorityEnabled) requestUserGpsNow(true); else renderFoldersBar();
+    }
+    function updateGeoPriorityButtonUI() {
+      const btn = document.getElementById('geo-priority-btn');
+      if (btn) { btn.textContent = geoPriorityEnabled ? '📍 定位優先: 開' : '📍 定位優先: 關'; }
+    }
+
+    function requestUserGpsNow(forceSwitch = false) {
+      if (!navigator.geolocation) return;
+      if (forceSwitch) userManualSelectedFolder = false;
+      navigator.geolocation.getCurrentPosition(pos => {
+        userCurrentCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        applyNearestFolderSelection(forceSwitch);
+      }, () => { renderFoldersBar(); }, { enableHighAccuracy: true, timeout: 6000 });
+    }
+
+    function applyNearestFolderSelection(forceSwitch = false) {
+      const sorted = getSortedFoldersByGps();
+      const nearest = sorted.find(f => isFinite(f.distKm));
+      const badge = document.getElementById('gps-status-badge');
+      if (nearest) {
+        if (badge) badge.textContent = `📍 最近：${nearest.locationName} (${formatDistanceBadge(nearest.distKm)})`;
+        if (geoPriorityEnabled && (!userManualSelectedFolder || forceSwitch)) {
+          if (currentFolderId !== nearest.id) { currentFolderId = nearest.id; buildCardsSkeleton(); refreshAll(true); }
+        }
+      }
+      renderFoldersBar();
+    }
+
+    function selectFolderTab(folderId, isManual = true) {
+      if (isManual) userManualSelectedFolder = true;
+      currentFolderId = folderId;
+      renderFoldersBar();
+      buildCardsSkeleton();
+      refreshAll(true);
+    }
+
+    function renderFoldersBar() {
+      const bar = document.getElementById('folders-bar');
+      if (!bar) return;
+      const sorted = getSortedFoldersByGps();
+      const nearestId = (geoPriorityEnabled && userCurrentCoords && isFinite(sorted[0]?.distKm)) ? sorted[0].id : null;
+
+      bar.innerHTML = sorted.map(f => {
+        const isActive = currentFolderId === f.id;
+        const count = activeCards.filter(c => (c.folderId || routeFolders[0]?.id) === f.id).length;
+        const distBadge = isFinite(f.distKm) ? formatDistanceBadge(f.distKm) : '';
+        return `
+          <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer shrink-0 transition ${isActive ? 'folder-tab-active' : 'opacity-80'}" onclick="selectFolderTab('${f.id}', true)">
+            <span>${f.icon || '📁'}</span><span class="text-xs font-black ${isActive ? 'flap-amber' : 'text-pri'}">${f.name}</span>
+            <span class="flap-tile px-1.5 py-0.2 text-[10px] font-extrabold mono-num text-mut">${count}</span>
+            ${distBadge ? `<span class="text-[10px] font-black px-1.5 py-0.2 rounded-full ${nearestId === f.id ? 'bg-emerald-500/20 text-emerald-400' : 'text-mut'}">${nearestId === f.id ? '📍' : ''}${distBadge}</span>` : ''}
+            <button onclick="openEditFolderModal('${f.id}', event)" class="text-[11px] text-mut hover:text-pri ml-0.5">⚙️</button>
+          </div>
+        `;
+      }).join('') + `
+        <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer shrink-0 transition ${currentFolderId === 'ALL' ? 'folder-tab-active' : 'opacity-75'}" onclick="selectFolderTab('ALL', true)">
+          <span>🗂️</span><span class="text-xs font-black ${currentFolderId === 'ALL' ? 'flap-amber' : 'text-pri'}">全部路線</span>
+          <span class="flap-tile px-1.5 py-0.2 text-[10px] font-extrabold mono-num text-mut">${activeCards.length}</span>
+        </div>
+      `;
+    }
+
+    function openAddFolderModal() { editingFolderId = null; document.getElementById('folder-modal').classList.remove('hidden'); document.getElementById('folder-modal').classList.add('flex'); }
+    function openEditFolderModal(id, e) {
+      e.stopPropagation(); editingFolderId = id; const f = routeFolders.find(x => x.id === id);
+      if (f) { document.getElementById('folder-name-input').value = f.name; document.getElementById('folder-loc-label').value = f.locationName || ''; document.getElementById('folder-lat-input').value = f.lat || ''; document.getElementById('folder-lng-input').value = f.lng || ''; }
+      document.getElementById('folder-modal').classList.remove('hidden'); document.getElementById('folder-modal').classList.add('flex');
+    }
+    function closeFolderModal() { document.getElementById('folder-modal').classList.add('hidden'); document.getElementById('folder-modal').classList.remove('flex'); }
+    function saveFolderModal() {
+      const name = document.getElementById('folder-name-input').value.trim();
+      if (!name) return;
+      const lat = parseFloat(document.getElementById('folder-lat-input').value);
+      const lng = parseFloat(document.getElementById('folder-lng-input').value);
+      if (editingFolderId) {
+        const f = routeFolders.find(x => x.id === editingFolderId);
+        if (f) { f.name = name; f.locationName = document.getElementById('folder-loc-label').value; f.lat = isNaN(lat) ? null : lat; f.lng = isNaN(lng) ? null : lng; }
+      } else {
+        routeFolders.push({ id: 'folder_' + Date.now(), name, icon: document.getElementById('folder-icon-input').value, locationName: document.getElementById('folder-loc-label').value, lat: isNaN(lat) ? null : lat, lng: isNaN(lng) ? null : lng });
+      }
+      saveRouteFolders(); closeFolderModal(); renderFoldersBar(); buildCardsSkeleton(); refreshAll(true);
+    }
+    function fillFolderWithCurrentGps() {
+      if (!navigator.geolocation) return;
+      navigator.geolocation.getCurrentPosition(p => {
+        document.getElementById('folder-lat-input').value = p.coords.latitude.toFixed(5);
+        document.getElementById('folder-lng-input').value = p.coords.longitude.toFixed(5);
+      });
+    }
+    function clearFolderLocationFields() { document.getElementById('folder-lat-input').value = ''; document.getElementById('folder-lng-input').value = ''; }
+
+    // 路線與大嶼山巴士 (NLB) 資料引擎
+    const CARDS_STORAGE_KEY = 'transit_custom_cards_v6';
+    const DEFAULT_CARDS = [
+      { folderId: 'folder_home', operator: 'KMB', route: '64K', bound: 'I', serviceType: '1', destName: '大埔墟站', stopId: '', stopSeq: 0, stopName: '鍾屋村', fiveStops: ['川背', '新塘', '新村', '放馬莆(許願樹)', '鍾屋村'] },
+      { folderId: 'folder_lantau', operator: 'NLB', route: '23', bound: 'O', destName: '昂坪', stopId: '25', stopName: '東涌市中心', fiveStops: ['東涌消防局', '裕東苑', '東涌道', '石門甲', '昂坪總站'] },
+      { folderId: 'folder_tkl', operator: 'MTR', route: 'TKL', bound: 'UP', destName: '北角', stopId: 'TKO', stopSeq: 5, stopName: '將軍澳站', fiveStops: ['寶琳站', '坑口站', '將軍澳站', '調景嶺站', '油塘站'] }
+    ];
+
+    let activeCards = loadSavedCards();
+    function loadSavedCards() {
+      const raw = localStorage.getItem(CARDS_STORAGE_KEY);
+      if (raw) { try { const p = JSON.parse(raw); if (Array.isArray(p) && p.length >= 1) return p; } catch (e) {} }
+      return JSON.parse(JSON.stringify(DEFAULT_CARDS));
+    }
+    function saveActiveCards() { localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(activeCards)); }
+    function resetAllCardsToDefault() {
+      localStorage.removeItem(CARDS_STORAGE_KEY); localStorage.removeItem(FOLDERS_STORAGE_KEY);
+      routeFolders = JSON.parse(JSON.stringify(DEFAULT_FOLDERS));
+      activeCards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
+      currentFolderId = routeFolders[0].id;
+      closeRouteModal(); renderFoldersBar(); buildCardsSkeleton(); refreshAll(true);
+    }
+    function removeRouteCard(idx) {
+      if (activeCards.length <= 1) { alert('至少保留 1 條路線！'); return; }
+      activeCards.splice(idx, 1); saveActiveCards(); renderFoldersBar(); buildCardsSkeleton(); refreshAll(true);
+    }
+    function shortStopName(name) { if (!name) return '---'; return name.replace(/^林錦公路[\s,，、]*近?/g, '').trim().slice(0, 6); }
+    function getVisibleCardsWithOriginalIndex() {
+      const fb = routeFolders[0]?.id || 'folder_home';
+      return activeCards.map((card, originalIdx) => ({ card, originalIdx })).filter(item => currentFolderId === 'ALL' || (item.card.folderId || fb) === currentFolderId);
+    }
+
+    function buildCardsSkeleton() {
+      const grid = document.getElementById('cards-grid');
+      const visible = getVisibleCardsWithOriginalIndex();
+      if (visible.length === 0) {
+        grid.innerHTML = `<div class="airport-panel p-7 col-span-1 md:col-span-2 text-center space-y-2.5"><div class="text-base font-black text-pri">此資料夾尚未加入路線</div><button onclick="openAddRouteModal()" class="px-4 py-2 rounded-xl bg-amber-500 text-black font-black text-xs">➕ 新增路線</button></div>`;
+        return;
+      }
+      grid.innerHTML = visible.map(({ card, originalIdx: idx }) => {
+        const badgeStyle = card.operator === 'NLB' ? 'background: linear-gradient(180deg, #ea580c 0%, #c2410c 100%); color: #fff;' : (card.operator === 'KMB' ? 'background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%); color: #fff;' : 'background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%); color: #fff;');
+        const opLabel = card.operator === 'NLB' ? '大嶼山' : card.operator;
+        const trackVisible = isCardTrackVisible(idx);
+        return `
+          <div class="airport-panel p-3 sm:p-3.5 flex flex-col justify-between gap-2">
+            <div class="flex items-center justify-between border-b border-slate-500/25 pb-2 gap-1.5">
+              <div class="flex items-center gap-2 min-w-0">
+                <div class="flap-tile px-2.5 py-0.5 text-lg sm:text-2xl font-black mono-num shrink-0" style="${badgeStyle}">${card.route}</div>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5"><span class="text-base sm:text-xl font-black text-pri tracking-tight truncate">往 ${card.destName}</span><span class="flap-tile px-1.5 py-0.2 text-[10px] font-black flap-amber shrink-0">${opLabel}</span></div>
+                  <div class="text-[11px] sm:text-xs font-bold text-mut truncate">📍 本站：${card.stopName}</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <button id="card-track-btn-${idx}" onclick="toggleSingleCardTrack(${idx})" class="${trackVisible ? 'ctrl-btn px-2 py-1 text-xs font-black flap-amber' : 'ctrl-btn px-2.5 py-1 text-xs font-bold text-mut opacity-70'}">🚌</button>
+                <button onclick="openRouteModal(${idx})" class="ctrl-btn px-2 py-1 text-xs font-black">⚙️</button>
+                <button onclick="removeRouteCard(${idx})" class="ctrl-btn px-2 py-1 text-xs font-black text-rose-500">🗑️</button>
+              </div>
+            </div>
+            <div id="jr-board-wrap-${idx}" class="jr-board ${trackVisible ? '' : 'hidden'}">
+              <div class="flex items-center justify-between text-[10px] font-bold mb-1 px-0.5"><span class="text-slate-400">實時進站路軌</span><span id="jr-status-text-${idx}" class="text-emerald-300 font-black truncate">追蹤位置中...</span></div>
+              <div class="jr-track-container">
+                <div class="jr-rail-line"></div>
+                <div id="jr-node-${idx}-0" class="jr-station-node" style="left: 0%"></div>
+                <div id="jr-node-${idx}-1" class="jr-station-node" style="left: 25%"></div>
+                <div id="jr-node-${idx}-2" class="jr-station-node" style="left: 50%"></div>
+                <div id="jr-node-${idx}-3" class="jr-station-node" style="left: 75%"></div>
+                <div id="jr-node-${idx}-4" class="jr-station-node is-target" style="left: 100%"></div>
+                <div id="jr-vehicles-${idx}"></div>
+              </div>
+              <div class="grid grid-cols-5 text-center gap-0.5 mt-1 pt-1 border-t border-slate-700/60">
+                ${(card.fiveStops || []).map((st, sIdx) => `<div id="jr-stname-${idx}-${sIdx}" class="text-[10px] font-bold truncate ${sIdx === 4 ? 'text-emerald-300 font-black' : 'text-slate-300'}">${shortStopName(st)}</div>`).join('')}
+              </div>
+            </div>
+            <div id="eta-card-${idx}" class="space-y-1.5"><div class="flap-row py-2.5 text-center text-xs font-bold text-mut">讀取中...</div></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 各大交通工具 ETA 引擎（包含大嶼山巴士 NLB）
+    async function fetchNlbCardData(slotIdx, card) {
+      try {
+        const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/nlb/eta.php?stopId=${card.stopId}&routeId=${card.route}`, 4500);
+        const etas = (json?.estimatedArrivals || []).map(e => ({ timestamp: e.estimatedArrivalTime, remark: e.disembark === 'Y' ? '落客站' : '實時班次' }));
+        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '目前暫無大嶼山巴士班次');
+      } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取大嶼山巴士失敗'); }
+    }
+
+    async function fetchKmbCardData(slotIdx, card) {
+      try {
+        const json = await fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/eta/${card.stopId}/${card.route}/1`, 4500);
+        const etas = (json.data || []).filter(e => e.eta).map(e => ({ timestamp: e.eta, remark: e.rmk_tc || '實時班次' }));
+        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '暫無班次');
+      } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取九巴失敗'); }
+    }
+
+    async function fetchMtrCardData(slotIdx, card) {
+      try {
+        const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${card.route}&sta=${card.stopId}&lang=TC`, 4500);
+        const trains = json?.data?.[`${card.route}-${card.stopId}`]?.[card.bound] || [];
+        const etas = trains.map(t => ({ timestamp: new Date(Date.now() + (Number(t.ttnt) || 0) * 60000).toISOString(), diffMin: Number(t.ttnt) || 0, remark: `${t.plat ? t.plat + '號月台' : '實時列車'}` }));
+        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '暫無列車');
+      } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取港鐵失敗'); }
+    }
+
+    async function fetchAllActiveCards() {
+      const visible = getVisibleCardsWithOriginalIndex();
+      await Promise.all(visible.map(({ card, originalIdx: idx }) => {
+        if (card.operator === 'NLB') return fetchNlbCardData(idx, card);
+        if (card.operator === 'KMB') return fetchKmbCardData(idx, card);
+        if (card.operator === 'MTR') return fetchMtrCardData(idx, card);
+        return Promise.resolve();
+      }));
+    }
+
+    function renderEtaFlapBoard(containerId, etas, emptyMsg) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      if (!etas || etas.length === 0) { container.innerHTML = `<div class="flap-row py-2.5 text-center text-xs font-bold text-mut">${emptyMsg}</div>`; return; }
+      const now = new Date();
+      container.innerHTML = etas.slice(0, 2).map((item, idx) => {
+        const diffMin = item.diffMin !== undefined ? Math.max(0, item.diffMin) : Math.max(0, Math.floor((new Date(item.timestamp) - now) / 60000));
+        const timeStr = new Date(item.timestamp).toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit', hour12: false });
+        return `
+          <div class="flap-row px-2.5 py-1.5 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="flap-tile w-6 h-6 text-xs font-black mono-num ${idx === 0 ? 'flap-amber' : 'text-mut'} shrink-0">${idx + 1}</span>
+              <div class="flap-tile px-2 py-0.5 text-base font-extrabold mono-num text-pri shrink-0">${timeStr}</div>
+              <span class="text-[11px] font-bold text-mut truncate">${item.remark}</span>
+            </div>
+            <div class="shrink-0"><div class="flap-tile px-2.5 py-0.5 text-xl font-extrabold mono-num ${idx === 0 ? 'flap-amber' : ''}">${diffMin <= 1 ? '即將' : diffMin + '分'}</div></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 路線設定 Modal（包含大嶼山巴士路線）
+    let modalOperator = 'KMB';
+    let modalRoutesPool = [];
+    let modalDirectionsPool = [];
+    let modalStopsPool = [];
+    let modalEditingSlot = 0;
+    let isAddingNewRoute = false;
+
+    const NLB_POPULAR_ROUTES = [
+      { route: '1', dest: '大澳 ⇄ 梅窩' }, { route: '2', dest: '昂坪 ⇄ 梅窩' },
+      { route: '11', dest: '大澳 ⇄ 東涌' }, { route: '23', dest: '昂坪 ⇄ 東涌' },
+      { route: '3M', dest: '梅窩 ⇄ 東涌' }, { route: 'B2', dest: '深圳灣口岸 ⇄ 元朗' }
+    ];
+
+    function openAddRouteModal() { isAddingNewRoute = true; modalEditingSlot = activeCards.length; populateModalFolderSelect(currentFolderId); document.getElementById('route-modal').classList.remove('hidden'); document.getElementById('route-modal').classList.add('flex'); selectModalOperator('KMB'); }
+    function openRouteModal(idx) {
+      isAddingNewRoute = false; modalEditingSlot = idx; const c = activeCards[idx];
+      populateModalFolderSelect(c.folderId); document.getElementById('route-modal').classList.remove('hidden'); document.getElementById('route-modal').classList.add('flex'); selectModalOperator(c.operator || 'KMB');
+    }
+    function closeRouteModal() { document.getElementById('route-modal').classList.add('hidden'); document.getElementById('route-modal').classList.remove('flex'); }
+    function populateModalFolderSelect(selId) {
+      document.getElementById('modal-folder-select').innerHTML = routeFolders.map(f => `<option value="${f.id}" ${f.id === selId ? 'selected' : ''}>${f.icon} ${f.name}</option>`).join('');
+    }
+
+    async function selectModalOperator(op) {
+      modalOperator = op;
+      ['KMB', 'NLB', 'GMB', 'CTB', 'MTR'].forEach(k => {
+        const btn = document.getElementById(`op-btn-${k}`);
+        if (btn) btn.classList.toggle('ring-2', k === op);
+      });
+      document.getElementById('gmb-region-box').classList.toggle('hidden', op !== 'GMB');
+      const routeSel = document.getElementById('modal-route-select');
+      routeSel.innerHTML = '<option value="">載入中...</option>';
+
+      if (op === 'NLB') {
+        modalRoutesPool = NLB_POPULAR_ROUTES.map(r => ({ code: r.route, label: `大嶼山 ${r.route} (${r.dest})` }));
+        renderModalRouteOptions();
+      } else if (op === 'MTR') {
+        modalRoutesPool = MTR_LINES_META.map(m => ({ code: m.code, label: m.name }));
+        renderModalRouteOptions();
+      } else if (op === 'KMB') {
+        const json = await fetchJsonWithTimeout('https://data.etabus.gov.hk/v1/transport/kmb/route/', 6000);
+        modalRoutesPool = [...new Set((json.data || []).map(r => r.route))].map(r => ({ code: r, label: `九巴 ${r}` }));
+        renderModalRouteOptions();
+      }
+    }
+
+    function renderModalRouteOptions() {
+      const filter = document.getElementById('modal-route-Filter').value.trim().toUpperCase();
+      const sel = document.getElementById('modal-route-select');
+      const filtered = modalRoutesPool.filter(r => !filter || r.code.toUpperCase().includes(filter) || r.label.includes(filter));
+      sel.innerHTML = filtered.map(r => `<option value="${r.code}">${r.label}</option>`).join('');
+      onModalRouteSelected();
+    }
+    function onModalRouteSearch() { renderModalRouteOptions(); }
+
+    async function onModalRouteSelected() {
+      const code = document.getElementById('modal-route-select').value;
+      const dirSel = document.getElementById('modal-dir-select');
+      if (!code) return;
+      if (modalOperator === 'NLB') {
+        modalDirectionsPool = [{ key: 'O', destName: '昂坪/東涌方向', label: '常規方向' }];
+      } else if (modalOperator === 'MTR') {
+        const meta = MTR_LINES_META.find(m => m.code === code);
+        modalDirectionsPool = [{ key: 'UP', destName: '上行/市區方向', label: `${meta.name} (UP)` }, { key: 'DOWN', destName: '下行方向', label: `${meta.name} (DOWN)` }];
+      } else {
+        modalDirectionsPool = [{ key: 'I', destName: '市區方向', label: '去程/回程' }];
+      }
+      dirSel.innerHTML = modalDirectionsPool.map((d, i) => `<option value="${i}">${d.label}</option>`).join('');
+      onModalDirSelected();
+    }
+
+    async function onModalDirSelected() {
+      const code = document.getElementById('modal-route-select').value;
+      const stopSel = document.getElementById('modal-stop-select');
+      modalStopsPool = [];
+      if (modalOperator === 'NLB') {
+        const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/nlb/stop.php?action=list&routeId=${code}`, 5000);
+        modalStopsPool = (json?.stops || []).map(s => ({ stopId: s.stopId, name_tc: s.stopName_tc || s.stopName_en }));
+      } else if (modalOperator === 'MTR') {
+        const line = MTR_LINES_DATA[code] || MTR_LINES_DATA['EAL'];
+        modalStopsPool = line.stations.map(st => ({ stopId: st.id, name_tc: `${st.name}站` }));
+      } else {
+        modalStopsPool = [{ stopId: '25', name_tc: '東涌市中心' }, { stopId: '1', name_tc: '總站' }];
+      }
+      stopSel.innerHTML = modalStopsPool.map((s, i) => `<option value="${i}">${s.name_tc}</option>`).join('');
+    }
+
+    function saveModalRouteCard() {
+      const folderId = document.getElementById('modal-folder-select').value;
+      const code = document.getElementById('modal-route-select').value;
+      const dirObj = modalDirectionsPool[document.getElementById('modal-dir-select').value];
+      const stopObj = modalStopsPool[document.getElementById('modal-stop-select').value];
+      if (!code || !stopObj) return;
+
+      const newCard = {
+        folderId, operator: modalOperator, route: code, bound: dirObj?.key || 'I',
+        destName: dirObj?.destName || '終點站', stopId: stopObj.stopId, stopName: stopObj.name_tc,
+        fiveStops: [stopObj.name_tc, stopObj.name_tc, stopObj.name_tc, stopObj.name_tc, stopObj.name_tc]
+      };
+      if (isAddingNewRoute) activeCards.push(newCard); else activeCards[modalEditingSlot] = newCard;
+      saveActiveCards(); closeRouteModal(); renderFoldersBar(); buildCardsSkeleton(); refreshAll(true);
+    }
+
+    // 全局初始化
     function updateClock() {
       const now = new Date();
-      flipClockCard('clock-hh', String(now.getHours()).padStart(2, '0'));
-      flipClockCard('clock-mm', String(now.getMinutes()).padStart(2, '0'));
-      flipClockCard('clock-ss', String(now.getSeconds()).padStart(2, '0'));
+      document.getElementById('clock-hh').setAttribute('data-val', String(now.getHours()).padStart(2, '0'));
+      document.getElementById('clock-mm').setAttribute('data-val', String(now.getMinutes()).padStart(2, '0'));
+      document.getElementById('clock-ss').setAttribute('data-val', String(now.getSeconds()).padStart(2, '0'));
       document.getElementById('current-date').textContent = now.toLocaleDateString('zh-HK', { month: 'short', day: 'numeric', weekday: 'short' });
+      if (!isFetchingEtas) {
+        refreshCountdown--;
+        if (refreshCountdown <= 0) { refreshCountdown = REFRESH_INTERVAL_SEC; refreshAll(false); }
+        document.getElementById('countdown').textContent = refreshCountdown;
+      }
     }
-    function flipClockCard(id, val) { const el = document.getElementById(id); if (el) el.querySelector('.sfc-top').textContent = val; }
     setInterval(updateClock, 1000);
+
+    async function refreshAll(init = false) {
+      if (init || slowSyncCounter % 6 === 0) fetchTdTrafficNews().catch(() => {});
+      if (init || slowSyncCounter % 12 === 0) fetchWeather().catch(() => {});
+      slowSyncCounter++;
+      if (isFetchingEtas && !init) return;
+      isFetchingEtas = true;
+      try {
+        await fetchAllActiveCards();
+        document.getElementById('last-updated').textContent = `最後更新：${new Date().toLocaleTimeString('zh-HK', { hour12: false })}`;
+      } finally { isFetchingEtas = false; }
+    }
 
     // 啟動
     setUiStyle(currentUiStyle);
     setUiMode(currentUiMode);
-    renderModularLayout();
-    fetchWeather();
+    updateTrackAnimButtonUI();
+    renderWeatherRegionsBar();
+    evaluateAndRenderAllTrafficMonitors();
+    renderFoldersBar();
+    buildCardsSkeleton();
+    requestUserGpsNow(true);
+    refreshAll(true);
   </script>
 </body>
 </html>
