@@ -2,7 +2,9 @@
 <html lang="zh-HK">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>香港實時交通及分區天氣看板</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -15,18 +17,18 @@
       --bg-board: radial-gradient(at 0% 0%, #c7d2fe 0px, transparent 55%),
                   radial-gradient(at 95% 10%, #bae6fd 0px, transparent 50%),
                   radial-gradient(at 50% 100%, #fde68a 0px, transparent 55%), #e2e8f0;
-      --panel-bg: rgba(255, 255, 255, 0.65);
-      --panel-border: rgba(255, 255, 255, 0.8);
+      --panel-bg: rgba(255, 255, 255, 0.68);
+      --panel-border: rgba(255, 255, 255, 0.82);
       --panel-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
       --panel-radius: 22px;
       --panel-blur: blur(28px) saturate(190%);
-      --row-bg: rgba(255, 255, 255, 0.62);
-      --row-border: rgba(255, 255, 255, 0.85);
+      --row-bg: rgba(255, 255, 255, 0.65);
+      --row-border: rgba(255, 255, 255, 0.88);
       --row-radius: 16px;
-      --tile-bg: rgba(255, 255, 255, 0.85);
+      --tile-bg: rgba(255, 255, 255, 0.88);
       --tile-border: rgba(15, 23, 42, 0.08);
       --tile-radius: 10px;
-      --btn-bg: rgba(255, 255, 255, 0.75);
+      --btn-bg: rgba(255, 255, 255, 0.78);
       --btn-border: rgba(15, 23, 42, 0.1);
       --btn-radius: 12px;
       --text-main: #0f172a;
@@ -34,8 +36,9 @@
       --text-muted: #64748b;
       --accent-color: #0284c7;
       --urgent-color: #059669;
-      --track-bg: rgba(15, 23, 42, 0.85);
+      --track-bg: rgba(15, 23, 42, 0.88);
       --track-border: rgba(255, 255, 255, 0.2);
+      --dock-bg: rgba(255, 255, 255, 0.86);
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Noto Sans HK', sans-serif;
     }
 
@@ -43,12 +46,12 @@
       --bg-board: radial-gradient(at 5% 5%, #1e1b4b 0px, transparent 55%),
                   radial-gradient(at 95% 15%, #0f2942 0px, transparent 55%),
                   radial-gradient(at 50% 95%, #111827 0px, transparent 60%), #060913;
-      --panel-bg: rgba(28, 36, 56, 0.55);
+      --panel-bg: rgba(28, 36, 56, 0.58);
       --panel-border: rgba(255, 255, 255, 0.14);
       --panel-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
       --panel-radius: 22px;
       --panel-blur: blur(28px) saturate(190%);
-      --row-bg: rgba(15, 23, 42, 0.52);
+      --row-bg: rgba(15, 23, 42, 0.55);
       --row-border: rgba(255, 255, 255, 0.08);
       --row-radius: 16px;
       --tile-bg: rgba(255, 255, 255, 0.1);
@@ -62,8 +65,9 @@
       --text-muted: #94a3b8;
       --accent-color: #38bdf8;
       --urgent-color: #34d399;
-      --track-bg: rgba(7, 11, 20, 0.78);
+      --track-bg: rgba(7, 11, 20, 0.82);
       --track-border: rgba(255, 255, 255, 0.1);
+      --dock-bg: rgba(15, 23, 42, 0.88);
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Noto Sans HK', sans-serif;
     }
 
@@ -75,11 +79,11 @@
       --panel-bg: #e8eef8;
       --panel-border: transparent;
       --panel-shadow: none;
-      --panel-radius: 28px;
+      --panel-radius: 26px;
       --panel-blur: none;
       --row-bg: #ffffff;
       --row-border: transparent;
-      --row-radius: 20px;
+      --row-radius: 18px;
       --tile-bg: #d3e3fd;
       --tile-border: transparent;
       --tile-radius: 14px;
@@ -93,6 +97,7 @@
       --urgent-color: #146c2e;
       --track-bg: #1e2430;
       --track-border: transparent;
+      --dock-bg: rgba(232, 238, 248, 0.95);
       font-family: 'Roboto', 'Noto Sans HK', sans-serif;
     }
 
@@ -101,11 +106,11 @@
       --panel-bg: #1e2026;
       --panel-border: transparent;
       --panel-shadow: none;
-      --panel-radius: 28px;
+      --panel-radius: 26px;
       --panel-blur: none;
       --row-bg: #292c34;
       --row-border: transparent;
-      --row-radius: 20px;
+      --row-radius: 18px;
       --tile-bg: #28436c;
       --tile-border: transparent;
       --tile-radius: 14px;
@@ -119,6 +124,7 @@
       --urgent-color: #6dd58c;
       --track-bg: #14171d;
       --track-border: transparent;
+      --dock-bg: rgba(30, 32, 38, 0.95);
       font-family: 'Roboto', 'Noto Sans HK', sans-serif;
     }
 
@@ -149,6 +155,7 @@
       --urgent-color: #047857;
       --track-bg: #0f172a;
       --track-border: #334155;
+      --dock-bg: rgba(226, 232, 240, 0.96);
       font-family: 'Noto Sans HK', sans-serif;
     }
 
@@ -176,17 +183,101 @@
       --urgent-color: #34d399;
       --track-bg: #070b12;
       --track-border: #1e293b;
+      --dock-bg: rgba(17, 23, 38, 0.96);
       font-family: 'Noto Sans HK', sans-serif;
     }
 
     /* =========================================================================
-       共用元件與自適應風格轉換
+       共用元件與「普通模式 (ui-normal) / 手機模式 (ui-mobile)」切換規則
        ========================================================================= */
     body {
       background: var(--bg-board);
       background-attachment: fixed;
       color: var(--text-main);
       transition: background 0.35s ease, color 0.35s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ----- 普通模式 (ui-normal：之前的經典寬屏 UI) ----- */
+    body.ui-normal {
+      padding-bottom: 0.85rem !important;
+    }
+    body.ui-normal .app-shell {
+      max-width: 80rem; /* max-w-7xl */
+    }
+    body.ui-normal .only-mobile-ui {
+      display: none !important;
+    }
+    body.ui-normal #traffic-monitors-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      body.ui-normal #traffic-monitors-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 1024px) {
+      body.ui-normal #traffic-monitors-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    body.ui-normal #cards-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 0.625rem;
+    }
+    @media (min-width: 768px) {
+      body.ui-normal #cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* ----- 手機模式 (ui-mobile：全新設計的直向豎屏 UI) ----- */
+    body.ui-mobile {
+      padding-bottom: 4.8rem !important;
+    }
+    body.ui-mobile .app-shell {
+      max-width: 440px !important;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    body.ui-mobile .only-normal-ui {
+      display: none !important;
+    }
+    body.ui-mobile .airport-panel {
+      border-radius: 18px;
+    }
+    body.ui-mobile #weather-regions-container,
+    body.ui-mobile #folders-bar {
+      flex-wrap: nowrap !important;
+    }
+    body.ui-mobile #traffic-monitors-grid {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      gap: 0.5rem;
+      padding-bottom: 2px;
+    }
+    body.ui-mobile #traffic-monitors-grid > div {
+      min-width: 235px;
+      flex-shrink: 0;
+    }
+    body.ui-mobile #cards-grid {
+      display: grid !important;
+      grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+      gap: 0.6rem;
+    }
+    body.ui-mobile .mobile-bottom-dock {
+      display: flex !important;
+      max-width: 440px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 20px 20px 0 0;
     }
 
     .mono-num {
@@ -263,7 +354,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.15rem 0.45rem;
+      padding: 0.12rem 0.42rem;
       color: var(--accent-color);
     }
 
@@ -381,22 +472,23 @@
       background-color: var(--track-bg);
       border: 1.5px solid var(--track-border);
       border-radius: var(--row-radius);
-      padding: 7px 10px 6px 10px;
+      padding: 6px 8px 5px 8px;
       position: relative;
       color: #f8fafc;
+      transition: all 0.25s ease;
     }
 
     .jr-track-container {
       position: relative;
-      height: 36px;
-      margin: 0 8%;
+      height: 34px;
+      margin: 0 7%;
     }
 
     .jr-rail-line {
       position: absolute;
       left: 0;
       right: 0;
-      top: 22px;
+      top: 21px;
       height: 4px;
       background: linear-gradient(90deg, #334155 0%, #475569 75%, #10b981 100%);
       border-radius: 999px;
@@ -405,9 +497,9 @@
 
     .jr-chevron {
       position: absolute;
-      top: 13px;
+      top: 12px;
       transform: translateX(-50%);
-      font-size: 11px;
+      font-size: 10px;
       color: #64748b;
       z-index: 2;
       letter-spacing: -2px;
@@ -421,10 +513,10 @@
 
     .jr-station-node {
       position: absolute;
-      top: 15px;
+      top: 14px;
       transform: translateX(-50%);
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
       border-radius: 6px;
       background-color: #1e293b;
       border: 2px solid #94a3b8;
@@ -441,9 +533,9 @@
     }
 
     .jr-station-node.is-target {
-      width: 22px;
-      height: 22px;
-      top: 13px;
+      width: 21px;
+      height: 21px;
+      top: 12px;
       border-color: #34d399;
       background-color: #064e3b;
       box-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
@@ -477,13 +569,13 @@
     .jr-bus-pill {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
-      padding: 1px 7px;
+      gap: 2px;
+      padding: 1px 6px;
       border-radius: 9999px;
       background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
       color: #090d16;
       font-weight: 900;
-      font-size: 11px;
+      font-size: 10.5px;
       line-height: 1.2;
       border: 1.5px solid #fef08a;
       box-shadow: 0 0 12px rgba(251, 191, 36, 0.9), 0 2px 4px rgba(0,0,0,0.6);
@@ -523,10 +615,20 @@
       box-shadow: 0 0 0 2px var(--accent-color), 0 4px 12px rgba(2, 132, 199, 0.25);
     }
 
+    /* 手機模式專用底部懸浮導航列 (Bottom Dock) */
+    .mobile-bottom-dock {
+      background: var(--dock-bg);
+      border-top: 1px solid var(--panel-border);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      padding-bottom: env(safe-area-inset-bottom, 6px);
+      box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.28);
+    }
+
     /* 紅 / 黃 / 綠 狀態圓點 */
     .status-dot {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       border-radius: 9999px;
       display: inline-block;
       flex-shrink: 0;
@@ -541,7 +643,7 @@
     }
   </style>
 </head>
-<body class="style-apple theme-dark min-h-screen p-2 md:p-3.5 flex flex-col justify-between select-none">
+<body class="style-apple theme-dark ui-normal min-h-screen p-2 md:p-3.5 flex flex-col justify-between select-none">
 
   <!-- ========================================== -->
   <!-- 夜間黑屏遮罩 (00:00 - 06:00 可選是否自動啟動) -->
@@ -554,16 +656,17 @@
   </div>
 
   <!-- ========================================================= -->
-  <!-- 1. 天文台分區天氣選擇視窗 (Weather Station Modal)           -->
+  <!-- 1. 天文台分區天氣選擇視窗 (支援底部抽屜彈出)               -->
   <!-- ========================================================= -->
-  <div id="weather-modal" class="fixed inset-0 bg-black/75 z-40 hidden items-center justify-center p-3">
-    <div class="airport-panel max-w-2xl w-full p-5 max-h-[90vh] overflow-y-auto">
+  <div id="weather-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
+    <div class="airport-panel max-w-2xl w-full p-4 sm:p-5 max-h-[85vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
+      <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3">
         <div>
-          <h2 class="text-xl font-black text-pri">🌤️ 選擇香港天文台分區天氣</h2>
+          <h2 class="text-lg sm:text-xl font-black text-pri">🌤️ 選擇香港天文台分區天氣</h2>
           <p class="text-xs font-bold text-mut mt-0.5">點擊即可加入或移除頂部顯示的分區氣象站（至少保留 1 個）</p>
         </div>
-        <button onclick="closeWeatherModal()" class="ctrl-btn px-3 py-1.5 text-sm font-bold">✕ 關閉</button>
+        <button onclick="closeWeatherModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
       <div id="weather-stations-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-sm"></div>
     </div>
@@ -572,36 +675,37 @@
   <!-- ========================================================= -->
   <!-- 2. 新增 / 修改 實時交通狀態監測視窗 (Traffic Monitor Modal) -->
   <!-- ========================================================= -->
-  <div id="traffic-modal" class="fixed inset-0 bg-black/75 z-40 hidden items-center justify-center p-3">
-    <div class="airport-panel max-w-2xl w-full p-5 max-h-[92vh] overflow-y-auto">
+  <div id="traffic-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
+    <div class="airport-panel max-w-2xl w-full p-4 sm:p-5 max-h-[88vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
+      <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-4">
         <div>
-          <h2 id="traffic-modal-title" class="text-xl font-black text-pri">🚦 新增實時交通監測項目</h2>
+          <h2 id="traffic-modal-title" class="text-lg sm:text-xl font-black text-pri">🚦 新增實時交通監測項目</h2>
           <p class="text-xs font-bold text-mut mt-0.5">支援 18 區、兩區 A➔B 連接道路、指定幹道、港鐵綫路及各隧道橋梁</p>
         </div>
-        <button onclick="closeTrafficModal()" class="ctrl-btn px-3 py-1.5 text-sm font-bold">✕ 關閉</button>
+        <button onclick="closeTrafficModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
 
       <div class="space-y-4 text-sm">
         <div>
           <label class="block font-black text-pri mb-1.5">1. 選擇監測類別：</label>
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
+          <div class="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
             <button type="button" onclick="selectTrafficCategory('district')" id="tcat-district" class="ctrl-btn py-2 px-2 font-black text-xs">📍 18區地區</button>
-            <button type="button" onclick="selectTrafficCategory('corridor')" id="tcat-corridor" class="ctrl-btn py-2 px-2 font-black text-xs">🔗 A➔B 兩區連接</button>
+            <button type="button" onclick="selectTrafficCategory('corridor')" id="tcat-corridor" class="ctrl-btn py-2 px-2 font-black text-xs">🔗 A➔B 連接</button>
             <button type="button" onclick="selectTrafficCategory('road')" id="tcat-road" class="ctrl-btn py-2 px-2 font-black text-xs">🛣️ 指定道路</button>
             <button type="button" onclick="selectTrafficCategory('mtr')" id="tcat-mtr" class="ctrl-btn py-2 px-2 font-black text-xs">🚆 鐵路綫路</button>
-            <button type="button" onclick="selectTrafficCategory('tunnel')" id="tcat-tunnel" class="ctrl-btn py-2 px-2 font-black text-xs">🌉 隧道及橋梁</button>
+            <button type="button" onclick="selectTrafficCategory('tunnel')" id="tcat-tunnel" class="ctrl-btn py-2 px-2 font-black text-xs">🌉 隧道橋梁</button>
           </div>
         </div>
 
-        <div id="traffic-form-body" class="flap-row p-4 space-y-3"></div>
+        <div id="traffic-form-body" class="flap-row p-3.5 sm:p-4 space-y-3"></div>
 
         <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-500/30">
           <button type="button" onclick="resetTrafficMonitorsToDefault()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500">
-            ↺ 還原預設 3 項交通監測
+            ↺ 還原預設 3 項監測
           </button>
           <button type="button" onclick="saveTrafficMonitorItem()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-sm shadow-lg">
-            ✅ 儲存交通監測項目
+            ✅ 儲存交通監測
           </button>
         </div>
       </div>
@@ -611,36 +715,36 @@
   <!-- ========================================================= -->
   <!-- 3. 新增 / 更換 巴士小巴港鐵路線 設定視窗 (Route Modal)     -->
   <!-- ========================================================= -->
-  <div id="route-modal" class="fixed inset-0 bg-black/75 z-40 hidden items-center justify-center p-3">
-    <div class="airport-panel max-w-xl w-full p-5 max-h-[92vh] overflow-y-auto">
-      <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-4">
+  <div id="route-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
+    <div class="airport-panel max-w-xl w-full p-4 sm:p-5 max-h-[90vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
+      <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
+      <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3.5">
         <div>
-          <h2 id="route-modal-title" class="text-xl font-black text-pri">⚙️ 設定交通工具、路線及站點</h2>
+          <h2 id="route-modal-title" class="text-lg sm:text-xl font-black text-pri">⚙️ 設定交通工具、路線及站點</h2>
           <p id="route-modal-slot-label" class="text-xs font-bold text-mut mt-0.5">正在設定看板路線</p>
         </div>
-        <button onclick="closeRouteModal()" class="ctrl-btn px-3 py-1.5 text-sm font-bold">✕ 關閉</button>
+        <button onclick="closeRouteModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
 
-      <div class="space-y-3.5 text-sm">
-        <!-- 選擇所屬資料夾 -->
+      <div class="space-y-3 text-sm">
         <div>
-          <label class="block font-black text-pri mb-1.5">📁 擺放至哪個資料夾：</label>
+          <label class="block font-black text-pri mb-1">📁 擺放至哪個資料夾：</label>
           <select id="modal-folder-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-sky-300 font-black text-sm focus:outline-none">
           </select>
         </div>
 
         <div>
-          <label class="block font-black text-pri mb-1.5">1. 選擇交通工具：</label>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            <button type="button" onclick="selectModalOperator('KMB')" id="op-btn-KMB" class="ctrl-btn py-2 px-3 font-black text-sm">🚌 九巴 KMB</button>
-            <button type="button" onclick="selectModalOperator('GMB')" id="op-btn-GMB" class="ctrl-btn py-2 px-3 font-black text-sm">🚐 專線小巴</button>
-            <button type="button" onclick="selectModalOperator('CTB')" id="op-btn-CTB" class="ctrl-btn py-2 px-3 font-black text-sm">🚍 城巴 CTB</button>
-            <button type="button" onclick="selectModalOperator('MTR')" id="op-btn-MTR" class="ctrl-btn py-2 px-3 font-black text-sm">🚆 港鐵 MTR</button>
+          <label class="block font-black text-pri mb-1">1. 選擇交通工具：</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+            <button type="button" onclick="selectModalOperator('KMB')" id="op-btn-KMB" class="ctrl-btn py-2 px-3 font-black text-xs sm:text-sm">🚌 九巴 KMB</button>
+            <button type="button" onclick="selectModalOperator('GMB')" id="op-btn-GMB" class="ctrl-btn py-2 px-3 font-black text-xs sm:text-sm">🚐 專線小巴</button>
+            <button type="button" onclick="selectModalOperator('CTB')" id="op-btn-CTB" class="ctrl-btn py-2 px-3 font-black text-xs sm:text-sm">🚍 城巴 CTB</button>
+            <button type="button" onclick="selectModalOperator('MTR')" id="op-btn-MTR" class="ctrl-btn py-2 px-3 font-black text-xs sm:text-sm">🚆 港鐵 MTR</button>
           </div>
         </div>
 
         <div id="gmb-region-box" class="hidden">
-          <label class="block font-black text-pri mb-1.5">選擇小巴地區：</label>
+          <label class="block font-black text-pri mb-1">選擇小巴地區：</label>
           <div class="grid grid-cols-3 gap-2">
             <button type="button" onclick="selectGmbRegion('NT')" id="gmb-reg-NT" class="ctrl-btn py-1.5 font-bold text-xs">新界 (NT)</button>
             <button type="button" onclick="selectGmbRegion('KLN')" id="gmb-reg-KLN" class="ctrl-btn py-1.5 font-bold text-xs">九龍 (KLN)</button>
@@ -649,36 +753,36 @@
         </div>
 
         <div>
-          <label class="block font-black text-pri mb-1.5">2. 輸入或選擇路線：</label>
+          <label class="block font-black text-pri mb-1">2. 輸入或選擇路線：</label>
           <div class="flex gap-2">
-            <input id="modal-route-Filter" type="text" oninput="onModalRouteSearch()" placeholder="輸入路線搜尋 (如: 64K, 25K, 74X...)"
-              class="w-1/2 px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm focus:outline-none" />
+            <input id="modal-route-Filter" type="text" oninput="onModalRouteSearch()" placeholder="搜尋 (如: 64K, 25K)"
+              class="w-5/12 px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm focus:outline-none" />
             <select id="modal-route-select" onchange="onModalRouteSelected()"
-              class="w-1/2 px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black text-sm focus:outline-none">
+              class="w-7/12 px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black text-sm focus:outline-none">
               <option value="">載入路線中...</option>
             </select>
           </div>
         </div>
 
         <div>
-          <label class="block font-black text-pri mb-1.5">3. 選擇方向：</label>
+          <label class="block font-black text-pri mb-1">3. 選擇方向：</label>
           <select id="modal-dir-select" onchange="onModalDirSelected()"
-            class="w-full px-3 py-2.5 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm focus:outline-none">
+            class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm focus:outline-none">
             <option value="">請先選擇路線...</option>
           </select>
         </div>
 
         <div>
-          <label class="block font-black text-pri mb-1.5">4. 選擇目標站點（自動連同前 4 站顯示實時車輛位置）：</label>
+          <label class="block font-black text-pri mb-1">4. 選擇目標站點：</label>
           <select id="modal-stop-select"
-            class="w-full px-3 py-2.5 rounded-xl border border-slate-500 bg-slate-900 text-emerald-300 font-black text-sm focus:outline-none">
+            class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-emerald-300 font-black text-sm focus:outline-none">
             <option value="">請先選擇方向...</option>
           </select>
         </div>
 
         <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-500/30">
           <button type="button" onclick="resetAllCardsToDefault()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500">
-            ↺ 還原預設資料夾及路線
+            ↺ 還原預設路線
           </button>
           <button type="button" id="modal-save-btn" onclick="saveModalRouteCard()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-sm shadow-lg">
             ✅ 儲存套用
@@ -691,21 +795,22 @@
   <!-- ========================================================= -->
   <!-- 4. 新增 / 編輯 資料夾及定位條件 設定視窗 (Folder Modal)     -->
   <!-- ========================================================= -->
-  <div id="folder-modal" class="fixed inset-0 bg-black/75 z-40 hidden items-center justify-center p-3">
-    <div class="airport-panel max-w-xl w-full p-5 max-h-[92vh] overflow-y-auto">
-      <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-4">
+  <div id="folder-modal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
+    <div class="airport-panel max-w-xl w-full p-4 sm:p-5 max-h-[90vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
+      <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
+      <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3.5">
         <div>
-          <h2 id="folder-modal-title" class="text-xl font-black text-pri">📁 新增路線資料夾與定位條件</h2>
-          <p class="text-xs font-bold text-mut mt-0.5">設定資料夾專屬座標後，系統可根據你目前所在位置優先顯示最接近的資料夾</p>
+          <h2 id="folder-modal-title" class="text-lg sm:text-xl font-black text-pri">📁 新增路線資料夾與定位條件</h2>
+          <p class="text-xs font-bold text-mut mt-0.5">設定座標後，系統可根據你目前所在位置優先顯示最接近的資料夾</p>
         </div>
-        <button onclick="closeFolderModal()" class="ctrl-btn px-3 py-1.5 text-sm font-bold">✕ 關閉</button>
+        <button onclick="closeFolderModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
 
-      <div class="space-y-4 text-sm">
+      <div class="space-y-3.5 text-sm">
         <div class="grid grid-cols-4 gap-2">
           <div class="col-span-1">
             <label class="block font-black text-pri mb-1">圖示：</label>
-            <select id="folder-icon-input" class="w-full px-2.5 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-black text-base focus:outline-none">
+            <select id="folder-icon-input" class="w-full px-2 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-black text-sm focus:outline-none">
               <option value="🏡">🏡 屋企</option>
               <option value="🏢">🏢 公司</option>
               <option value="🚉">🚉 車站</option>
@@ -719,21 +824,21 @@
           </div>
           <div class="col-span-3">
             <label class="block font-black text-pri mb-1">資料夾名稱：</label>
-            <input id="folder-name-input" type="text" placeholder="例如：屋企出門（林村）、太和轉車、九龍返歸..."
+            <input id="folder-name-input" type="text" placeholder="例如：屋企出門（林村）、太和轉車..."
               class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm focus:outline-none" />
           </div>
         </div>
 
-        <div class="flap-row p-3.5 space-y-3">
+        <div class="flap-row p-3.5 space-y-2.5">
           <div class="flex items-center justify-between flex-wrap gap-2">
-            <label class="font-black text-pri">📍 綁定觸發地點（用於計算距離並優先顯示）：</label>
+            <label class="font-black text-pri text-xs sm:text-sm">📍 綁定觸發地點（距離最近時優先顯示）：</label>
             <button type="button" onclick="fillFolderWithCurrentGps()" class="px-2.5 py-1 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-black text-xs shadow active:scale-95">
               🎯 讀取我目前 GPS 位置
             </button>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-mut mb-1">方式 A：從香港常用地區／地標快速帶入座標：</label>
+            <label class="block text-xs font-bold text-mut mb-1">從香港常用地區／地標快速帶入座標：</label>
             <select id="folder-preset-loc" onchange="onFolderPresetChange()"
               class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-bold text-xs focus:outline-none">
               <option value="">-- 選擇預設地點快速帶入座標（或留空不綁定位置） --</option>
@@ -759,7 +864,7 @@
           </div>
 
           <div class="flex items-center justify-between text-[11px] text-mut pt-1">
-            <span id="folder-gps-hint">提示：當開啟「📍 定位優先」時，距離你最近的資料夾會自動排第一並優先開啟。</span>
+            <span id="folder-gps-hint">當開啟「📍 定位優先」時，距離你最近的資料夾會自動排第一並開啟。</span>
             <button type="button" onclick="clearFolderLocationFields()" class="underline text-rose-400 hover:text-rose-300 shrink-0 ml-2">清除座標</button>
           </div>
         </div>
@@ -780,23 +885,24 @@
   </div>
 
   <!-- ========================================================= -->
-  <!-- 第一排：頂部資訊欄 (標題 + 三大風格選擇器 + 分區天氣 + 時鐘) -->
+  <!-- 主體外層容器 (支援「普通模式」與「手機模式」即時切換)        -->
   <!-- ========================================================= -->
-  <header class="max-w-7xl w-full mx-auto mb-2 airport-panel px-3 py-2">
-    <div class="flex flex-wrap items-center justify-between gap-2.5">
+  <div class="app-shell w-full mx-auto flex-1 flex flex-col gap-2">
 
-      <!-- 左側：標題、日期與三大風格快速切換器 -->
-      <div class="flex items-center gap-3 flex-wrap">
-        <div class="flex items-center gap-2.5">
-          <div class="flap-tile px-2.5 py-1 text-2xl font-black flap-amber">🚌</div>
-          <div>
-            <div class="flex items-center gap-2 flex-wrap">
-              <h1 class="text-lg md:text-xl font-black tracking-wide text-pri">香港實時交通及天氣看板</h1>
-              <span id="wake-badge" class="hidden text-xs font-bold px-2 py-0.5 rounded bg-indigo-600 text-white">
+    <!-- 第一排：頂部資訊欄 -->
+    <header class="airport-panel px-3 py-2">
+      <!-- 頂層：標題 + 普通/手機模式切換器 + 實時時鐘 -->
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="flap-tile px-2 py-0.5 text-xl sm:text-2xl font-black flap-amber shrink-0">🚌</div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <h1 class="text-base sm:text-lg md:text-xl font-black tracking-wide text-pri truncate">香港實時交通及天氣看板</h1>
+              <span id="wake-badge" class="hidden text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-600 text-white shrink-0">
                 🌙 <span id="wake-remaining">60</span>s
               </span>
             </div>
-            <div class="flex items-center gap-2 text-xs font-bold text-mut">
+            <div class="flex items-center gap-1.5 text-[11px] font-bold text-mut truncate">
               <span id="current-date">載入中...</span>
               <span>｜</span>
               <span id="sun-theme-badge">🌅 --:-- 🌇 --:--</span>
@@ -804,40 +910,20 @@
           </div>
         </div>
 
-        <!-- 三大風格選擇器 -->
-        <div class="flap-row p-1 flex items-center gap-1">
-          <button onclick="setUiStyle('apple')" id="style-btn-apple" class="px-2.5 py-1 rounded-lg text-xs font-black transition">
-            🍎 Apple 毛玻璃
+        <!-- 醒目雙模式選擇器：普通模式 (經典看板) vs 手機模式 (直向豎屏 UI) -->
+        <div class="flap-row p-1 flex items-center gap-1 shrink-0">
+          <button onclick="setUiMode('normal')" id="ui-mode-normal" class="px-2.5 py-1 rounded-lg text-xs font-black transition" title="切換至普通模式（經典雙欄大看板 UI）">
+            🖥️ 普通模式
           </button>
-          <button onclick="setUiStyle('android')" id="style-btn-android" class="px-2.5 py-1 rounded-lg text-xs font-black transition">
-            🤖 原裝 Android
-          </button>
-          <button onclick="setUiStyle('flap')" id="style-btn-flap" class="px-2.5 py-1 rounded-lg text-xs font-black transition">
-            ✈️ 機場翻頁
+          <button onclick="setUiMode('mobile')" id="ui-mode-mobile" class="px-2.5 py-1 rounded-lg text-xs font-black transition" title="切換至專為手機豎屏單手操作設計的緊湊型 UI">
+            📱 手機模式
           </button>
         </div>
-      </div>
 
-      <!-- 中間：香港天文台分區天氣（支援自由新增或減少地區） -->
-      <div class="flex items-center gap-2 flex-wrap">
-        <div class="flex items-center gap-1.5">
-          <img id="weather-icon" src="" alt="天氣" class="w-8 h-8 hidden" />
-          <span id="weather-icon-fallback" class="text-xl">🌤️</span>
-          <div id="weather-warnings" class="flex flex-wrap gap-1 max-w-[130px]"></div>
-        </div>
-
-        <div id="weather-regions-container" class="flex items-center flex-wrap gap-1.5"></div>
-
-        <button onclick="openWeatherModal()" class="ctrl-btn px-2.5 py-1.5 text-xs font-black hover:opacity-85 shrink-0" title="新增或減少顯示天氣的分區">
-          ＋ 天氣地區
-        </button>
-      </div>
-
-      <!-- 右側：時鐘 (HH : MM : SS) + 控制按鈕 (含 00:00-06:00 自動黑屏開關) -->
-      <div class="flex items-center gap-2.5 ml-auto sm:ml-0">
-        <div class="text-right">
+        <!-- 實時翻頁時鐘 -->
+        <div class="text-right ml-auto sm:ml-0 shrink-0">
           <div class="flex items-center gap-1 justify-end">
-            <div id="clock-hh" class="split-flap-clock-card mono-num text-xl md:text-3xl font-extrabold" data-val="--">
+            <div id="clock-hh" class="split-flap-clock-card mono-num text-lg sm:text-2xl md:text-3xl font-extrabold" data-val="--">
               <span class="sfc-sizer">88</span>
               <div class="sfc-half sfc-top">--</div>
               <div class="sfc-half sfc-bottom">--</div>
@@ -845,8 +931,8 @@
               <div class="sfc-half sfc-leaf-back">--</div>
               <div class="sfc-hinge"></div>
             </div>
-            <span class="text-lg md:text-2xl font-black text-mut">:</span>
-            <div id="clock-mm" class="split-flap-clock-card mono-num text-xl md:text-3xl font-extrabold" data-val="--">
+            <span class="text-sm sm:text-xl font-black text-mut">:</span>
+            <div id="clock-mm" class="split-flap-clock-card mono-num text-lg sm:text-2xl md:text-3xl font-extrabold" data-val="--">
               <span class="sfc-sizer">88</span>
               <div class="sfc-half sfc-top">--</div>
               <div class="sfc-half sfc-bottom">--</div>
@@ -854,8 +940,8 @@
               <div class="sfc-half sfc-leaf-back">--</div>
               <div class="sfc-hinge"></div>
             </div>
-            <span class="text-lg md:text-2xl font-black text-mut">:</span>
-            <div id="clock-ss" class="split-flap-clock-card mono-num text-xl md:text-3xl font-extrabold" data-val="--">
+            <span class="text-sm sm:text-xl font-black text-mut">:</span>
+            <div id="clock-ss" class="split-flap-clock-card mono-num text-lg sm:text-2xl md:text-3xl font-extrabold" data-val="--">
               <span class="sfc-sizer">88</span>
               <div class="sfc-half sfc-top">--</div>
               <div class="sfc-half sfc-bottom">--</div>
@@ -868,51 +954,85 @@
             更新倒數：<span id="countdown" class="text-pri mono-num">5</span>s
           </div>
         </div>
-
-        <div class="grid grid-cols-3 gap-1">
-          <button onclick="openAddRouteModal()" class="px-2 py-1 rounded-lg text-xs font-black bg-amber-500 hover:bg-amber-400 text-black shadow active:scale-95" title="新增巴士/小巴/港鐵路線">
-            ➕ 路線
-          </button>
-          <button onclick="refreshAll(true)" class="ctrl-btn px-2 py-1 text-xs font-bold" title="立即更新">🔄 刷新</button>
-          <button onclick="cycleThemeMode()" id="theme-mode-btn" class="ctrl-btn px-2 py-1 text-xs font-bold" title="切換深淺主題">🌓 自動</button>
-          <button onclick="toggleAutoNightSleep()" id="auto-sleep-btn" class="ctrl-btn px-2 py-1 text-xs font-bold col-span-2" title="切換是否於 00:00–06:00 自動進入黑屏省電模式">
-            🌙 自動黑屏: 開
-          </button>
-          <button onclick="toggleFullScreen()" class="ctrl-btn px-2 py-1 text-xs font-bold" title="全螢幕">⛶ 全屏</button>
-        </div>
       </div>
 
-    </div>
-  </header>
+      <!-- 中層：天文台分區天氣列 (手機模式下支援單指左右滑動) -->
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 mt-2 border-t border-slate-500/20">
+        <div class="flex items-center gap-1 shrink-0">
+          <img id="weather-icon" src="" alt="天氣" class="w-7 h-7 hidden" />
+          <span id="weather-icon-fallback" class="text-lg">🌤️</span>
+          <div id="weather-warnings" class="flex gap-1"></div>
+        </div>
 
-  <!-- ========================================================= -->
-  <!-- 主內容區                                                   -->
-  <!-- ========================================================= -->
-  <main class="max-w-7xl w-full mx-auto flex-1 flex flex-col gap-2">
+        <div id="weather-regions-container" class="flex items-center gap-1.5 flex-wrap shrink-0"></div>
 
-    <!-- 第二排：🚦 自訂實時交通狀態監測面板 -->
+        <button onclick="openWeatherModal()" class="ctrl-btn px-2.5 py-1 text-xs font-black hover:opacity-85 shrink-0" title="新增或減少顯示天氣的分區">
+          ＋ 天氣地區
+        </button>
+      </div>
+
+      <!-- 底層：視覺風格 + 到站路軌動畫開關 + 00:00-06:00 黑屏開關 + 操作按鈕 -->
+      <div class="flex items-center justify-between gap-1.5 overflow-x-auto no-scrollbar pt-2 mt-1.5 border-t border-slate-500/20">
+        <!-- 三大視覺風格切換 -->
+        <div class="flap-row p-0.5 flex items-center gap-0.5 shrink-0">
+          <button onclick="setUiStyle('apple')" id="style-btn-apple" class="px-2 py-1 rounded-lg text-[11px] font-black transition">
+            🍎 Apple 毛玻璃
+          </button>
+          <button onclick="setUiStyle('android')" id="style-btn-android" class="px-2 py-1 rounded-lg text-[11px] font-black transition">
+            🤖 原裝 Android
+          </button>
+          <button onclick="setUiStyle('flap')" id="style-btn-flap" class="px-2 py-1 rounded-lg text-[11px] font-black transition">
+            ✈️ 機場翻頁
+          </button>
+        </div>
+
+        <!-- 快捷控制開關區 -->
+        <div class="flex items-center gap-1 shrink-0">
+          <button onclick="toggleTrackAnimation()" id="track-anim-btn" class="ctrl-btn px-2.5 py-1 text-xs font-black shrink-0" title="選擇是否開啟 5 站實時到站路軌動畫">
+            🚌 路軌動畫: 開
+          </button>
+          <button onclick="toggleAutoNightSleep()" id="auto-sleep-btn" class="ctrl-btn px-2.5 py-1 text-xs font-bold shrink-0" title="切換是否於 00:00–06:00 自動進入黑屏省電模式">
+            🌙 自動黑屏: 開
+          </button>
+          <button onclick="cycleThemeMode()" id="theme-mode-btn" class="ctrl-btn px-2 py-1 text-xs font-bold shrink-0" title="切換深淺主題">
+            🌓 自動
+          </button>
+          <button onclick="openAddRouteModal()" class="only-normal-ui px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500 hover:bg-amber-400 text-black shadow shrink-0">
+            ➕ 路線
+          </button>
+          <button onclick="refreshAll(true)" class="only-normal-ui ctrl-btn px-2 py-1 text-xs font-bold shrink-0">
+            🔄 刷新
+          </button>
+          <button onclick="toggleFullScreen()" class="ctrl-btn px-2 py-1 text-xs font-bold shrink-0" title="全螢幕">
+            ⛶ 全屏
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 第二排：🚦 自訂實時交通狀態監測面板 (普通模式為 3 欄格網，手機模式為單排橫滑膠囊) -->
     <section class="airport-panel px-3.5 py-2.5">
-      <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-        <div class="flex items-center gap-3 flex-wrap">
-          <span class="text-xs md:text-sm font-black tracking-wider text-pri uppercase">🚦 實時交通狀態及路況預測</span>
-          <div class="flex items-center gap-2.5 text-[11px] font-bold text-mut">
+      <div class="flex items-center justify-between gap-2 mb-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span class="text-xs sm:text-sm font-black tracking-wider text-pri truncate">🚦 實時交通狀態及路況預測</span>
+          <div class="only-normal-ui hidden sm:flex items-center gap-2 text-[11px] font-bold text-mut">
             <span class="flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></i>正常</span>
             <span class="flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></i>異常</span>
             <span class="flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></i>嚴重事故</span>
           </div>
         </div>
 
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-1.5 shrink-0">
           <button onclick="toggleTrafficDetail()" class="ctrl-btn px-2.5 py-1 text-xs font-bold">
             📋 事故原文
           </button>
           <button onclick="openAddTrafficModal()" class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500 hover:bg-emerald-400 text-black shadow active:scale-95">
-            ＋ 新增交通監測
+            ＋ 新增監測
           </button>
         </div>
       </div>
 
-      <div id="traffic-monitors-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2"></div>
+      <div id="traffic-monitors-grid" class="no-scrollbar"></div>
       <div id="traffic-detail-box" class="hidden mt-2 pt-2 border-t border-slate-500/30 text-xs font-bold text-sec space-y-1"></div>
     </section>
 
@@ -920,43 +1040,70 @@
     <section class="airport-panel px-3.5 py-2">
       <div class="flex flex-wrap items-center justify-between gap-2">
         <!-- 資料夾清單 -->
-        <div class="flex items-center gap-1.5 flex-wrap flex-1 min-w-0">
-          <span class="text-xs font-black text-mut shrink-0 mr-0.5">📁 路線分類：</span>
-          <div id="folders-bar" class="flex items-center gap-1.5 flex-wrap"></div>
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-1 min-w-0">
+          <span class="only-normal-ui text-xs font-black text-mut shrink-0 mr-0.5">📁 路線分類：</span>
+          <div id="folders-bar" class="flex items-center gap-1.5 flex-wrap shrink-0"></div>
           <button onclick="openAddFolderModal()" class="ctrl-btn px-2.5 py-1 text-xs font-black hover:opacity-85 shrink-0" title="新增分類資料夾及設定地點座標">
             ＋ 新增資料夾
           </button>
         </div>
 
-        <!-- 定位優先控制區 -->
-        <div class="flex items-center gap-1.5 shrink-0">
-          <span id="gps-status-badge" class="text-[11px] font-bold text-mut hidden sm:inline">📍 定位未啟用</span>
-          <button onclick="requestUserGpsNow(true)" class="ctrl-btn px-2 py-1 text-xs font-bold" title="立即重新感應目前 GPS 位置並排序資料夾">
-            🎯 重新定位
-          </button>
-          <button onclick="toggleGeoAutoFolder()" id="geo-priority-btn" class="ctrl-btn px-2.5 py-1 text-xs font-black" title="開啟後會根據你目前距離哪個資料夾的指定地點最近，自動優先顯示該資料夾">
-            📍 定位優先: 開
-          </button>
+        <!-- 定位優先狀態與控制區 -->
+        <div class="flex items-center justify-between sm:justify-end gap-1.5 shrink-0 w-full sm:w-auto border-t sm:border-t-0 border-slate-500/20 pt-1.5 sm:pt-0">
+          <span id="gps-status-badge" class="text-[11px] font-bold text-mut truncate">📍 定位準備中</span>
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="requestUserGpsNow(true)" class="ctrl-btn px-2 py-1 text-xs font-bold" title="立即重新感應目前 GPS 位置並排序資料夾">
+              🎯 重新定位
+            </button>
+            <button onclick="toggleGeoAutoFolder()" id="geo-priority-btn" class="ctrl-btn px-2.5 py-1 text-xs font-black" title="開啟後會根據你目前距離哪個資料夾的指定地點最近，自動優先顯示該資料夾">
+              📍 定位優先: 開
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 第四排：可自由增減的路線看板區 (依所選資料夾篩選顯示) -->
-    <section id="cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 flex-1"></section>
+    <!-- 第四排：可自由增減的路線看板區 (依所選資料夾篩選顯示 + 支援開關到站路軌動畫) -->
+    <section id="cards-grid" class="flex-1"></section>
 
-  </main>
+    <!-- 底部狀態列 -->
+    <footer class="mt-1 pt-1 flex flex-wrap items-center justify-between text-[11px] font-bold text-mut gap-2">
+      <div>每 5 秒極速更新 ・ 支援普通模式 / 手機豎屏模式、到站路軌動畫開關及定位優先資料夾</div>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleTrackAnimation()" class="underline hover:opacity-80">🚌 切換路軌動畫</button>
+        <button onclick="resetAllCardsToDefault()" class="underline hover:opacity-80">↺ 還原預設</button>
+        <button onclick="activateSleepNow()" class="underline hover:opacity-80">🌙 立即黑屏</button>
+        <span id="last-updated">最後更新：--:--:--</span>
+      </div>
+    </footer>
 
-  <!-- 底部狀態列 -->
-  <footer class="max-w-7xl w-full mx-auto mt-1.5 pt-1 flex flex-wrap items-center justify-between text-[11px] font-bold text-mut gap-2">
-    <div>每 5 秒極速更新 ・ 支援資料夾定位優先顯示、三大視覺風格及可選 00:00–06:00 自動黑屏</div>
-    <div class="flex items-center gap-3">
-      <button onclick="openAddFolderModal()" class="underline hover:opacity-80">📁 新增資料夾</button>
-      <button onclick="openAddRouteModal()" class="underline hover:opacity-80">➕ 新增路線</button>
-      <button onclick="resetAllCardsToDefault()" class="underline hover:opacity-80">↺ 還原預設</button>
-      <button onclick="activateSleepNow()" class="underline hover:opacity-80">🌙 立即黑屏</button>
-      <span id="last-updated">最後更新：--:--:--</span>
-    </div>
-  </footer>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 手機模式專用：底部懸浮單手導航列 (Mobile Bottom Dock)       -->
+  <!-- ========================================================= -->
+  <nav class="mobile-bottom-dock only-mobile-ui fixed bottom-0 left-0 right-0 z-30 hidden items-center justify-around px-2 py-1.5">
+    <button onclick="openAddRouteModal()" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95">
+      <span class="text-base leading-none">➕</span>
+      <span class="text-[10px] font-black mt-0.5">加路線</span>
+    </button>
+    <button onclick="openAddFolderModal()" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95">
+      <span class="text-base leading-none">📁</span>
+      <span class="text-[10px] font-black mt-0.5">加資料夾</span>
+    </button>
+    <button onclick="toggleTrackAnimation()" class="flex flex-col items-center justify-center py-0.5 px-2 active:scale-95">
+      <span class="text-base leading-none">🚌</span>
+      <span id="dock-track-label" class="text-[10px] font-black mt-0.5 text-emerald-400">路軌:開</span>
+    </button>
+    <button onclick="requestUserGpsNow(true)" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95">
+      <span class="text-base leading-none">📍</span>
+      <span id="dock-gps-label" class="text-[10px] font-black mt-0.5">重新定位</span>
+    </button>
+    <button onclick="setUiMode('normal')" class="flex flex-col items-center justify-center py-0.5 px-2 text-pri active:scale-95">
+      <span class="text-base leading-none">🖥️</span>
+      <span class="text-[10px] font-black mt-0.5">普通模式</span>
+    </button>
+  </nav>
 
   <script>
     // =========================================================================
@@ -980,7 +1127,7 @@
     }
 
     // =========================================================================
-    // 0. 視覺風格切換器 (風格1: apple / 風格2: android / 風格3: flap)
+    // 0. 視覺風格切換器 + 普通模式/手機模式切換器 + 到站路軌動畫開關
     // =========================================================================
     const UI_STYLE_KEY = 'dashboard_ui_style_v1';
     let currentUiStyle = localStorage.getItem(UI_STYLE_KEY) || 'apple';
@@ -997,11 +1144,92 @@
         const btn = document.getElementById(`style-btn-${s}`);
         if (!btn) return;
         if (s === styleName) {
-          btn.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-sky-500 text-white shadow transition';
+          btn.className = 'px-2 py-1 rounded-lg text-[11px] font-black bg-sky-500 text-white shadow transition';
         } else {
-          btn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-mut hover:text-pri transition';
+          btn.className = 'px-2 py-1 rounded-lg text-[11px] font-bold text-mut hover:text-pri transition';
         }
       });
+    }
+
+    // 普通模式 (normal) vs 手機模式 (mobile) 切換器
+    const UI_LAYOUT_MODE_KEY = 'dashboard_ui_layout_mode_v2';
+    let currentUiMode = localStorage.getItem(UI_LAYOUT_MODE_KEY) || (window.innerWidth < 768 ? 'mobile' : 'normal');
+
+    function setUiMode(mode) {
+      if (!['normal', 'mobile'].includes(mode)) mode = 'normal';
+      currentUiMode = mode;
+      localStorage.setItem(UI_LAYOUT_MODE_KEY, mode);
+
+      document.body.classList.toggle('ui-normal', mode === 'normal');
+      document.body.classList.toggle('ui-mobile', mode === 'mobile');
+
+      const btnNormal = document.getElementById('ui-mode-normal');
+      const btnMobile = document.getElementById('ui-mode-mobile');
+      if (btnNormal && btnMobile) {
+        if (mode === 'normal') {
+          btnNormal.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500 text-black shadow transition';
+          btnMobile.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-mut hover:text-pri transition';
+        } else {
+          btnMobile.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500 text-black shadow transition';
+          btnNormal.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-mut hover:text-pri transition';
+        }
+      }
+    }
+
+    // 到站 5 站路軌動畫顯示開關 (支援全域開關 + 單張卡片獨立開關)
+    const SHOW_TRACK_ANIM_KEY = 'dashboard_show_track_anim_v1';
+    let showTrackAnimation = localStorage.getItem(SHOW_TRACK_ANIM_KEY) !== 'false'; // 預設開啟
+    const perCardTrackOverride = {};
+
+    function updateTrackAnimButtonUI() {
+      const topBtn = document.getElementById('track-anim-btn');
+      const dockLabel = document.getElementById('dock-track-label');
+      if (topBtn) {
+        if (showTrackAnimation) {
+          topBtn.textContent = '🚌 路軌動畫: 開';
+          topBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500 text-black shadow shrink-0 transition';
+        } else {
+          topBtn.textContent = '🚌 路軌動畫: 關';
+          topBtn.className = 'ctrl-btn px-2.5 py-1 text-xs font-bold text-mut shrink-0 transition';
+        }
+      }
+      if (dockLabel) {
+        dockLabel.textContent = showTrackAnimation ? '路軌:開' : '路軌:關';
+        dockLabel.className = showTrackAnimation
+          ? 'text-[10px] font-black mt-0.5 text-emerald-400'
+          : 'text-[10px] font-bold mt-0.5 text-mut';
+      }
+    }
+
+    function isCardTrackVisible(cardIdx) {
+      if (perCardTrackOverride[cardIdx] !== undefined) {
+        return perCardTrackOverride[cardIdx];
+      }
+      return showTrackAnimation;
+    }
+
+    function toggleTrackAnimation() {
+      showTrackAnimation = !showTrackAnimation;
+      localStorage.setItem(SHOW_TRACK_ANIM_KEY, String(showTrackAnimation));
+      Object.keys(perCardTrackOverride).forEach(k => delete perCardTrackOverride[k]);
+      updateTrackAnimButtonUI();
+      buildCardsSkeleton();
+      refreshAll(true);
+    }
+
+    function toggleSingleCardTrack(cardIdx) {
+      const current = isCardTrackVisible(cardIdx);
+      perCardTrackOverride[cardIdx] = !current;
+      const trackBox = document.getElementById(`jr-board-wrap-${cardIdx}`);
+      const toggleBtn = document.getElementById(`card-track-btn-${cardIdx}`);
+      if (trackBox) {
+        trackBox.classList.toggle('hidden', !perCardTrackOverride[cardIdx]);
+      }
+      if (toggleBtn) {
+        toggleBtn.className = perCardTrackOverride[cardIdx]
+          ? 'ctrl-btn px-2 py-1 text-xs font-black flap-amber'
+          : 'ctrl-btn px-2 py-1 text-xs font-bold text-mut opacity-70';
+      }
     }
 
     // =========================================================================
@@ -1017,7 +1245,6 @@
     let latestCorridorMinutes = null;
     let latestKmbRemarks = '';
 
-    // 供資料夾快速選擇的香港常用地點座標庫
     const HK_PRESET_LOCATIONS = [
       { label: '大埔林村（塘面村 / 鍾屋村 / 許願樹）', name: '大埔林村', lat: 22.4562, lng: 114.1425 },
       { label: '太和站 / 太和廣場', name: '太和站', lat: 22.4513, lng: 114.1613 },
@@ -1218,16 +1445,12 @@
       container.innerHTML = selectedWeatherPlaces.map(place => {
         const temp = latestHkoTempMap.has(place) ? `${latestHkoTempMap.get(place)}°C` : '--°C';
         return `
-          <div class="flap-row px-2.5 py-1 flex items-center gap-2">
-            <div>
-              <div class="text-[10px] font-black text-mut leading-none mb-0.5">${place}</div>
-              <div class="flex items-baseline gap-1.5">
-                <span class="flap-tile px-2 py-0.5 text-lg md:text-2xl font-extrabold mono-num flap-amber">${temp}</span>
-                <span class="text-xs font-extrabold mono-num text-sec">${latestHkoHumidity}%</span>
-              </div>
-            </div>
+          <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 shrink-0">
+            <span class="text-xs font-black text-pri">${place}</span>
+            <span class="flap-tile px-1.5 py-0.5 text-sm sm:text-base font-extrabold mono-num flap-amber">${temp}</span>
+            <span class="text-[11px] font-extrabold mono-num text-mut">${latestHkoHumidity}%</span>
             ${selectedWeatherPlaces.length > 1 ? `
-              <button onclick="toggleWeatherPlace('${place}')" class="text-xs font-black text-mut hover:text-rose-400 px-1" title="移除此地區">✕</button>
+              <button onclick="toggleWeatherPlace('${place}')" class="text-[11px] font-black text-mut hover:text-rose-400 pl-0.5" title="移除此地區">✕</button>
             ` : ''}
           </div>
         `;
@@ -1419,16 +1642,16 @@
           if (json.status === 0) {
             const msg = json.message || tdAlert || '列車服務受阻';
             const isSevere = msg.includes('暫停') || msg.includes('嚴重') || msg.includes('事故');
-            mtrLiveStatusCache[lineCode] = { level: isSevere ? 'red' : 'yellow', badge: isSevere ? '嚴重事故' : '異常', sub: msg.slice(0, 26) };
+            mtrLiveStatusCache[lineCode] = { level: isSevere ? 'red' : 'yellow', badge: isSevere ? '嚴重事故' : '異常', sub: msg.slice(0, 24) };
           } else if (json.isdelay === 'Y' || tdAlert) {
-            mtrLiveStatusCache[lineCode] = { level: 'yellow', badge: '延誤', sub: (tdAlert || '港鐵回報班次延誤').slice(0, 26) };
+            mtrLiveStatusCache[lineCode] = { level: 'yellow', badge: '延誤', sub: (tdAlert || '港鐵回報班次延誤').slice(0, 24) };
           } else {
             const downTrains = json?.data?.[`${lineCode}-${meta.sampleSta}`]?.DOWN || [];
             const nextMin = downTrains[0]?.ttnt;
             mtrLiveStatusCache[lineCode] = {
               level: 'green',
               badge: '正常',
-              sub: nextMin ? `全線服務正常（下班約 ${nextMin} 分鐘）` : '全線列車服務正常'
+              sub: nextMin ? `服務正常（下班約 ${nextMin} 分鐘）` : '全線列車服務正常'
             };
           }
         } catch (e) {
@@ -1451,7 +1674,7 @@
         return {
           level: isSevere ? 'red' : 'yellow',
           badge: isSevere ? '嚴重事故' : '異常',
-          sub: matchedNews[0].slice(0, 26) + '...'
+          sub: matchedNews[0].slice(0, 24) + '...'
         };
       }
 
@@ -1473,7 +1696,7 @@
       return {
         level: 'green',
         badge: '正常',
-        sub: item.subLabel ? `${item.subLabel}・交通暢順` : '道路交通暢順'
+        sub: item.subLabel ? `${item.subLabel}・暢順` : '道路交通暢順'
       };
     }
 
@@ -1492,20 +1715,20 @@
         hits.forEach(h => { if (!allRelevantIncidents.includes(h)) allRelevantIncidents.push(h); });
 
         return `
-          <div onclick="toggleTrafficDetail()" class="flap-row px-3 py-2 flex items-center justify-between gap-2 cursor-pointer hover:opacity-95">
-            <div class="flex items-center gap-2.5 min-w-0">
+          <div onclick="toggleTrafficDetail()" class="flap-row px-2.5 py-1.5 flex items-center justify-between gap-2 cursor-pointer hover:opacity-95">
+            <div class="flex items-center gap-2 min-w-0">
               <span class="status-dot ${dotClass}"></span>
               <div class="min-w-0">
-                <div class="text-xs md:text-sm font-black text-pri truncate">${item.title}</div>
-                <div class="text-[11px] font-bold text-mut truncate">${res.sub}</div>
+                <div class="text-xs font-black text-pri truncate">${item.title}</div>
+                <div class="text-[10px] font-bold text-mut truncate">${res.sub}</div>
               </div>
             </div>
 
-            <div class="flex items-center gap-1.5 shrink-0">
-              <span class="flap-tile px-2 py-0.5 text-xs font-black ${badgeColor}">${res.badge}</span>
-              <button onclick="openEditTrafficModal(${idx}, event)" class="ctrl-btn px-1.5 py-0.5 text-[11px] font-bold" title="修改此監測項目">⚙️</button>
+            <div class="flex items-center gap-1 shrink-0">
+              <span class="flap-tile px-1.5 py-0.5 text-[11px] font-black ${badgeColor}">${res.badge}</span>
+              <button onclick="openEditTrafficModal(${idx}, event)" class="ctrl-btn px-1.5 py-0.5 text-[10px] font-bold" title="修改">⚙️</button>
               ${trafficMonitors.length > 1 ? `
-                <button onclick="removeTrafficMonitor(${idx}, event)" class="ctrl-btn px-1.5 py-0.5 text-[11px] font-bold text-rose-500" title="刪除此監測項目">✕</button>
+                <button onclick="removeTrafficMonitor(${idx}, event)" class="ctrl-btn px-1.5 py-0.5 text-[10px] font-bold text-rose-500" title="刪除">✕</button>
               ` : ''}
             </div>
           </div>
@@ -1567,7 +1790,7 @@
           <div>
             <label class="block font-black text-pri mb-1">選擇香港 18 區：</label>
             <select id="tm-dist-select" onchange="onTmDistrictChanged()" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black">
-              ${HK_18_DISTRICTS.map(d => `<option value="${d.code}">${d.name}（包括：${d.subAreas.join('、')}）</option>`).join('')}
+              ${HK_18_DISTRICTS.map(d => `<option value="${d.code}">${d.name}（${d.subAreas.join('、')}）</option>`).join('')}
             </select>
           </div>
           <div>
@@ -1594,7 +1817,6 @@
               <select id="tm-corr-sub-b" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-emerald-300 font-bold"></select>
             </div>
           </div>
-          <p class="text-xs text-mut">系統會自動匹配地區 A 與地區 B 之間的連接幹道、公路及隧道進行實時監測。</p>
         `;
         onTmCorridorDistChanged('a');
         onTmCorridorDistChanged('b');
@@ -1757,9 +1979,9 @@
 
     let routeFolders = loadSavedFolders();
     let currentFolderId = routeFolders[0]?.id || 'ALL';
-    let geoPriorityEnabled = localStorage.getItem(GEO_PRIORITY_KEY) !== 'false'; // 預設開啟定位優先
-    let userManualSelectedFolder = false; // 若用戶手動點選其他分頁，暫停自動跳頁，但仍顯示距離排序
-    let userCurrentCoords = null; // { lat, lng }
+    let geoPriorityEnabled = localStorage.getItem(GEO_PRIORITY_KEY) !== 'false';
+    let userManualSelectedFolder = false;
+    let userCurrentCoords = null;
     let editingFolderId = null;
 
     function loadSavedFolders() {
@@ -1777,7 +1999,6 @@
       localStorage.setItem(FOLDERS_STORAGE_KEY, JSON.stringify(routeFolders));
     }
 
-    // Haversine 計算兩組經緯度之間的直線距離 (公里 km)
     function computeDistanceKm(lat1, lng1, lat2, lng2) {
       if (lat1 == null || lng1 == null || lat2 == null || lng2 == null) return Infinity;
       const R = 6371;
@@ -1795,7 +2016,6 @@
       return `${km.toFixed(1)}km`;
     }
 
-    // 取得依距離由近到遠排序後的資料夾清單
     function getSortedFoldersByGps() {
       const annotated = routeFolders.map(f => {
         const hasCoords = typeof f.lat === 'number' && !isNaN(f.lat) && typeof f.lng === 'number' && !isNaN(f.lng);
@@ -1838,13 +2058,15 @@
 
     function requestUserGpsNow(forceSwitchToNearest = false) {
       const badge = document.getElementById('gps-status-badge');
+      const dockGps = document.getElementById('dock-gps-label');
       if (!navigator.geolocation) {
-        if (badge) badge.textContent = '⚠️ 瀏覽器不支援 GPS';
+        if (badge) badge.textContent = '⚠️ 裝置不支援定位';
         return;
       }
 
       if (forceSwitchToNearest) userManualSelectedFolder = false;
-      if (badge) badge.textContent = '📍 正在定位...';
+      if (badge) badge.textContent = '📍 正在感應位置...';
+      if (dockGps) dockGps.textContent = '定位中...';
 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -1854,8 +2076,9 @@
           };
           applyNearestFolderSelection(forceSwitchToNearest);
         },
-        (err) => {
-          if (badge) badge.textContent = '📍 未授權或無法取得定位';
+        () => {
+          if (badge) badge.textContent = '📍 定位未授權';
+          if (dockGps) dockGps.textContent = '重新定位';
           renderFoldersBar();
         },
         { enableHighAccuracy: true, timeout: 6000, maximumAge: 30000 }
@@ -1866,11 +2089,17 @@
       const sorted = getSortedFoldersByGps();
       const nearest = sorted.find(f => isFinite(f.distKm));
       const badge = document.getElementById('gps-status-badge');
+      const dockGps = document.getElementById('dock-gps-label');
 
       if (nearest) {
+        const distStr = formatDistanceBadge(nearest.distKm);
         if (badge) {
-          badge.textContent = `📍 最近：${nearest.locationName || nearest.name} (${formatDistanceBadge(nearest.distKm)})`;
-          badge.className = 'text-[11px] font-black text-emerald-400 hidden sm:inline';
+          badge.textContent = `📍 最近：${nearest.locationName || nearest.name} (${distStr})`;
+          badge.className = 'text-[11px] font-black text-emerald-400 truncate';
+        }
+        if (dockGps) {
+          dockGps.textContent = distStr;
+          dockGps.className = 'text-[10px] font-black mt-0.5 text-emerald-400';
         }
         if (geoPriorityEnabled && (!userManualSelectedFolder || forceSwitch)) {
           if (currentFolderId !== nearest.id) {
@@ -1881,6 +2110,7 @@
         }
       } else {
         if (badge) badge.textContent = '📍 已定位';
+        if (dockGps) dockGps.textContent = '已定位';
       }
 
       renderFoldersBar();
@@ -1910,24 +2140,24 @@
         const distBadge = isFinite(f.distKm) ? formatDistanceBadge(f.distKm) : (f.locationName || '');
 
         return `
-          <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer transition ${isActive ? 'folder-tab-active' : 'opacity-80 hover:opacity-100'}"
+          <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer shrink-0 transition ${isActive ? 'folder-tab-active' : 'opacity-80 hover:opacity-100'}"
                onclick="selectFolderTab('${f.id}', true)">
             <span>${f.icon || '📁'}</span>
             <span class="text-xs font-black ${isActive ? 'flap-amber' : 'text-pri'}">${f.name}</span>
             <span class="flap-tile px-1.5 py-0.2 text-[10px] font-extrabold mono-num text-mut">${count}</span>
             ${distBadge ? `
               <span class="text-[10px] font-black px-1.5 py-0.2 rounded-full ${isNearest ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'text-mut'}">
-                ${isNearest ? '📍最近 ' : '📍'}${distBadge}
+                ${isNearest ? '📍' : ''}${distBadge}
               </span>
             ` : ''}
-            <button onclick="openEditFolderModal('${f.id}', event)" class="text-[11px] text-mut hover:text-pri ml-0.5" title="編輯資料夾名稱及定位座標">⚙️</button>
+            <button onclick="openEditFolderModal('${f.id}', event)" class="text-[11px] text-mut hover:text-pri ml-0.5" title="編輯資料夾">⚙️</button>
           </div>
         `;
       }).join('');
 
       const isAllActive = currentFolderId === 'ALL';
       const allBtnHtml = `
-        <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer transition ${isAllActive ? 'folder-tab-active' : 'opacity-75 hover:opacity-100'}"
+        <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer shrink-0 transition ${isAllActive ? 'folder-tab-active' : 'opacity-75 hover:opacity-100'}"
              onclick="selectFolderTab('ALL', true)">
           <span>🗂️</span>
           <span class="text-xs font-black ${isAllActive ? 'flap-amber' : 'text-pri'}">全部路線</span>
@@ -1938,7 +2168,6 @@
       bar.innerHTML = folderButtonsHtml + allBtnHtml;
     }
 
-    // 資料夾新增 / 編輯 Modal 邏輯
     function populateFolderPresetLocationsSelect() {
       const sel = document.getElementById('folder-preset-loc');
       if (!sel) return;
@@ -1976,7 +2205,7 @@
           hint.textContent = `✅ 已成功填入目前座標 (${lat}, ${lng})`;
         },
         () => {
-          hint.textContent = '⚠️ 無法取得定位，請確認已允許瀏覽器定位權限，或直接使用上方預設地點選單。';
+          hint.textContent = '⚠️ 無法取得定位，請確認已允許定位權限，或直接使用上方預設地點選單。';
         },
         { enableHighAccuracy: true, timeout: 6000 }
       );
@@ -2099,12 +2328,11 @@
     }
 
     // =========================================================================
-    // 6. 可自由增減的巴士 / 小巴 / 港鐵路線卡配置與 5 站動畫
+    // 6. 可自由增減的巴士 / 小巴 / 港鐵路線卡配置與可選式 5 站到站路軌動畫
     // =========================================================================
     const CARDS_STORAGE_KEY = 'transit_custom_cards_v5';
 
     const DEFAULT_CARDS = [
-      // 資料夾 1：林村 / 鍾屋村 (folder_home)
       {
         folderId: 'folder_home',
         operator: 'KMB', route: '64K', bound: 'I', serviceType: '1', destName: '大埔墟站',
@@ -2129,7 +2357,6 @@
         stopId: '', stopSeq: 0, stopName: '鍾屋村',
         fiveStops: ['川背', '新塘', '新村', '放馬莆(許願樹)', '鍾屋村'], fiveStopIds: [], fiveStopSeqs: []
       },
-      // 資料夾 2：太和 / 大埔墟轉乘 (folder_taiwo)
       {
         folderId: 'folder_taiwo',
         operator: 'KMB', route: '64K', bound: 'O', serviceType: '1', destName: '元朗（西）',
@@ -2142,7 +2369,6 @@
         stopId: 'TWO', stopSeq: 11, stopName: '太和站',
         fiveStops: ['羅湖站', '上水站', '粉嶺站', '太和站', '太和站'], fiveStopIds: [], fiveStopSeqs: []
       },
-      // 資料夾 3：市區 / 九龍返程 (folder_urban)
       {
         folderId: 'folder_urban',
         operator: 'MTR', route: 'EAL', bound: 'UP', serviceType: '1', destName: '羅湖/落馬洲',
@@ -2187,7 +2413,7 @@
 
     function removeRouteCard(slotIdx) {
       if (activeCards.length <= 1) {
-        alert('看板至少需要保留 1 條路線！你可以使用「⚙️ 換線」修改此路線。');
+        alert('看板至少需要保留 1 條路線！你可以使用「⚙️」修改此路線。');
         return;
       }
       activeCards.splice(slotIdx, 1);
@@ -2199,7 +2425,7 @@
 
     function shortStopName(name) {
       if (!name) return '---';
-      return name.replace(/^林錦公路[\s,，、]*近?/g, '').replace(/\([A-Z0-9]+\)$/i, '').replace(/巴士總站|總站/g, '總站').trim().slice(0, 7);
+      return name.replace(/^林錦公路[\s,，、]*近?/g, '').replace(/\([A-Z0-9]+\)$/i, '').replace(/巴士總站|總站/g, '總站').trim().slice(0, 6);
     }
 
     function getVisibleCardsWithOriginalIndex() {
@@ -2216,12 +2442,12 @@
       if (visibleItems.length === 0) {
         const currentFolderObj = routeFolders.find(f => f.id === currentFolderId);
         grid.innerHTML = `
-          <div class="airport-panel p-8 col-span-1 md:col-span-2 text-center space-y-3">
+          <div class="airport-panel p-7 col-span-1 md:col-span-2 text-center space-y-2.5">
             <div class="text-3xl">${currentFolderObj?.icon || '📁'}</div>
-            <div class="text-base md:text-lg font-black text-pri">「${currentFolderObj?.name || '此資料夾'}」目前尚未加入任何路線</div>
-            <p class="text-xs font-bold text-mut">你可以點擊下方按鈕新增巴士、小巴或港鐵路線至此資料夾</p>
+            <div class="text-base font-black text-pri">「${currentFolderObj?.name || '此資料夾'}」尚未加入路線</div>
+            <p class="text-xs font-bold text-mut">點擊下方按鈕即可把常用巴士、小巴或港鐵路線歸類至此</p>
             <button onclick="openAddRouteModal()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-xs shadow">
-              ➕ 立即新增路線至此資料夾
+              ➕ 新增路線至此資料夾
             </button>
           </div>
         `;
@@ -2236,41 +2462,50 @@
           'background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%); color: #fff;';
 
         const opLabel =
-          card.operator === 'KMB' ? 'KMB 九巴' :
-          card.operator === 'GMB' ? 'GMB 小巴' :
-          card.operator === 'CTB' ? 'CTB 城巴' : 'MTR 港鐵';
+          card.operator === 'KMB' ? 'KMB' :
+          card.operator === 'GMB' ? 'GMB' :
+          card.operator === 'CTB' ? 'CTB' : 'MTR';
 
         const folderObj = routeFolders.find(f => f.id === card.folderId);
         const folderBadgeHtml = (currentFolderId === 'ALL' && folderObj)
-          ? `<span class="flap-tile px-2 py-0.5 text-[10px] font-bold text-mut">${folderObj.icon || '📁'} ${folderObj.name}</span>`
+          ? `<span class="flap-tile px-1.5 py-0.5 text-[10px] font-bold text-mut">${folderObj.icon || '📁'}${folderObj.name}</span>`
           : '';
 
         const stops5 = (card.fiveStops && card.fiveStops.length === 5)
           ? card.fiveStops
           : ['前4站', '前3站', '前2站', '上1站', card.stopName || '本站'];
 
+        const trackVisible = isCardTrackVisible(idx);
+
         return `
-          <div class="airport-panel p-3.5 flex flex-col justify-between gap-2">
-            <div class="flex items-center justify-between border-b border-slate-500/25 pb-2 gap-2">
-              <div class="flex items-center gap-2.5 min-w-0">
-                <div id="card-route-badge-${idx}" class="flap-tile px-3 py-0.5 text-xl md:text-2xl font-black mono-num shrink-0" style="${badgeStyle}">
+          <div class="airport-panel p-3 sm:p-3.5 flex flex-col justify-between gap-2">
+            <div class="flex items-center justify-between border-b border-slate-500/25 pb-2 gap-1.5">
+              <div class="flex items-center gap-2 min-w-0">
+                <div id="card-route-badge-${idx}" class="flap-tile px-2.5 py-0.5 text-lg sm:text-2xl font-black mono-num shrink-0" style="${badgeStyle}">
                   ${card.route}
                 </div>
                 <div class="min-w-0">
-                  <div id="card-dest-${idx}" class="text-lg md:text-xl font-black text-pri tracking-tight truncate">
-                    往 ${card.destName}
+                  <div class="flex items-center gap-1.5">
+                    <span id="card-dest-${idx}" class="text-base sm:text-xl font-black text-pri tracking-tight truncate">
+                      往 ${card.destName}
+                    </span>
+                    <span class="flap-tile px-1.5 py-0.2 text-[10px] font-black flap-amber shrink-0">${opLabel}</span>
                   </div>
-                  <div id="card-stop-${idx}" class="text-xs font-bold text-mut truncate">
-                    本站：${card.stopName}
+                  <div id="card-stop-${idx}" class="text-[11px] sm:text-xs font-bold text-mut truncate">
+                    📍 本站：${card.stopName}
                   </div>
                 </div>
               </div>
 
-              <div class="flex items-center gap-1.5 shrink-0">
+              <div class="flex items-center gap-1 shrink-0">
                 ${folderBadgeHtml}
-                <span class="flap-tile px-2 py-0.5 text-[11px] font-black flap-amber hidden sm:inline-flex">${opLabel}</span>
-                <button onclick="openRouteModal(${idx})" class="ctrl-btn px-2.5 py-1 text-xs font-black hover:opacity-85" title="更改此格路線、站點或所屬資料夾">
-                  ⚙️ 換線
+                <button id="card-track-btn-${idx}" onclick="toggleSingleCardTrack(${idx})"
+                  class="${trackVisible ? 'ctrl-btn px-2 py-1 text-xs font-black flap-amber' : 'ctrl-btn px-2 py-1 text-xs font-bold text-mut opacity-70'}"
+                  title="單獨展開或收起此路線的 5 站到站路軌動畫">
+                  🚌
+                </button>
+                <button onclick="openRouteModal(${idx})" class="ctrl-btn px-2 py-1 text-xs font-black hover:opacity-85" title="更改路線、站點或資料夾">
+                  ⚙️
                 </button>
                 ${activeCards.length > 1 ? `
                   <button onclick="removeRouteCard(${idx})" class="ctrl-btn px-2 py-1 text-xs font-black text-rose-500 hover:opacity-85" title="刪除此路線卡">
@@ -2280,10 +2515,11 @@
               </div>
             </div>
 
-            <!-- 5 站巴士/列車實時位置移動動畫區 -->
-            <div class="jr-board">
-              <div class="flex items-center justify-end text-[11px] font-bold mb-1 px-1">
-                <span id="jr-status-text-${idx}" class="text-emerald-300 font-black truncate">實時追蹤車輛位置中...</span>
+            <!-- 5 站巴士/列車實時位置移動動畫區 (可選擇開啟或關閉) -->
+            <div id="jr-board-wrap-${idx}" class="jr-board ${trackVisible ? '' : 'hidden'}">
+              <div class="flex items-center justify-between text-[10px] sm:text-[11px] font-bold mb-1 px-0.5">
+                <span class="text-slate-400">實時進站路軌</span>
+                <span id="jr-status-text-${idx}" class="text-emerald-300 font-black truncate">追蹤車輛位置中...</span>
               </div>
 
               <div class="jr-track-container" id="jr-track-${idx}">
@@ -2304,7 +2540,7 @@
 
               <div class="grid grid-cols-5 text-center gap-0.5 mt-1 pt-1 border-t border-slate-700/60">
                 ${stops5.map((stName, sIdx) => `
-                  <div id="jr-stname-${idx}-${sIdx}" class="text-[11px] font-bold truncate px-0.5 ${sIdx === 4 ? 'text-emerald-300 font-black' : 'text-slate-300'}">
+                  <div id="jr-stname-${idx}-${sIdx}" class="text-[10px] sm:text-[11px] font-bold truncate px-0.5 ${sIdx === 4 ? 'text-emerald-300 font-black' : 'text-slate-300'}">
                     ${shortStopName(stName)}
                   </div>
                 `).join('')}
@@ -2313,7 +2549,7 @@
 
             <!-- 到站時間列表 -->
             <div id="eta-card-${idx}" class="space-y-1.5">
-              <div class="flap-row py-3 text-center text-xs font-bold text-mut">正在讀取實時班次...</div>
+              <div class="flap-row py-2.5 text-center text-xs font-bold text-mut">正在讀取實時班次...</div>
             </div>
           </div>
         `;
@@ -2379,21 +2615,21 @@
         if (vIdx === 0) {
           const stopNames = card.fiveStops || ['前4站', '前3站', '前2站', '上1站', card.stopName];
           if (diffSec <= 60) {
-            statusTextEl.textContent = `🟢 頭班車即將進站 (${shortStopName(stopNames[4])})`;
+            statusTextEl.textContent = `🟢 即將進站 (${shortStopName(stopNames[4])})`;
             statusTextEl.className = 'text-emerald-400 font-black truncate animate-pulse';
           } else if (diffSec > 450) {
-            statusTextEl.textContent = `預計 ${diffMin} 分鐘後到達（距本站 4 站以上）`;
+            statusTextEl.textContent = `約 ${diffMin} 分鐘後到達（4站外）`;
             statusTextEl.className = 'text-amber-300 font-bold truncate';
           } else {
             const fromStopIdx = Math.min(3, Math.floor(percent / 25));
             const toStopIdx = fromStopIdx + 1;
             const stopsAway = 4 - fromStopIdx;
-            statusTextEl.textContent = `距本站 ${stopsAway} 站｜正由【${shortStopName(stopNames[fromStopIdx])}】駛往【${shortStopName(stopNames[toStopIdx])}】`;
+            statusTextEl.textContent = `距此 ${stopsAway} 站｜${shortStopName(stopNames[fromStopIdx])} ➔ ${shortStopName(stopNames[toStopIdx])}`;
             statusTextEl.className = 'text-amber-300 font-black truncate';
           }
         }
 
-        const badgeLabel = diffSec <= 60 ? '進站中' : `${diffMin}分`;
+        const badgeLabel = diffSec <= 60 ? '進站' : `${diffMin}分`;
         const pillClass = vIdx === 1 ? 'jr-bus-pill is-second' : (diffSec <= 60 ? 'jr-bus-pill is-arriving' : 'jr-bus-pill');
 
         actorsHtml.push(`
@@ -2518,7 +2754,7 @@
       document.body.classList.toggle('theme-light', useLight);
       document.body.classList.toggle('theme-dark', !useLight);
 
-      document.getElementById('sun-theme-badge').textContent = `🌅 ${sunriseStr} 🌇 ${sunsetStr}`;
+      document.getElementById('sun-theme-badge').textContent = `🌅${sunriseStr} 🌇${sunsetStr}`;
       const btnMap = { auto: '🌓 自動', light: '☀️ 淺色', dark: '🌙 深色' };
       document.getElementById('theme-mode-btn').textContent = btnMap[themeMode];
     }
@@ -2530,9 +2766,8 @@
       applyDayNightTheme(new Date());
     }
 
-    // 00:00 - 06:00 夜間自動黑屏開關邏輯
     const AUTO_NIGHT_SLEEP_KEY = 'dashboard_auto_night_sleep_v1';
-    let autoNightSleepEnabled = localStorage.getItem(AUTO_NIGHT_SLEEP_KEY) !== 'false'; // 預設開啟，可隨時關閉
+    let autoNightSleepEnabled = localStorage.getItem(AUTO_NIGHT_SLEEP_KEY) !== 'false';
     let isSleeping = false;
     let manualSleepForced = false;
     let wakeOverrideUntil = 0;
@@ -2543,10 +2778,10 @@
       if (!btn) return;
       if (autoNightSleepEnabled) {
         btn.textContent = '🌙 自動黑屏: 開';
-        btn.className = 'ctrl-btn px-2 py-1 text-xs font-black flap-amber col-span-2';
+        btn.className = 'ctrl-btn px-2.5 py-1 text-xs font-black flap-amber shrink-0';
       } else {
         btn.textContent = '🌙 自動黑屏: 關';
-        btn.className = 'ctrl-btn px-2 py-1 text-xs font-bold text-mut col-span-2';
+        btn.className = 'ctrl-btn px-2.5 py-1 text-xs font-bold text-mut shrink-0';
       }
     }
 
@@ -2618,7 +2853,6 @@
         return;
       }
 
-      // 只有當用戶開啟了「00:00-06:00 自動黑屏」時才會在凌晨自動休眠
       if (autoNightSleepEnabled && inNightWindow) {
         const remainingWakeSec = Math.ceil((wakeOverrideUntil - Date.now()) / 1000);
         if (remainingWakeSec > 0) {
@@ -2677,8 +2911,8 @@
       if (!container) return;
       if (!etas || etas.length === 0) {
         container.innerHTML = `
-          <div class="flap-row py-3.5 text-center">
-            <span class="flap-tile px-3 py-1 text-sm md:text-base font-black text-mut">${emptyMessage}</span>
+          <div class="flap-row py-3 text-center">
+            <span class="flap-tile px-3 py-1 text-xs sm:text-sm font-black text-mut">${emptyMessage}</span>
           </div>
         `;
         return;
@@ -2703,7 +2937,7 @@
         let countdownFlap = '';
         if (diffMin <= 1) {
           countdownFlap = `
-            <div class="flap-tile ${animClass} px-3 py-1 text-xl md:text-2xl font-black flap-green tracking-wider">
+            <div class="flap-tile ${animClass} px-2.5 py-0.5 text-lg sm:text-2xl font-black flap-green tracking-wider">
               即將到站
             </div>
           `;
@@ -2711,10 +2945,10 @@
           const paddedMin = String(diffMin).padStart(2, '0');
           countdownFlap = `
             <div class="flex items-center gap-1">
-              <div class="flap-tile ${animClass} px-2.5 py-0.5 text-2xl md:text-3xl font-extrabold mono-num ${idx === 0 ? 'flap-amber' : ''}">
+              <div class="flap-tile ${animClass} px-2.5 py-0.5 text-xl sm:text-3xl font-extrabold mono-num ${idx === 0 ? 'flap-amber' : ''}">
                 ${paddedMin}
               </div>
-              <span class="text-xs md:text-sm font-black text-sec">分鐘</span>
+              <span class="text-xs font-black text-sec">分鐘</span>
             </div>
           `;
         }
@@ -2722,15 +2956,15 @@
         const remarkText = item.remark || '實時班次';
 
         return `
-          <div class="flap-row px-3 py-1.5 flex items-center justify-between gap-2">
+          <div class="flap-row px-2.5 py-1.5 flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0">
-              <span class="flap-tile w-7 h-7 text-sm md:text-base font-black mono-num ${idx === 0 ? 'flap-amber' : 'text-mut'} shrink-0">
+              <span class="flap-tile w-6 h-6 sm:w-7 sm:h-7 text-xs sm:text-sm font-black mono-num ${idx === 0 ? 'flap-amber' : 'text-mut'} shrink-0">
                 ${idx + 1}
               </span>
-              <div class="flap-tile ${animClass} px-2 py-0.5 text-lg md:text-xl font-extrabold mono-num text-pri shrink-0">
+              <div class="flap-tile ${animClass} px-2 py-0.5 text-base sm:text-xl font-extrabold mono-num text-pri shrink-0">
                 ${timeStr}
               </div>
-              <span class="text-xs font-bold text-mut truncate">${remarkText}</span>
+              <span class="text-[11px] sm:text-xs font-bold text-mut truncate">${remarkText}</span>
             </div>
             <div class="shrink-0">
               ${countdownFlap}
@@ -2839,7 +3073,7 @@
 
         saveActiveCards();
         const stopLabelEl = document.getElementById(`card-stop-${ activeCards.indexOf(card) }`);
-        if (stopLabelEl) stopLabelEl.textContent = `本站：${card.stopName}`;
+        if (stopLabelEl) stopLabelEl.textContent = `📍 本站：${card.stopName}`;
       }
     }
 
@@ -3323,6 +3557,8 @@
 
     // 啟動執行
     setUiStyle(currentUiStyle);
+    setUiMode(currentUiMode);
+    updateTrackAnimButtonUI();
     updateAutoSleepButtonUI();
     updateGeoPriorityButtonUI();
     renderWeatherRegionsBar();
