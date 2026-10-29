@@ -138,15 +138,11 @@
     .jr-bus-pill.is-second { background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); border-color: #bae6fd; color: #082f49; opacity: 0.92; transform: scale(0.9); }
     @keyframes busHoverBounce { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-2px); } }
 
-    /* 垂直路線詳情路軌 (Route Detail Subpage) */
-    .vertical-track-container { position: relative; padding-left: 16px; }
-    .vertical-track-line { position: absolute; top: 24px; bottom: 24px; left: 32px; width: 4px; background: linear-gradient(180deg, #334155 0%, #38bdf8 60%, #10b981 100%); border-radius: 4px; z-index: 1; }
-    .v-stop-row { display: flex; align-items: center; justify-content: space-between; position: relative; height: 52px; padding-left: 44px; padding-right: 8px; border-radius: 12px; transition: background 0.2s; }
-    .v-stop-row.is-user-stop { background: rgba(16, 185, 129, 0.14); border: 1px solid rgba(52, 211, 153, 0.35); }
-    .v-stop-node { position: absolute; left: 18px; width: 14px; height: 14px; border-radius: 50%; background: #475569; border: 2.5px solid #0f172a; z-index: 2; transform: translateX(-50%); }
+    /* 垂直路線詳情路軌 (含分叉路綫適配) */
+    .v-stop-node { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #475569; border: 2.5px solid #0f172a; z-index: 2; transform: translate(-50%, -50%); margin: 0; }
     .v-stop-node.passed { background: #64748b; }
     .v-stop-node.target { background: #10b981; border-color: #a7f3d0; box-shadow: 0 0 12px rgba(16,185,129,0.95); width: 20px; height: 20px; z-index: 3; }
-    .v-bus-actor { position: absolute; left: 34px; transform: translate(-50%, -50%); z-index: 10; transition: top 0.8s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; }
+    .v-bus-actor { position: absolute; z-index: 10; transition: top 0.8s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; transform: translate(0, -50%); }
 
     .flap-amber { color: var(--accent-color) !important; } .flap-green { color: var(--urgent-color) !important; }
     .text-pri { color: var(--text-main); } .text-sec { color: var(--text-sub); } .text-mut { color: var(--text-muted); }
@@ -849,7 +845,7 @@
       });
     });
 
-    // 港鐵 ETA 通用處理引擎 (自動加上往哪個終點的標籤)
+    // 港鐵 ETA 通用處理引擎 (自動加上往哪個終點的標籤及尾班車判斷)
     function parseMtrEta(t) {
       let destStr = '';
       if (t.dest) {
@@ -863,7 +859,8 @@
       return {
         timestamp: new Date(Date.now() + (Number(t.ttnt) || 0) * 60000).toISOString(),
         diffMin: Number(t.ttnt) || 0,
-        remark: remark
+        remark: remark,
+        isLast: t.isLastTrain === '1' || t.isLastTrain === true // 擷取港鐵 API 的尾班車訊號
       };
     }
 
@@ -1574,7 +1571,6 @@
       return `${km.toFixed(1)}km`;
     }
 
-    // 新增：判斷當前時間是否在指定範圍內 (支援跨夜設定，例如 22:00 - 06:00)
     function isTimeActive(startStr, endStr) {
       if (!startStr || !endStr) return false;
       const now = new Date();
@@ -1593,7 +1589,6 @@
       }
     }
 
-    // 更新：結合時間與 GPS 的智能排序引擎
     function getSortedFolders() {
       return routeFolders.map(f => {
         const hasCoords = typeof f.lat === 'number' && !isNaN(f.lat) && typeof f.lng === 'number' && !isNaN(f.lng);
@@ -1602,13 +1597,11 @@
         return { ...f, distKm, timeActive };
       }).sort((a, b) => {
         if (geoPriorityEnabled) {
-          // 第一優先權：生效時間
           if (a.timeActive && !b.timeActive) return -1;
           if (!a.timeActive && b.timeActive) return 1;
-          // 第二優先權：GPS 距離
           if (userCurrentCoords) return a.distKm - b.distKm;
         }
-        return 0; // 若未開啟智能排序，則維持原有順序
+        return 0;
       });
     }
 
@@ -1648,7 +1641,6 @@
       if (nearest) {
         if (badge) badge.textContent = `📍 最近：${nearest.locationName || nearest.name} (${formatDistanceBadge(nearest.distKm)})`;
         if (geoPriorityEnabled && (!userManualSelectedFolder || forceSwitch)) {
-          // 在有時間優先的條件下，第一名可能是因為時間，所以我們直接取 sorted[0]
           const topFolder = sorted[0];
           if (currentFolderId !== topFolder.id) { currentFolderId = topFolder.id; buildCardsSkeleton(); refreshAll(true); }
         }
@@ -1701,7 +1693,6 @@
         document.getElementById('folder-loc-label').value = f.locationName || '';
         document.getElementById('folder-lat-input').value = f.lat ?? '';
         document.getElementById('folder-lng-input').value = f.lng ?? '';
-        // 新增時間讀取
         document.getElementById('folder-time-start').value = f.startTime || '';
         document.getElementById('folder-time-end').value = f.endTime || '';
       }
@@ -1725,7 +1716,6 @@
       document.getElementById('folder-loc-label').value = '';
       document.getElementById('folder-lat-input').value = '';
       document.getElementById('folder-lng-input').value = '';
-      // 新增清除時間
       document.getElementById('folder-time-start').value = '';
       document.getElementById('folder-time-end').value = '';
     }
@@ -1737,8 +1727,6 @@
       const lng = parseFloat(document.getElementById('folder-lng-input').value);
       const icon = document.getElementById('folder-icon-input').value || '📁';
       const locLabel = document.getElementById('folder-loc-label').value.trim();
-      
-      // 新增取得時間
       const startTime = document.getElementById('folder-time-start').value;
       const endTime = document.getElementById('folder-time-end').value;
 
@@ -1747,14 +1735,14 @@
         if (f) { 
           f.name = name; f.icon = icon; f.locationName = locLabel; 
           f.lat = isNaN(lat) ? null : lat; f.lng = isNaN(lng) ? null : lng; 
-          f.startTime = startTime; f.endTime = endTime; // 更新時間
+          f.startTime = startTime; f.endTime = endTime;
         }
       } else {
         const newId = 'folder_' + Date.now();
         routeFolders.push({ 
           id: newId, name, icon, locationName: locLabel, 
           lat: isNaN(lat) ? null : lat, lng: isNaN(lng) ? null : lng, 
-          startTime, endTime // 寫入時間
+          startTime, endTime
         });
         currentFolderId = newId;
       }
@@ -1956,7 +1944,7 @@
         const raw = (json.data || []).filter(e => e.eta);
         const cleanDestKey = (card.destName || '').replace(/（.*）|\(.*\)|站|總站/g, '').trim().slice(0, 2);
         let fil = raw.filter(e => (cleanDestKey && e.dest_tc && e.dest_tc.includes(cleanDestKey)) || (card.bound && e.dir === card.bound));
-        if (fil.length === 0) fil = rawList;
+        if (fil.length === 0) fil = raw;
         const etas = fil.sort((a, b) => new Date(a.eta) - new Date(b.eta)).map(e => ({
           timestamp: e.eta, diffMin: Math.max(0, Math.floor((new Date(e.eta) - new Date()) / 60000)), remark: e.rmk_tc || '實時班次'
         }));
@@ -2042,12 +2030,25 @@
       container.innerHTML = etas.slice(0, maxCount).map((item, idx) => {
         const diffMin = item.diffMin !== undefined ? Math.max(0, item.diffMin) : Math.max(0, Math.floor((new Date(item.timestamp) - now) / 60000));
         const timeStr = new Date(item.timestamp).toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit', hour12: false });
+        
+        let displayRemark = item.remark || '實時班次';
+        let isLast = item.isLast || displayRemark.includes('尾班');
+        let remarkHtml = '';
+        
+        if (isLast) {
+          let cleanRemark = displayRemark.replace(/尾班車?/g, '').replace(/^-|-$/g, '').trim();
+          if (!cleanRemark) cleanRemark = '實時班次';
+          remarkHtml = `<span class="bg-rose-500 text-white px-1.5 py-0.5 rounded text-[9px] font-black mr-1 shadow-sm">尾班車</span><span class="text-[11px] font-bold text-rose-400 truncate">${cleanRemark}</span>`;
+        } else {
+          remarkHtml = `<span class="text-[11px] font-bold text-mut truncate">${displayRemark}</span>`;
+        }
+
         return `
           <div class="flap-row px-2.5 py-1.5 flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0">
               <span class="flap-tile w-6 h-6 text-xs font-black mono-num ${idx === 0 ? 'flap-amber' : 'text-mut'} shrink-0">${idx + 1}</span>
               <div class="flap-tile px-2 py-0.5 text-base font-extrabold mono-num text-pri shrink-0">${timeStr}</div>
-              <span class="text-[11px] font-bold text-mut truncate">${item.remark || '實時班次'}</span>
+              <div class="flex items-center min-w-0">${remarkHtml}</div>
             </div>
             <div class="shrink-0">
               <div class="flap-tile px-2.5 py-0.5 text-xl font-extrabold mono-num ${diffMin <= 1 ? 'flap-green' : idx === 0 ? 'flap-amber' : ''}">
@@ -2084,15 +2085,19 @@
       etas.slice(0, 2).forEach((item, vIdx) => {
         const diffMin = item.diffMin;
         const diffSec = diffMin * 60;
+        const isLast = item.isLast || (item.remark && item.remark.includes('尾班'));
+        
         let percent = diffSec <= 20 ? 100 : Math.max(0, Math.min(100, Math.round((1 - (diffSec / ((card.operator === 'MTR' ? 130 : 105) * 4))) * 100)));
         if (vIdx === 1 && diffSec > 480) return;
         if (vIdx === 1 && actorsHtml.length > 0) percent = Math.max(0, percent - 12);
+        
         const nearestNodeIdx = Math.min(4, Math.max(0, Math.round(percent / 25)));
         const nodeEl = document.getElementById(`jr-node-${slotIdx}-${nearestNodeIdx}`);
         if (nodeEl) {
           if (nearestNodeIdx === 4 && diffSec <= 60) nodeEl.classList.add('is-arriving');
           else nodeEl.classList.add('is-lit');
         }
+        
         if (vIdx === 0) {
           const stopNames = card.fiveStops || ['前4站', '前3站', '前2站', '上1站', card.stopName];
           if (diffSec <= 60) {
@@ -2106,8 +2111,20 @@
             statusTextEl.textContent = `距此 ${4 - fromStopIdx} 站｜${shortStopName(stopNames[fromStopIdx])} ➔ ${shortStopName(stopNames[fromStopIdx + 1])}`;
             statusTextEl.className = 'text-amber-300 font-black truncate';
           }
+          if (isLast) statusTextEl.textContent = `⚠️ 尾班車 - ${statusTextEl.textContent}`;
         }
-        actorsHtml.push(`<div class="jr-bus-actor" style="left: ${percent}%;"><div class="jr-bus-pill ${vIdx === 1 ? 'is-second' : (diffSec <= 60 ? 'is-arriving' : '')}"><span>${vehicleIcon}</span><span class="mono-num">${diffSec <= 60 ? '進站' : diffMin + '分'}</span></div></div>`);
+        
+        let customStyle = isLast ? 'background: linear-gradient(180deg, #e11d48 0%, #be123c 100%); border-color: #fda4af; color: #fff; box-shadow: 0 0 12px rgba(225, 29, 72, 0.8);' : '';
+        
+        actorsHtml.push(`
+          <div class="jr-bus-actor" style="left: ${percent}%;">
+            <div class="jr-bus-pill ${vIdx === 1 ? 'is-second' : (diffSec <= 60 ? 'is-arriving' : '')}" style="${customStyle}">
+              <span>${vehicleIcon}</span>
+              <span class="mono-num">${diffSec <= 60 ? '進站' : diffMin + '分'}</span>
+            </div>
+            ${isLast ? `<div class="text-[8px] font-black text-rose-300 mt-0.5 leading-none bg-slate-900/80 px-1 py-0.5 rounded whitespace-nowrap">尾班車</div>` : ''}
+          </div>
+        `);
       });
       vehiclesContainer.innerHTML = actorsHtml.join('');
     }
@@ -2241,54 +2258,136 @@
       if (activeDetailCardIdx === null) return;
       let targetIdx = stops.findIndex(s => String(s.id) === String(card.stopId) || s.name_tc === card.stopName || (card.stopName && s.name_tc && s.name_tc.includes(card.stopName)));
       if (targetIdx === -1) targetIdx = Math.max(0, stops.length - 1);
+      const targetStopId = stops[targetIdx]?.id;
 
-      let html = '<div class="vertical-track-container"><div class="vertical-track-line"></div>';
-      stops.forEach((s, idx) => {
-        const isTarget = idx === targetIdx;
-        const isPassed = idx < targetIdx;
-        const nodeClass = isTarget ? 'v-stop-node target' : (isPassed ? 'v-stop-node passed' : 'v-stop-node');
-        const rowClass = isTarget ? 'v-stop-row is-user-stop' : 'v-stop-row';
-        const textClass = isTarget ? 'text-emerald-300 font-black text-sm sm:text-base' : (isPassed ? 'text-slate-300 font-bold text-xs sm:text-sm' : 'text-slate-500 font-semibold text-xs sm:text-sm');
-        html += `
-          <div class="${rowClass}" id="v-stop-${idx}">
-            <div class="${nodeClass}"></div>
-            <div class="flex items-center justify-between w-full min-w-0">
-              <span class="${textClass} truncate">${idx + 1}. ${s.name_tc}</span>
-              ${isTarget ? '<span class="px-2 py-0.5 rounded-full bg-emerald-500 text-black font-black text-[10px] shrink-0">📍 本站</span>' : ''}
-            </div>
+      let trackRows = [];
+      const MTR_ROWS = {
+        EAL: [['ADM'], ['EXC'], ['HUH'], ['MKK'], ['KOT'], ['TAW'], ['SHT'], ['FOT', 'RAC'], ['UNI'], ['TAP'], ['TWO'], ['FAN'], ['SHS'], ['LOW', 'LMC']],
+        TKL: [['NOP'], ['QUB'], ['YAT'], ['TIK'], ['TKO'], ['HAH', 'LHP'], ['POA']]
+      };
+      const MTR_COLS = { RAC: 1, LMC: 1, LHP: 1 };
+      const MTR_BRANCHES = {
+        EAL: [['ADM','EXC'], ['EXC','HUH'], ['HUH','MKK'], ['MKK','KOT'], ['KOT','TAW'], ['TAW','SHT'], ['SHT','FOT'], ['SHT','RAC'], ['FOT','UNI'], ['RAC','UNI'], ['UNI','TAP'], ['TAP','TWO'], ['TWO','FAN'], ['FAN','SHS'], ['SHS','LOW'], ['SHS','LMC']],
+        TKL: [['NOP','QUB'], ['QUB','YAT'], ['YAT','TIK'], ['TIK','TKO'], ['TKO','HAH'], ['HAH','POA'], ['TKO','LHP']]
+      };
+
+      if (card.operator === 'MTR' && MTR_ROWS[card.route]) {
+        let rawLayout = MTR_ROWS[card.route];
+        if (card.bound === 'DOWN') rawLayout = [...rawLayout].reverse();
+        trackRows = rawLayout.map(rowIds => rowIds.map(id => stops.find(s => s.id === id)).filter(Boolean)).filter(row => row.length > 0);
+      } else {
+        trackRows = stops.map(s => [s]);
+      }
+
+      let stopCoords = {};
+      let flatStops = [];
+      trackRows.forEach((row, rowIdx) => {
+        const y = rowIdx * 56 + 26;
+        row.forEach((s, colIdx) => {
+          let col = colIdx; 
+          if (card.operator === 'MTR' && MTR_COLS[s.id] !== undefined) col = MTR_COLS[s.id];
+          const x = col === 0 ? 34 : 104;
+          const isTarget = String(s.id) === String(targetStopId);
+          const isPassed = rowIdx < trackRows.findIndex(r => r.some(st => String(st.id) === String(targetStopId)));
+          
+          const coord = { x, y, isTarget, isPassed, col, ...s };
+          stopCoords[s.id] = coord;
+          flatStops.push(coord);
+        });
+      });
+
+      let edges = [];
+      if (card.operator === 'MTR' && MTR_BRANCHES[card.route]) {
+        edges = MTR_BRANCHES[card.route];
+      } else {
+        for (let i = 0; i < stops.length - 1; i++) edges.push([stops[i].id, stops[i+1].id]);
+      }
+
+      const totalHeight = trackRows.length * 56 + 26;
+      let svgPaths = '';
+      edges.forEach(([id1, id2]) => {
+        const p1 = stopCoords[id1];
+        const p2 = stopCoords[id2];
+        if (p1 && p2) {
+          if (p1.x === p2.x) {
+            svgPaths += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="url(#trackGrad)" stroke-width="4" stroke-linecap="round" />`;
+          } else {
+            svgPaths += `<path d="M ${p1.x} ${p1.y} C ${p1.x} ${(p1.y+p2.y)/2}, ${p2.x} ${(p1.y+p2.y)/2}, ${p2.x} ${p2.y}" fill="none" stroke="url(#trackGrad)" stroke-width="4" stroke-linecap="round" />`;
+          }
+        }
+      });
+
+      let nodesHtml = '';
+      flatStops.forEach(s => {
+        const nodeClass = s.isTarget ? 'v-stop-node target' : (s.isPassed ? 'v-stop-node passed' : 'v-stop-node');
+        const textClass = s.isTarget ? 'text-emerald-300 font-black' : (s.isPassed ? 'text-slate-400 font-bold' : 'text-slate-200 font-semibold');
+        
+        nodesHtml += `
+          <div class="${nodeClass}" style="left: ${s.x}px; top: ${s.y}px;"></div>
+          <div style="position: absolute; left: ${s.x + 16}px; top: ${s.y}px; transform: translateY(-50%); white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis;" class="text-sm ${textClass} tracking-wide">
+            ${s.name_tc}
+            ${s.isTarget ? '<span class="ml-1 px-1.5 py-0.5 rounded-full bg-emerald-500 text-black font-black text-[9px] align-middle shadow-md">📍</span>' : ''}
           </div>
         `;
       });
 
       const icon = card.operator === 'MTR' ? '🚆' : (card.operator === 'GMB' ? '🚐' : '🚌');
+      let actorsHtml = '';
       etas.slice(0, 3).forEach((eta, bIdx) => {
         const diffMin = eta.diffMin !== undefined ? eta.diffMin : 0;
+        const isLast = eta.isLast || (eta.remark && eta.remark.includes('尾班'));
+        
         const minPerStop = card.operator === 'MTR' ? 2.1 : 1.6;
         const estStopsAway = diffMin <= 0.5 ? 0 : (diffMin / minPerStop);
-        const busPosIdx = Math.max(0, Math.min(targetIdx, targetIdx - estStopsAway));
-        const topPx = Math.round(busPosIdx * 52 + 26);
+        
+        const targetRowIdx = trackRows.findIndex(r => r.some(st => String(st.id) === String(targetStopId)));
+        const busPosRowIdx = Math.max(0, Math.min(targetRowIdx, targetRowIdx - estStopsAway));
+        
+        const topPx = busPosRowIdx * 56 + 26;
+        const targetStopCoord = stopCoords[targetStopId];
+        const leftPx = targetStopCoord ? targetStopCoord.x + 14 : 48;
+        
         const pillClass = (bIdx === 0 && diffMin <= 1) ? 'is-arriving' : (bIdx > 0 ? 'is-second' : '');
-        html += `
-          <div class="v-bus-actor" style="top: ${topPx}px;">
-            <div class="jr-bus-pill ${pillClass}">
+        let customStyle = isLast ? 'background: linear-gradient(180deg, #e11d48 0%, #be123c 100%); border-color: #fda4af; color: #fff; box-shadow: 0 0 12px rgba(225, 29, 72, 0.8);' : '';
+        
+        actorsHtml += `
+          <div class="v-bus-actor" style="top: ${topPx}px; left: ${leftPx}px;">
+            <div class="jr-bus-pill ${pillClass}" style="${customStyle}">
               <span>${icon}</span>
               <span class="mono-num">${diffMin <= 1 ? '進站中' : diffMin + '分'}</span>
             </div>
+            ${isLast ? `<div class="text-[9px] font-black text-rose-300 mt-0.5 leading-none bg-slate-900/80 px-1 py-0.5 rounded whitespace-nowrap shadow-sm">尾班車</div>` : ''}
           </div>
         `;
       });
-      html += '</div>';
-      document.getElementById('route-detail-track').innerHTML = html;
 
+      const html = `
+        <div class="relative w-full overflow-x-auto no-scrollbar" style="height: ${totalHeight}px; min-width: 250px;">
+          <svg class="absolute inset-0 pointer-events-none" width="100%" height="${totalHeight}px">
+            <defs>
+              <linearGradient id="trackGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#334155" />
+                <stop offset="60%" stop-color="#38bdf8" />
+                <stop offset="100%" stop-color="#10b981" />
+              </linearGradient>
+            </defs>
+            ${svgPaths}
+          </svg>
+          ${nodesHtml}
+          ${actorsHtml}
+        </div>
+      `;
+
+      document.getElementById('route-detail-track').innerHTML = html;
       document.getElementById('rd-last-update').textContent = `更新於 ${new Date().toLocaleTimeString('zh-HK', { hour12: false })}`;
       renderEtaFlapBoard('route-detail-etas', etas, '目前暫無班次預報', 3);
 
       if (scrollToTarget) {
         setTimeout(() => {
           const scrollArea = document.getElementById('route-detail-scroll-area');
-          const targetEl = document.getElementById(`v-stop-${targetIdx}`);
-          if (scrollArea && targetEl) {
-            scrollArea.scrollTo({ top: Math.max(0, targetEl.offsetTop - scrollArea.clientHeight / 2 + 26), behavior: 'smooth' });
+          const targetCoord = stopCoords[targetStopId];
+          if (scrollArea && targetCoord) {
+            scrollArea.scrollTo({ top: Math.max(0, targetCoord.y - scrollArea.clientHeight / 2), behavior: 'smooth' });
           }
         }, 80);
       }
@@ -2597,7 +2696,6 @@
       checkSleepState(now);
       applyDayNightTheme(now);
 
-      // 新增：每當分鐘改變時，若開啟智能排序，則自動重新洗牌判斷生效時間
       const currentMinute = now.getMinutes();
       if (currentMinute !== lastTickMinute) {
         lastTickMinute = currentMinute;
