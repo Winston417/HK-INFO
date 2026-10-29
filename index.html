@@ -824,22 +824,48 @@
     ];
     let FLAT_PRESET_LOCATIONS = [];
 
-    // 全港 9 條港鐵重鐵綫完整車站字典 (含東鐵、屯馬、荃灣、觀塘、港島、將軍澳、南港島、東涌、機場快綫)
+    // 全港 9 條港鐵重鐵綫完整車站字典 (加入分叉路綫標示 ⑂ 及指定終點方向)
     const MTR_LINES_DATA = {
-      EAL: { name: '港鐵東鐵綫 (EAL)', sampleSta: 'TWO', keywords: ['東鐵綫', '東鐵線', '太和站', '大埔墟站'], stations: [{ id: 'ADM', name: '金鐘' }, { id: 'EXC', name: '會展' }, { id: 'HUH', name: '紅磡' }, { id: 'MKK', name: '旺角東' }, { id: 'KOT', name: '九龍塘' }, { id: 'TAW', name: '大圍' }, { id: 'SHT', name: '沙田' }, { id: 'FOT', name: '火炭' }, { id: 'UNI', name: '大學' }, { id: 'TAP', name: '大埔墟' }, { id: 'TWO', name: '太和' }, { id: 'FAN', name: '粉嶺' }, { id: 'SHS', name: '上水' }, { id: 'LOW', name: '羅湖' }, { id: 'LMC', name: '落馬洲' }] },
-      TML: { name: '港鐵屯馬綫 (TML)', sampleSta: 'TAW', keywords: ['屯馬綫', '屯馬線'], stations: [{ id: 'WKS', name: '烏溪沙' }, { id: 'MOS', name: '馬鞍山' }, { id: 'HEO', name: '恆安' }, { id: 'TSH', name: '大水坑' }, { id: 'SHM', name: '石門' }, { id: 'CIO', name: '第一城' }, { id: 'STW', name: '沙田圍' }, { id: 'CKT', name: '車公廟' }, { id: 'TAW', name: '大圍' }, { id: 'HIK', name: '顯徑' }, { id: 'DIH', name: '鑽石山' }, { id: 'KAT', name: '啟德' }, { id: 'SUW', name: '宋皇臺' }, { id: 'TKW', name: '土瓜灣' }, { id: 'HOM', name: '何文田' }, { id: 'HUH', name: '紅磡' }, { id: 'ETS', name: '尖東' }, { id: 'AUS', name: '柯士甸' }, { id: 'NAC', name: '南昌' }, { id: 'MEF', name: '美孚' }, { id: 'TWW', name: '荃灣西' }, { id: 'KSR', name: '錦上路' }, { id: 'YUL', name: '元朗' }, { id: 'LOP', name: '朗屏' }, { id: 'TIS', name: '天水圍' }, { id: 'SIH', name: '兆康' }, { id: 'TUM', name: '屯門' }] },
-      TWL: { name: '港鐵荃灣綫 (TWL)', sampleSta: 'MOK', keywords: ['荃灣綫', '荃灣線'], stations: [{ id: 'CEN', name: '中環' }, { id: 'ADM', name: '金鐘' }, { id: 'TST', name: '尖沙咀' }, { id: 'JOR', name: '佐敦' }, { id: 'YMT', name: '油麻地' }, { id: 'MOK', name: '旺角' }, { id: 'PRE', name: '太子' }, { id: 'SSP', name: '深水埗' }, { id: 'CSW', name: '長沙灣' }, { id: 'LCK', name: '荔枝角' }, { id: 'MEF', name: '美孚' }, { id: 'LAK', name: '荔景' }, { id: 'KWF', name: '葵芳' }, { id: 'KWH', name: '葵興' }, { id: 'TWH', name: '大窩口' }, { id: 'TSW', name: '荃灣' }] },
-      KTL: { name: '港鐵觀塘綫 (KTL)', sampleSta: 'KOT', keywords: ['觀塘綫', '觀塘線'], stations: [{ id: 'WHA', name: '黃埔' }, { id: 'HOM', name: '何文田' }, { id: 'YMT', name: '油麻地' }, { id: 'MOK', name: '旺角' }, { id: 'PRE', name: '太子' }, { id: 'SKM', name: '石硤尾' }, { id: 'KOT', name: '九龍塘' }, { id: 'LOF', name: '樂富' }, { id: 'WTS', name: '黃大仙' }, { id: 'DIH', name: '鑽石山' }, { id: 'CHH', name: '彩虹' }, { id: 'KOB', name: '九龍灣' }, { id: 'NTK', name: '牛頭角' }, { id: 'KWT', name: '觀塘' }, { id: 'LAT', name: '藍田' }, { id: 'YAT', name: '油塘' }, { id: 'TIK', name: '調景嶺' }] },
-      ISL: { name: '港鐵港島綫 (ISL)', sampleSta: 'ADM', keywords: ['港島綫', '港島線'], stations: [{ id: 'KET', name: '堅尼地城' }, { id: 'HKU', name: '香港大學' }, { id: 'SYP', name: '西營盤' }, { id: 'SHW', name: '上環' }, { id: 'CEN', name: '中環' }, { id: 'ADM', name: '金鐘' }, { id: 'WAC', name: '灣仔' }, { id: 'CAB', name: '銅鑼灣' }, { id: 'TIH', name: '天后' }, { id: 'FOH', name: '炮台山' }, { id: 'NOP', name: '北角' }, { id: 'QUB', name: '鰂魚涌' }, { id: 'TAK', name: '太古' }, { id: 'SWH', name: '西灣河' }, { id: 'SKW', name: '筲箕灣' }, { id: 'HFC', name: '杏花邨' }, { id: 'CHW', name: '柴灣' }] },
-      TKL: { name: '港鐵將軍澳綫 (TKL)', sampleSta: 'TKO', keywords: ['將軍澳綫', '將軍澳線'], stations: [{ id: 'NOP', name: '北角' }, { id: 'QUB', name: '鰂魚涌' }, { id: 'YAT', name: '油塘' }, { id: 'TIK', name: '調景嶺' }, { id: 'TKO', name: '將軍澳' }, { id: 'HAH', name: '坑口' }, { id: 'POA', name: '寶琳' }, { id: 'LHP', name: '康城' }] },
-      SIL: { name: '港鐵南港島綫 (SIL)', sampleSta: 'OCP', keywords: ['南港島綫', '南港島線'], stations: [{ id: 'ADM', name: '金鐘' }, { id: 'OCP', name: '海洋公園' }, { id: 'WCH', name: '黃竹坑' }, { id: 'LET', name: '利東' }, { id: 'SOH', name: '海怡半島' }] },
-      TCL: { name: '港鐵東涌綫 (TCL)', sampleSta: 'OLY', keywords: ['東涌綫', '東涌線'], stations: [{ id: 'HOK', name: '香港' }, { id: 'KOW', name: '九龍' }, { id: 'OLY', name: '奧運' }, { id: 'NAC', name: '南昌' }, { id: 'LAK', name: '荔景' }, { id: 'TSY', name: '青衣' }, { id: 'SUN', name: '欣澳' }, { id: 'TUC', name: '東涌' }] },
-      AEL: { name: '港鐵機場快綫 (AEL)', sampleSta: 'AIR', keywords: ['機場快綫', '機場快線'], stations: [{ id: 'HOK', name: '香港' }, { id: 'KOW', name: '九龍' }, { id: 'TSY', name: '青衣' }, { id: 'AIR', name: '機場' }, { id: 'AWE', name: '博覽館' }] }
+      EAL: { name: '港鐵東鐵綫 (EAL)', sampleSta: 'TWO', upDest: '羅湖 / 落馬洲', downDest: '金鐘', keywords: ['東鐵綫', '東鐵線', '太和站', '大埔墟站'], stations: [{ id: 'ADM', name: '金鐘' }, { id: 'EXC', name: '會展' }, { id: 'HUH', name: '紅磡' }, { id: 'MKK', name: '旺角東' }, { id: 'KOT', name: '九龍塘' }, { id: 'TAW', name: '大圍' }, { id: 'SHT', name: '沙田' }, { id: 'FOT', name: '火炭' }, { id: 'RAC', name: '馬場 ⑂' }, { id: 'UNI', name: '大學' }, { id: 'TAP', name: '大埔墟' }, { id: 'TWO', name: '太和' }, { id: 'FAN', name: '粉嶺' }, { id: 'SHS', name: '上水' }, { id: 'LOW', name: '羅湖 ⑂' }, { id: 'LMC', name: '落馬洲 ⑂' }] },
+      TML: { name: '港鐵屯馬綫 (TML)', sampleSta: 'TAW', upDest: '屯門', downDest: '烏溪沙', keywords: ['屯馬綫', '屯馬線'], stations: [{ id: 'WKS', name: '烏溪沙' }, { id: 'MOS', name: '馬鞍山' }, { id: 'HEO', name: '恆安' }, { id: 'TSH', name: '大水坑' }, { id: 'SHM', name: '石門' }, { id: 'CIO', name: '第一城' }, { id: 'STW', name: '沙田圍' }, { id: 'CKT', name: '車公廟' }, { id: 'TAW', name: '大圍' }, { id: 'HIK', name: '顯徑' }, { id: 'DIH', name: '鑽石山' }, { id: 'KAT', name: '啟德' }, { id: 'SUW', name: '宋皇臺' }, { id: 'TKW', name: '土瓜灣' }, { id: 'HOM', name: '何文田' }, { id: 'HUH', name: '紅磡' }, { id: 'ETS', name: '尖東' }, { id: 'AUS', name: '柯士甸' }, { id: 'NAC', name: '南昌' }, { id: 'MEF', name: '美孚' }, { id: 'TWW', name: '荃灣西' }, { id: 'KSR', name: '錦上路' }, { id: 'YUL', name: '元朗' }, { id: 'LOP', name: '朗屏' }, { id: 'TIS', name: '天水圍' }, { id: 'SIH', name: '兆康' }, { id: 'TUM', name: '屯門' }] },
+      TWL: { name: '港鐵荃灣綫 (TWL)', sampleSta: 'MOK', upDest: '荃灣', downDest: '中環', keywords: ['荃灣綫', '荃灣線'], stations: [{ id: 'CEN', name: '中環' }, { id: 'ADM', name: '金鐘' }, { id: 'TST', name: '尖沙咀' }, { id: 'JOR', name: '佐敦' }, { id: 'YMT', name: '油麻地' }, { id: 'MOK', name: '旺角' }, { id: 'PRE', name: '太子' }, { id: 'SSP', name: '深水埗' }, { id: 'CSW', name: '長沙灣' }, { id: 'LCK', name: '荔枝角' }, { id: 'MEF', name: '美孚' }, { id: 'LAK', name: '荔景' }, { id: 'KWF', name: '葵芳' }, { id: 'KWH', name: '葵興' }, { id: 'TWH', name: '大窩口' }, { id: 'TSW', name: '荃灣' }] },
+      KTL: { name: '港鐵觀塘綫 (KTL)', sampleSta: 'KOT', upDest: '調景嶺', downDest: '黃埔', keywords: ['觀塘綫', '觀塘線'], stations: [{ id: 'WHA', name: '黃埔' }, { id: 'HOM', name: '何文田' }, { id: 'YMT', name: '油麻地' }, { id: 'MOK', name: '旺角' }, { id: 'PRE', name: '太子' }, { id: 'SKM', name: '石硤尾' }, { id: 'KOT', name: '九龍塘' }, { id: 'LOF', name: '樂富' }, { id: 'WTS', name: '黃大仙' }, { id: 'DIH', name: '鑽石山' }, { id: 'CHH', name: '彩虹' }, { id: 'KOB', name: '九龍灣' }, { id: 'NTK', name: '牛頭角' }, { id: 'KWT', name: '觀塘' }, { id: 'LAT', name: '藍田' }, { id: 'YAT', name: '油塘' }, { id: 'TIK', name: '調景嶺' }] },
+      ISL: { name: '港鐵港島綫 (ISL)', sampleSta: 'ADM', upDest: '柴灣', downDest: '堅尼地城', keywords: ['港島綫', '港島線'], stations: [{ id: 'KET', name: '堅尼地城' }, { id: 'HKU', name: '香港大學' }, { id: 'SYP', name: '西營盤' }, { id: 'SHW', name: '上環' }, { id: 'CEN', name: '中環' }, { id: 'ADM', name: '金鐘' }, { id: 'WAC', name: '灣仔' }, { id: 'CAB', name: '銅鑼灣' }, { id: 'TIH', name: '天后' }, { id: 'FOH', name: '炮台山' }, { id: 'NOP', name: '北角' }, { id: 'QUB', name: '鰂魚涌' }, { id: 'TAK', name: '太古' }, { id: 'SWH', name: '西灣河' }, { id: 'SKW', name: '筲箕灣' }, { id: 'HFC', name: '杏花邨' }, { id: 'CHW', name: '柴灣' }] },
+      TKL: { name: '港鐵將軍澳綫 (TKL)', sampleSta: 'TKO', upDest: '寶琳 / 康城', downDest: '北角', keywords: ['將軍澳綫', '將軍澳線'], stations: [{ id: 'NOP', name: '北角' }, { id: 'QUB', name: '鰂魚涌' }, { id: 'YAT', name: '油塘' }, { id: 'TIK', name: '調景嶺' }, { id: 'TKO', name: '將軍澳' }, { id: 'HAH', name: '坑口 ⑂' }, { id: 'POA', name: '寶琳 ⑂' }, { id: 'LHP', name: '康城 ⑂' }] },
+      SIL: { name: '港鐵南港島綫 (SIL)', sampleSta: 'OCP', upDest: '海怡半島', downDest: '金鐘', keywords: ['南港島綫', '南港島線'], stations: [{ id: 'ADM', name: '金鐘' }, { id: 'OCP', name: '海洋公園' }, { id: 'WCH', name: '黃竹坑' }, { id: 'LET', name: '利東' }, { id: 'SOH', name: '海怡半島' }] },
+      TCL: { name: '港鐵東涌綫 (TCL)', sampleSta: 'OLY', upDest: '東涌', downDest: '香港', keywords: ['東涌綫', '東涌線'], stations: [{ id: 'HOK', name: '香港' }, { id: 'KOW', name: '九龍' }, { id: 'OLY', name: '奧運' }, { id: 'NAC', name: '南昌' }, { id: 'LAK', name: '荔景' }, { id: 'TSY', name: '青衣' }, { id: 'SUN', name: '欣澳' }, { id: 'TUC', name: '東涌' }] },
+      AEL: { name: '港鐵機場快綫 (AEL)', sampleSta: 'AIR', upDest: '博覽館', downDest: '香港', keywords: ['機場快綫', '機場快線'], stations: [{ id: 'HOK', name: '香港' }, { id: 'KOW', name: '九龍' }, { id: 'TSY', name: '青衣' }, { id: 'AIR', name: '機場' }, { id: 'AWE', name: '博覽館' }] }
     };
 
     const MTR_LINES_META = Object.entries(MTR_LINES_DATA).map(([code, obj]) => ({
       code, name: obj.name, sampleSta: obj.sampleSta, keywords: obj.keywords
     }));
+
+    // 建立一個純淨的港鐵站名對照表 (過濾掉 ⑂ 符號，方便 ETA 顯示純站名)
+    const MTR_STATION_DICT = {};
+    Object.values(MTR_LINES_DATA).forEach(line => {
+      line.stations.forEach(st => {
+        MTR_STATION_DICT[st.id] = st.name.replace(/ ⑂/g, '').trim();
+      });
+    });
+
+    // 港鐵 ETA 通用處理引擎 (自動加上往哪個終點的標籤)
+    function parseMtrEta(t) {
+      let destStr = '';
+      if (t.dest) {
+        const destName = MTR_STATION_DICT[t.dest] || t.dest;
+        // 判斷是否為分叉終點站 (羅湖、落馬洲、寶琳、康城、馬場)
+        const isBranch = ['LOW', 'LMC', 'POA', 'LHP', 'RAC'].includes(t.dest);
+        destStr = isBranch ? `⑂往${destName}` : `往${destName}`;
+      }
+      const platStr = t.plat ? `(${t.plat}月台)` : '';
+      const remark = [destStr, platStr].filter(Boolean).join(' ') || '實時列車';
+      return {
+        timestamp: new Date(Date.now() + (Number(t.ttnt) || 0) * 60000).toISOString(),
+        diffMin: Number(t.ttnt) || 0,
+        remark: remark
+      };
+    }
 
     // 大嶼山巴士 (NLB) 預設路線庫 (同時支援動態載入官方 API)
     let nlbRoutesCache = null;
@@ -1930,7 +1956,7 @@
         const raw = (json.data || []).filter(e => e.eta);
         const cleanDestKey = (card.destName || '').replace(/（.*）|\(.*\)|站|總站/g, '').trim().slice(0, 2);
         let fil = raw.filter(e => (cleanDestKey && e.dest_tc && e.dest_tc.includes(cleanDestKey)) || (card.bound && e.dir === card.bound));
-        if (fil.length === 0) fil = raw;
+        if (fil.length === 0) fil = rawList;
         const etas = fil.sort((a, b) => new Date(a.eta) - new Date(b.eta)).map(e => ({
           timestamp: e.eta, diffMin: Math.max(0, Math.floor((new Date(e.eta) - new Date()) / 60000)), remark: e.rmk_tc || '實時班次'
         }));
@@ -1986,11 +2012,7 @@
       try {
         const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${card.route}&sta=${card.stopId}&lang=TC`, 4500);
         const trains = json?.data?.[`${card.route}-${card.stopId}`]?.[card.bound] || [];
-        const etas = trains.map(t => ({
-          timestamp: new Date(Date.now() + (Number(t.ttnt) || 0) * 60000).toISOString(),
-          diffMin: Number(t.ttnt) || 0,
-          remark: `${t.plat ? t.plat + '號月台' : '實時列車'}`
-        }));
+        const etas = trains.map(parseMtrEta);
         renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '目前暫無列車班次');
         updateJrApproachBoard(slotIdx, card, etas);
       } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取港鐵失敗'); }
@@ -2147,13 +2169,11 @@
           const line = MTR_LINES_DATA[card.route] || MTR_LINES_DATA['EAL'];
           let stns = [...line.stations];
           if (card.bound === 'DOWN') stns.reverse();
-          stops = stns.map(s => ({ id: s.id, name_tc: `${s.name}站` }));
+          stops = stns.map(s => ({ id: s.id, name_tc: s.name.includes('⑂') ? s.name.replace(' ⑂', '站 ⑂') : `${s.name}站` }));
+          
           const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${card.route}&sta=${card.stopId}&lang=TC`, 4500);
-          etas = (json?.data?.[`${card.route}-${card.stopId}`]?.[card.bound] || []).map(t => ({
-            timestamp: new Date(Date.now() + (Number(t.ttnt) || 0) * 60000).toISOString(),
-            diffMin: Number(t.ttnt) || 0,
-            remark: t.plat ? `${t.plat}號月台` : '實時列車'
-          }));
+          const trains = json?.data?.[`${card.route}-${card.stopId}`]?.[card.bound] || [];
+          etas = trains.map(parseMtrEta);
         } else if (card.operator === 'NLB') {
           const rId = card.nlbRouteId || '25';
           const [sJson, eJson] = await Promise.all([
@@ -2368,10 +2388,13 @@
           { bound: 'I', destName: meta?.orig_tc || '返程', label: `往 ${meta?.orig_tc || '返程'}` }
         ];
       } else if (op === 'MTR') {
-        const stns = MTR_LINES_DATA[routeCode].stations;
+        const lineData = MTR_LINES_DATA[routeCode];
+        const stns = lineData.stations;
+        const upName = lineData.upDest || stns[stns.length - 1].name.replace(' ⑂', '');
+        const downName = lineData.downDest || stns[0].name.replace(' ⑂', '');
         return [
-          { bound: 'UP', destName: stns[stns.length - 1].name, label: `往 ${stns[stns.length - 1].name} 方向 (UP)` },
-          { bound: 'DOWN', destName: stns[0].name, label: `往 ${stns[0].name} 方向 (DOWN)` }
+          { bound: 'UP', destName: upName, label: `往 ${upName} (UP)` },
+          { bound: 'DOWN', destName: downName, label: `往 ${downName} (DOWN)` }
         ];
       }
       return [];
@@ -2396,7 +2419,7 @@
       } else if (op === 'MTR') {
         const stns = [...MTR_LINES_DATA[routeCode].stations];
         if (dirObj.bound === 'DOWN') stns.reverse();
-        return stns.map((st, idx) => ({ stopId: st.id, stopSeq: idx + 1, name_tc: `${st.name}站` }));
+        return stns.map((st, idx) => ({ stopId: st.id, stopSeq: idx + 1, name_tc: st.name.includes('⑂') ? st.name.replace(' ⑂', '站 ⑂') : `${st.name}站` }));
       }
       return [];
     }
@@ -2550,7 +2573,7 @@
         } else if (qsOperator === 'MTR') {
           const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${code}&sta=${stopObj.stopId}&lang=TC`, 4500);
           const trains = json?.data?.[`${code}-${stopObj.stopId}`]?.[dirObj.bound] || [];
-          etas = trains.map(t => ({ timestamp: new Date(Date.now() + (Number(t.ttnt) || 0) * 60000).toISOString(), diffMin: Number(t.ttnt) || 0, remark: t.plat ? `${t.plat}號月台` : '實時列車' }));
+          etas = trains.map(parseMtrEta);
         }
       } catch (e) {}
 
