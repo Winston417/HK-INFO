@@ -282,7 +282,7 @@
   </div>
 
   <!-- ========================================================= -->
-  <!-- 3. 直接搜尋路線查看時間視窗 (Quick Search Modal)           -->
+  <!-- 3. 直接搜尋路線查看時間視窗 (Quick Search Modal)            -->
   <!-- ========================================================= -->
   <div id="quick-search-modal" onclick="if(event.target===this)closeQuickSearchModal()" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-xl w-full p-4 sm:p-5 max-h-[92vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
@@ -362,7 +362,7 @@
   </div>
 
   <!-- ========================================================= -->
-  <!-- 4. 版面區塊順序與顯示隱藏設定視窗 (Layout Modal)           -->
+  <!-- 4. 版面區塊順序與顯示隱藏設定視窗 (Layout Modal)            -->
   <!-- ========================================================= -->
   <div id="layout-modal" onclick="if(event.target===this)closeLayoutModal()" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-lg w-full p-4 sm:p-5 max-h-[90vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
@@ -518,9 +518,14 @@
             <div><label class="block text-[10px] font-bold text-mut mb-0.5">緯度 (Lat)</label><input id="folder-lat-input" type="number" step="0.00001" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-emerald-300 font-bold text-xs mono-num" /></div>
             <div><label class="block text-[10px] font-bold text-mut mb-0.5">經度 (Lng)</label><input id="folder-lng-input" type="number" step="0.00001" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-emerald-300 font-bold text-xs mono-num" /></div>
           </div>
+          <!-- 新增：生效時間設定區塊 -->
+          <div class="grid grid-cols-2 gap-2 mt-1 pt-2 border-t border-slate-700/50">
+            <div><label class="block text-[10px] font-bold text-mut mb-0.5">⏰ 生效時間 (開始)</label><input id="folder-time-start" type="time" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-amber-300 font-bold text-xs mono-num" /></div>
+            <div><label class="block text-[10px] font-bold text-mut mb-0.5">⏰ 生效時間 (結束)</label><input id="folder-time-end" type="time" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-amber-300 font-bold text-xs mono-num" /></div>
+          </div>
           <div class="flex items-center justify-between text-[11px] text-mut pt-1">
-            <span id="folder-gps-hint">當開啟「📍 定位優先」時，系統會依距離自動排序。</span>
-            <button type="button" onclick="clearFolderLocationFields()" class="underline text-rose-400">清除座標</button>
+            <span id="folder-gps-hint">開啟「📍 智能排序」後，符合時間的分類將置頂，其餘依距離排序。</span>
+            <button type="button" onclick="clearFolderLocationFields()" class="underline text-rose-400">清除條件</button>
           </div>
         </div>
         <div class="pt-2 flex justify-between gap-2 border-t border-slate-500/30">
@@ -623,7 +628,7 @@
           <span id="gps-status-badge" class="text-[11px] font-bold text-mut truncate">📍 定位準備中</span>
           <div class="flex items-center gap-1 shrink-0">
             <button onclick="requestUserGpsNow(true)" class="ctrl-btn px-2 py-1 text-xs font-bold">🎯 定位</button>
-            <button onclick="toggleGeoAutoFolder()" id="geo-priority-btn" class="ctrl-btn px-2.5 py-1 text-xs font-black">📍 定位優先: 開</button>
+            <button onclick="toggleGeoAutoFolder()" id="geo-priority-btn" class="ctrl-btn px-2.5 py-1 text-xs font-black">📍 智能排序: 開</button>
           </div>
         </div>
       </div>
@@ -1542,18 +1547,49 @@
       if (km < 1) return `${Math.max(50, Math.round(km * 1000))}m`;
       return `${km.toFixed(1)}km`;
     }
-    function getSortedFoldersByGps() {
+
+    // 新增：判斷當前時間是否在指定範圍內 (支援跨夜設定，例如 22:00 - 06:00)
+    function isTimeActive(startStr, endStr) {
+      if (!startStr || !endStr) return false;
+      const now = new Date();
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      const [h1, m1] = startStr.split(':').map(Number);
+      const [h2, m2] = endStr.split(':').map(Number);
+      if (isNaN(h1) || isNaN(h2)) return false;
+      
+      const startMin = h1 * 60 + m1;
+      const endMin = h2 * 60 + m2;
+      
+      if (startMin <= endMin) {
+        return nowMin >= startMin && nowMin <= endMin;
+      } else {
+        return nowMin >= startMin || nowMin <= endMin;
+      }
+    }
+
+    // 更新：結合時間與 GPS 的智能排序引擎
+    function getSortedFolders() {
       return routeFolders.map(f => {
         const hasCoords = typeof f.lat === 'number' && !isNaN(f.lat) && typeof f.lng === 'number' && !isNaN(f.lng);
         const distKm = (userCurrentCoords && hasCoords) ? computeDistanceKm(userCurrentCoords.lat, userCurrentCoords.lng, f.lat, f.lng) : Infinity;
-        return { ...f, distKm };
-      }).sort((a, b) => (geoPriorityEnabled && userCurrentCoords) ? a.distKm - b.distKm : 0);
+        const timeActive = isTimeActive(f.startTime, f.endTime);
+        return { ...f, distKm, timeActive };
+      }).sort((a, b) => {
+        if (geoPriorityEnabled) {
+          // 第一優先權：生效時間
+          if (a.timeActive && !b.timeActive) return -1;
+          if (!a.timeActive && b.timeActive) return 1;
+          // 第二優先權：GPS 距離
+          if (userCurrentCoords) return a.distKm - b.distKm;
+        }
+        return 0; // 若未開啟智能排序，則維持原有順序
+      });
     }
 
     function updateGeoPriorityButtonUI() {
       const btn = document.getElementById('geo-priority-btn');
       if (!btn) return;
-      btn.textContent = geoPriorityEnabled ? '📍 定位優先: 開' : '📍 定位優先: 關';
+      btn.textContent = geoPriorityEnabled ? '📍 智能排序: 開' : '📍 智能排序: 關';
       btn.className = geoPriorityEnabled ? 'px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500 text-black shadow' : 'ctrl-btn px-2.5 py-1 text-xs font-bold text-mut';
     }
 
@@ -1580,13 +1616,15 @@
     }
 
     function applyNearestFolderSelection(forceSwitch = false) {
-      const sorted = getSortedFoldersByGps();
+      const sorted = getSortedFolders();
       const nearest = sorted.find(f => isFinite(f.distKm));
       const badge = document.getElementById('gps-status-badge');
       if (nearest) {
         if (badge) badge.textContent = `📍 最近：${nearest.locationName || nearest.name} (${formatDistanceBadge(nearest.distKm)})`;
         if (geoPriorityEnabled && (!userManualSelectedFolder || forceSwitch)) {
-          if (currentFolderId !== nearest.id) { currentFolderId = nearest.id; buildCardsSkeleton(); refreshAll(true); }
+          // 在有時間優先的條件下，第一名可能是因為時間，所以我們直接取 sorted[0]
+          const topFolder = sorted[0];
+          if (currentFolderId !== topFolder.id) { currentFolderId = topFolder.id; buildCardsSkeleton(); refreshAll(true); }
         }
       }
       renderFoldersBar();
@@ -1603,13 +1641,14 @@
     function renderFoldersBar() {
       const bar = document.getElementById('folders-bar');
       if (!bar) return;
-      const sorted = getSortedFoldersByGps();
+      const sorted = getSortedFolders();
       const nearestId = (geoPriorityEnabled && userCurrentCoords && isFinite(sorted[0]?.distKm)) ? sorted[0].id : null;
       bar.innerHTML = sorted.map(f => {
         const isActive = currentFolderId === f.id;
         const count = activeCards.filter(c => (c.folderId || routeFolders[0]?.id) === f.id).length;
         const distBadge = isFinite(f.distKm) ? formatDistanceBadge(f.distKm) : '';
-        return `<div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer shrink-0 transition ${isActive ? 'folder-tab-active' : 'opacity-80'}" onclick="selectFolderTab('${f.id}', true)"><span>${f.icon || '📁'}</span><span class="text-xs font-black ${isActive ? 'flap-amber' : 'text-pri'}">${f.name}</span><span class="flap-tile px-1.5 py-0.2 text-[10px] font-extrabold mono-num text-mut">${count}</span>${distBadge ? `<span class="text-[10px] font-black px-1.5 py-0.2 rounded-full ${nearestId === f.id ? 'bg-emerald-500/20 text-emerald-400' : 'text-mut'}">${nearestId === f.id ? '📍' : ''}${distBadge}</span>` : ''}<button onclick="openEditFolderModal('${f.id}', event)" class="text-[11px] text-mut hover:text-pri ml-0.5">⚙️</button></div>`;
+        const timeBadge = f.timeActive ? `<span class="text-[10px] font-black px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-400" title="時間生效中">⏰</span>` : '';
+        return `<div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer shrink-0 transition ${isActive ? 'folder-tab-active' : 'opacity-80'}" onclick="selectFolderTab('${f.id}', true)"><span>${f.icon || '📁'}</span><span class="text-xs font-black ${isActive ? 'flap-amber' : 'text-pri'}">${f.name}</span><span class="flap-tile px-1.5 py-0.2 text-[10px] font-extrabold mono-num text-mut">${count}</span>${timeBadge || distBadge ? `<span class="text-[10px] font-black px-1.5 py-0.2 rounded-full flex items-center gap-1 ${nearestId === f.id || f.timeActive ? 'bg-emerald-500/20 text-emerald-400' : 'text-mut'}">${nearestId === f.id ? '📍' : ''}${timeBadge}${distBadge}</span>` : ''}<button onclick="openEditFolderModal('${f.id}', event)" class="text-[11px] text-mut hover:text-pri ml-0.5">⚙️</button></div>`;
       }).join('') + `<div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer shrink-0 transition ${currentFolderId === 'ALL' ? 'folder-tab-active' : 'opacity-75'}" onclick="selectFolderTab('ALL', true)"><span>🗂️</span><span class="text-xs font-black ${currentFolderId === 'ALL' ? 'flap-amber' : 'text-pri'}">全部路線</span><span class="flap-tile px-1.5 py-0.2 text-[10px] font-extrabold mono-num text-mut">${activeCards.length}</span></div>`;
     }
 
@@ -1636,6 +1675,9 @@
         document.getElementById('folder-loc-label').value = f.locationName || '';
         document.getElementById('folder-lat-input').value = f.lat ?? '';
         document.getElementById('folder-lng-input').value = f.lng ?? '';
+        // 新增時間讀取
+        document.getElementById('folder-time-start').value = f.startTime || '';
+        document.getElementById('folder-time-end').value = f.endTime || '';
       }
       document.getElementById('folder-delete-btn').classList.toggle('hidden', routeFolders.length <= 1);
       document.getElementById('folder-modal').classList.remove('hidden');
@@ -1651,12 +1693,17 @@
         if (!document.getElementById('folder-loc-label').value.trim()) document.getElementById('folder-loc-label').value = '目前位置';
       });
     }
+    
     function clearFolderLocationFields() {
       document.getElementById('folder-preset-loc').value = '';
       document.getElementById('folder-loc-label').value = '';
       document.getElementById('folder-lat-input').value = '';
       document.getElementById('folder-lng-input').value = '';
+      // 新增清除時間
+      document.getElementById('folder-time-start').value = '';
+      document.getElementById('folder-time-end').value = '';
     }
+
     function saveFolderModal() {
       const name = document.getElementById('folder-name-input').value.trim();
       if (!name) { alert('請輸入資料夾名稱！'); return; }
@@ -1664,16 +1711,30 @@
       const lng = parseFloat(document.getElementById('folder-lng-input').value);
       const icon = document.getElementById('folder-icon-input').value || '📁';
       const locLabel = document.getElementById('folder-loc-label').value.trim();
+      
+      // 新增取得時間
+      const startTime = document.getElementById('folder-time-start').value;
+      const endTime = document.getElementById('folder-time-end').value;
+
       if (editingFolderId) {
         const f = routeFolders.find(x => x.id === editingFolderId);
-        if (f) { f.name = name; f.icon = icon; f.locationName = locLabel; f.lat = isNaN(lat) ? null : lat; f.lng = isNaN(lng) ? null : lng; }
+        if (f) { 
+          f.name = name; f.icon = icon; f.locationName = locLabel; 
+          f.lat = isNaN(lat) ? null : lat; f.lng = isNaN(lng) ? null : lng; 
+          f.startTime = startTime; f.endTime = endTime; // 更新時間
+        }
       } else {
         const newId = 'folder_' + Date.now();
-        routeFolders.push({ id: newId, name, icon, locationName: locLabel, lat: isNaN(lat) ? null : lat, lng: isNaN(lng) ? null : lng });
+        routeFolders.push({ 
+          id: newId, name, icon, locationName: locLabel, 
+          lat: isNaN(lat) ? null : lat, lng: isNaN(lng) ? null : lng, 
+          startTime, endTime // 寫入時間
+        });
         currentFolderId = newId;
       }
       saveRouteFolders(); closeFolderModal(); renderFoldersBar(); buildCardsSkeleton(); refreshAll(true);
     }
+    
     function deleteCurrentEditingFolder() {
       if (!editingFolderId || routeFolders.length <= 1) return;
       if (!confirm('確定刪除此資料夾？')) return;
@@ -2500,8 +2561,11 @@
     // =========================================================================
     // 10. 主時鐘循環與 5 秒非阻塞自動刷新
     // =========================================================================
+    let lastTickMinute = -1;
+
     function updateClock() {
       const now = new Date();
+      
       flipClockCard('clock-hh', String(now.getHours()).padStart(2, '0'));
       flipClockCard('clock-mm', String(now.getMinutes()).padStart(2, '0'));
       flipClockCard('clock-ss', String(now.getSeconds()).padStart(2, '0'));
@@ -2509,6 +2573,15 @@
 
       checkSleepState(now);
       applyDayNightTheme(now);
+
+      // 新增：每當分鐘改變時，若開啟智能排序，則自動重新洗牌判斷生效時間
+      const currentMinute = now.getMinutes();
+      if (currentMinute !== lastTickMinute) {
+        lastTickMinute = currentMinute;
+        if (geoPriorityEnabled) {
+          applyNearestFolderSelection(false); 
+        }
+      }
 
       if (!isSleeping && !isFetchingEtas) {
         refreshCountdown--;
