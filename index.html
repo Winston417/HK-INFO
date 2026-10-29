@@ -1,17 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-<!-- iOS 與 Android 全螢幕 App 模式設定 -->
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#090d16" />
-<meta name="mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="交通看板" />
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3448/3448339.png" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>INFO HONGKONG</title>
+  <title>香港實時交通及分區天氣看板</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&family=Noto+Sans+HK:wght@500;700;900&family=Roboto:wght@500;700;900&display=swap');
@@ -525,6 +517,12 @@
     .text-sec { color: var(--text-sub); }
     .text-mut { color: var(--text-muted); }
 
+    /* 資料夾標籤選中特效 */
+    .folder-tab-active {
+      border-color: var(--accent-color) !important;
+      box-shadow: 0 0 0 2px var(--accent-color), 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+
     /* 紅 / 黃 / 綠 狀態圓點 */
     .status-dot {
       width: 14px;
@@ -546,7 +544,7 @@
 <body class="style-apple theme-dark min-h-screen p-2 md:p-3.5 flex flex-col justify-between select-none">
 
   <!-- ========================================== -->
-  <!-- 夜間黑屏遮罩 (00:00 - 06:00 自動啟動)        -->
+  <!-- 夜間黑屏遮罩 (00:00 - 06:00 可選是否自動啟動) -->
   <!-- ========================================== -->
   <div id="night-overlay" onclick="wakeUpTemporarily()" class="fixed inset-0 bg-black z-50 hidden cursor-none flex items-center justify-center">
     <div id="night-hint" class="text-neutral-600 text-base transition-opacity duration-1000 opacity-100 text-center px-6">
@@ -623,7 +621,14 @@
         <button onclick="closeRouteModal()" class="ctrl-btn px-3 py-1.5 text-sm font-bold">✕ 關閉</button>
       </div>
 
-      <div class="space-y-4 text-sm">
+      <div class="space-y-3.5 text-sm">
+        <!-- 選擇所屬資料夾 -->
+        <div>
+          <label class="block font-black text-pri mb-1.5">📁 擺放至哪個資料夾：</label>
+          <select id="modal-folder-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-sky-300 font-black text-sm focus:outline-none">
+          </select>
+        </div>
+
         <div>
           <label class="block font-black text-pri mb-1.5">1. 選擇交通工具：</label>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -673,11 +678,102 @@
 
         <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-500/30">
           <button type="button" onclick="resetAllCardsToDefault()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500">
-            ↺ 還原為「大埔鍾屋村」預設 4 線
+            ↺ 還原預設資料夾及路線
           </button>
           <button type="button" id="modal-save-btn" onclick="saveModalRouteCard()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-sm shadow-lg">
             ✅ 儲存套用
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 4. 新增 / 編輯 資料夾及定位條件 設定視窗 (Folder Modal)     -->
+  <!-- ========================================================= -->
+  <div id="folder-modal" class="fixed inset-0 bg-black/75 z-40 hidden items-center justify-center p-3">
+    <div class="airport-panel max-w-xl w-full p-5 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-4">
+        <div>
+          <h2 id="folder-modal-title" class="text-xl font-black text-pri">📁 新增路線資料夾與定位條件</h2>
+          <p class="text-xs font-bold text-mut mt-0.5">設定資料夾專屬座標後，系統可根據你目前所在位置優先顯示最接近的資料夾</p>
+        </div>
+        <button onclick="closeFolderModal()" class="ctrl-btn px-3 py-1.5 text-sm font-bold">✕ 關閉</button>
+      </div>
+
+      <div class="space-y-4 text-sm">
+        <div class="grid grid-cols-4 gap-2">
+          <div class="col-span-1">
+            <label class="block font-black text-pri mb-1">圖示：</label>
+            <select id="folder-icon-input" class="w-full px-2.5 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-black text-base focus:outline-none">
+              <option value="🏡">🏡 屋企</option>
+              <option value="🏢">🏢 公司</option>
+              <option value="🚉">🚉 車站</option>
+              <option value="🚌">🚌 巴士</option>
+              <option value="🚐">🚐 小巴</option>
+              <option value="🏙️">🏙️ 市區</option>
+              <option value="🛍️">🛍️ 商場</option>
+              <option value="🏫">🏫 學校</option>
+              <option value="⭐">⭐ 常用</option>
+            </select>
+          </div>
+          <div class="col-span-3">
+            <label class="block font-black text-pri mb-1">資料夾名稱：</label>
+            <input id="folder-name-input" type="text" placeholder="例如：屋企出門（林村）、太和轉車、九龍返歸..."
+              class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="flap-row p-3.5 space-y-3">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <label class="font-black text-pri">📍 綁定觸發地點（用於計算距離並優先顯示）：</label>
+            <button type="button" onclick="fillFolderWithCurrentGps()" class="px-2.5 py-1 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-black text-xs shadow active:scale-95">
+              🎯 讀取我目前 GPS 位置
+            </button>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-mut mb-1">方式 A：從香港常用地區／地標快速帶入座標：</label>
+            <select id="folder-preset-loc" onchange="onFolderPresetChange()"
+              class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-bold text-xs focus:outline-none">
+              <option value="">-- 選擇預設地點快速帶入座標（或留空不綁定位置） --</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[11px] font-bold text-mut mb-0.5">地點標籤名稱</label>
+              <input id="folder-loc-label" type="text" placeholder="如：林村 / 太和站"
+                class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-white font-bold text-xs focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-mut mb-0.5">緯度 (Latitude)</label>
+              <input id="folder-lat-input" type="number" step="0.00001" placeholder="如: 22.4562"
+                class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-emerald-300 font-bold text-xs mono-num focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-mut mb-0.5">經度 (Longitude)</label>
+              <input id="folder-lng-input" type="number" step="0.00001" placeholder="如: 114.1425"
+                class="w-full px-2.5 py-1.5 rounded-lg border border-slate-500 bg-slate-900 text-emerald-300 font-bold text-xs mono-num focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-mut pt-1">
+            <span id="folder-gps-hint">提示：當開啟「📍 定位優先」時，距離你最近的資料夾會自動排第一並優先開啟。</span>
+            <button type="button" onclick="clearFolderLocationFields()" class="underline text-rose-400 hover:text-rose-300 shrink-0 ml-2">清除座標</button>
+          </div>
+        </div>
+
+        <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-500/30">
+          <button type="button" id="folder-delete-btn" onclick="deleteCurrentEditingFolder()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500 hidden">
+            🗑️ 刪除此資料夾
+          </button>
+          <div class="flex items-center gap-2 ml-auto">
+            <button type="button" onclick="closeFolderModal()" class="ctrl-btn px-4 py-2 text-xs font-bold">取消</button>
+            <button type="button" onclick="saveFolderModal()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-sm shadow-lg">
+              ✅ 儲存資料夾
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -737,7 +833,7 @@
         </button>
       </div>
 
-      <!-- 右側：時鐘 (HH : MM : SS) + 控制按鈕 -->
+      <!-- 右側：時鐘 (HH : MM : SS) + 控制按鈕 (含 00:00-06:00 自動黑屏開關) -->
       <div class="flex items-center gap-2.5 ml-auto sm:ml-0">
         <div class="text-right">
           <div class="flex items-center gap-1 justify-end">
@@ -773,12 +869,15 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-1">
-          <button onclick="openAddRouteModal()" class="px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500 hover:bg-amber-400 text-black shadow active:scale-95" title="新增巴士/小巴/港鐵路線">
+        <div class="grid grid-cols-3 gap-1">
+          <button onclick="openAddRouteModal()" class="px-2 py-1 rounded-lg text-xs font-black bg-amber-500 hover:bg-amber-400 text-black shadow active:scale-95" title="新增巴士/小巴/港鐵路線">
             ➕ 路線
           </button>
           <button onclick="refreshAll(true)" class="ctrl-btn px-2 py-1 text-xs font-bold" title="立即更新">🔄 刷新</button>
           <button onclick="cycleThemeMode()" id="theme-mode-btn" class="ctrl-btn px-2 py-1 text-xs font-bold" title="切換深淺主題">🌓 自動</button>
+          <button onclick="toggleAutoNightSleep()" id="auto-sleep-btn" class="ctrl-btn px-2 py-1 text-xs font-bold col-span-2" title="切換是否於 00:00–06:00 自動進入黑屏省電模式">
+            🌙 自動黑屏: 開
+          </button>
           <button onclick="toggleFullScreen()" class="ctrl-btn px-2 py-1 text-xs font-bold" title="全螢幕">⛶ 全屏</button>
         </div>
       </div>
@@ -791,7 +890,7 @@
   <!-- ========================================================= -->
   <main class="max-w-7xl w-full mx-auto flex-1 flex flex-col gap-2">
 
-    <!-- 第二排：🚦 自訂實時交通狀態監測面板 (支援18區 / A➔B連接道路 / 幹道 / 鐵路 / 隧道橋梁) -->
+    <!-- 第二排：🚦 自訂實時交通狀態監測面板 -->
     <section class="airport-panel px-3.5 py-2.5">
       <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
         <div class="flex items-center gap-3 flex-wrap">
@@ -817,18 +916,43 @@
       <div id="traffic-detail-box" class="hidden mt-2 pt-2 border-t border-slate-500/30 text-xs font-bold text-sec space-y-1"></div>
     </section>
 
-    <!-- 第三排：可自由增減的路線看板區 (內置 5 站巴士移動動畫 + 到站時間) -->
+    <!-- 第三排：📁 路線分類資料夾與實時定位優先切換列 -->
+    <section class="airport-panel px-3.5 py-2">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <!-- 資料夾清單 -->
+        <div class="flex items-center gap-1.5 flex-wrap flex-1 min-w-0">
+          <span class="text-xs font-black text-mut shrink-0 mr-0.5">📁 路線分類：</span>
+          <div id="folders-bar" class="flex items-center gap-1.5 flex-wrap"></div>
+          <button onclick="openAddFolderModal()" class="ctrl-btn px-2.5 py-1 text-xs font-black hover:opacity-85 shrink-0" title="新增分類資料夾及設定地點座標">
+            ＋ 新增資料夾
+          </button>
+        </div>
+
+        <!-- 定位優先控制區 -->
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span id="gps-status-badge" class="text-[11px] font-bold text-mut hidden sm:inline">📍 定位未啟用</span>
+          <button onclick="requestUserGpsNow(true)" class="ctrl-btn px-2 py-1 text-xs font-bold" title="立即重新感應目前 GPS 位置並排序資料夾">
+            🎯 重新定位
+          </button>
+          <button onclick="toggleGeoAutoFolder()" id="geo-priority-btn" class="ctrl-btn px-2.5 py-1 text-xs font-black" title="開啟後會根據你目前距離哪個資料夾的指定地點最近，自動優先顯示該資料夾">
+            📍 定位優先: 開
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 第四排：可自由增減的路線看板區 (依所選資料夾篩選顯示) -->
     <section id="cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 flex-1"></section>
 
   </main>
 
   <!-- 底部狀態列 -->
   <footer class="max-w-7xl w-full mx-auto mt-1.5 pt-1 flex flex-wrap items-center justify-between text-[11px] font-bold text-mut gap-2">
-    <div>每 5 秒極速更新 ・ 支援 Apple毛玻璃 / 原裝Android / 機場翻頁 三大風格及 00:00–06:00 自動黑屏</div>
+    <div>每 5 秒極速更新 ・ 支援資料夾定位優先顯示、三大視覺風格及可選 00:00–06:00 自動黑屏</div>
     <div class="flex items-center gap-3">
-      <button onclick="openAddTrafficModal()" class="underline hover:opacity-80">＋ 新增交通監測</button>
+      <button onclick="openAddFolderModal()" class="underline hover:opacity-80">📁 新增資料夾</button>
       <button onclick="openAddRouteModal()" class="underline hover:opacity-80">➕ 新增路線</button>
-      <button onclick="resetAllCardsToDefault()" class="underline hover:opacity-80">↺ 還原預設路線</button>
+      <button onclick="resetAllCardsToDefault()" class="underline hover:opacity-80">↺ 還原預設</button>
       <button onclick="activateSleepNow()" class="underline hover:opacity-80">🌙 立即黑屏</button>
       <span id="last-updated">最後更新：--:--:--</span>
     </div>
@@ -836,7 +960,7 @@
 
   <script>
     // =========================================================================
-    // 通用防卡死 Fetch 工具 (預設 4.5 秒超時自動中斷，防止任何慢速 API 鎖死畫面)
+    // 通用防卡死 Fetch 工具 (預設 4.5 秒超時自動中斷)
     // =========================================================================
     async function fetchWithTimeout(url, timeoutMs = 4500) {
       const controller = new AbortController();
@@ -881,7 +1005,7 @@
     }
 
     // =========================================================================
-    // 1. 全港 18 區完整表單與主要道路、隧道橋梁、鐵路、天文台氣象站字典
+    // 1. 全港 18 區、主要道路、隧道橋梁、鐵路、天文台氣象站及預設座標字典
     // =========================================================================
     const REFRESH_INTERVAL_SEC = 5;
     let refreshCountdown = REFRESH_INTERVAL_SEC;
@@ -892,6 +1016,27 @@
     let latestTdAllMessages = [];
     let latestCorridorMinutes = null;
     let latestKmbRemarks = '';
+
+    // 供資料夾快速選擇的香港常用地點座標庫
+    const HK_PRESET_LOCATIONS = [
+      { label: '大埔林村（塘面村 / 鍾屋村 / 許願樹）', name: '大埔林村', lat: 22.4562, lng: 114.1425 },
+      { label: '太和站 / 太和廣場', name: '太和站', lat: 22.4513, lng: 114.1613 },
+      { label: '大埔墟站 / 大埔中心', name: '大埔墟', lat: 22.4446, lng: 114.1697 },
+      { label: '元朗（西）總站 / 元朗站', name: '元朗市中心', lat: 22.4445, lng: 114.0222 },
+      { label: '錦上路站', name: '錦上路', lat: 22.4347, lng: 114.0634 },
+      { label: '上水站 / 粉嶺站', name: '上水/粉嶺', lat: 22.5011, lng: 114.1277 },
+      { label: '沙田站 / 新城市廣場', name: '沙田市中心', lat: 22.3820, lng: 114.1875 },
+      { label: '科學園 / 大學站', name: '大學/科學園', lat: 22.4132, lng: 114.2102 },
+      { label: '九龍塘站 / 又一城', name: '九龍塘', lat: 22.3369, lng: 114.1762 },
+      { label: '旺角 / 太子 / 油麻地', name: '旺角市中心', lat: 22.3193, lng: 114.1694 },
+      { label: '尖沙咀 / 紅磡站', name: '尖沙咀/紅磡', lat: 22.2988, lng: 114.1722 },
+      { label: '觀塘 / 九龍灣 / 藍田', name: '觀塘商貿區', lat: 22.3133, lng: 114.2258 },
+      { label: '荃灣站 / 葵芳', name: '荃灣市中心', lat: 22.3737, lng: 114.1177 },
+      { label: '屯門市中心 / 屯門轉車站', name: '屯門市中心', lat: 22.3918, lng: 113.9772 },
+      { label: '中環 / 金鐘 / 上環', name: '中環/金鐘', lat: 22.2819, lng: 114.1581 },
+      { label: '灣仔 / 銅鑼灣', name: '銅鑼灣/灣仔', lat: 22.2800, lng: 114.1835 },
+      { label: '香港國際機場 / 東涌', name: '機場/東涌', lat: 22.3080, lng: 113.9185 }
+    ];
 
     const HK_18_DISTRICTS = [
       { code: 'CW',  name: '中西區',   subAreas: ['中環', '上環', '西營盤', '堅尼地城'], roads: ['干諾道中', '干諾道西', '德輔道中', '紅棉路', '花園道', '堅道', '薄扶林道', '畢打街', '金鐘道'] },
@@ -905,7 +1050,7 @@
       { code: 'KT',  name: '觀塘區',   subAreas: ['觀塘', '牛頭角', '九龍灣', '藍田', '油塘'], roads: ['觀塘道', '觀塘繞道', '偉業街', '鯉魚門道', '茶果嶺道', '啟福道', '協和街'] },
       { code: 'ST',  name: '沙田區',   subAreas: ['沙田', '大圍', '馬鞍山'], roads: ['沙田路', '大埔公路－沙田', '獅子山隧道公路', '馬鞍山路', '西沙路', '大老山公路', '城門隧道公路', '紅梅谷路'] },
       { code: 'TP',  name: '大埔區',   subAreas: ['大埔', '太和', '林村', '鍾屋村'], roads: ['吐露港公路', '林錦公路', '大埔太和路', '完善路', '南運路', '大埔公路－大窩', '廣福道', '汀角路', '寶雅路'] },
-      { code: 'NO',  name: '北區',     subAreas: ['上環（古洞）', '上水（古洞）', '粉嶺', '沙頭角', '羅湖'], roads: ['粉嶺公路', '新運路', '沙頭角公路', '寶石湖路', '掃管埔路', '古洞路', '文錦渡路', '上水'] },
+      { code: 'NO',  name: '北區',     subAreas: ['上水（古洞）', '粉嶺', '沙頭角', '羅湖'], roads: ['粉嶺公路', '新運路', '沙頭角公路', '寶石湖路', '掃管埔路', '古洞路', '文錦渡路', '上水'] },
       { code: 'SK',  name: '西貢區',   subAreas: ['西貢', '將軍澳', '清水灣'], roads: ['環保大道', '寶琳北路', '寶邑路', '西貢公路', '清水灣道', '新清水灣道'] },
       { code: 'TW',  name: '荃灣區',   subAreas: ['荃灣', '大窩口', '大嶼山東北'], roads: ['荃灣路', '青山公路－荃灣', '德士古道', '象鼻山路', '屯門公路', '城門道'] },
       { code: 'KC',  name: '葵青區',   subAreas: ['葵涌', '青衣島'], roads: ['葵涌道', '青葵公路', '青衣北岸公路', '楓樹窩路', '担杆山交匯處', '貨櫃碼頭南路'] },
@@ -1578,31 +1723,431 @@
     }
 
     // =========================================================================
-    // 5. 可自由增減的巴士 / 小巴 / 港鐵路線卡配置與 5 站動畫
+    // 5. 資料夾管理 + 實時 GPS 定位距離計算與自動優先排序模組
     // =========================================================================
-    // 升級儲存 Key (v4) 以自動清除舊版可能殘留的空白 stopId 設定
-    const CARDS_STORAGE_KEY = 'transit_custom_cards_v4';
+    const FOLDERS_STORAGE_KEY = 'transit_custom_folders_v1';
+    const GEO_PRIORITY_KEY = 'transit_geo_priority_enabled_v1';
+
+    const DEFAULT_FOLDERS = [
+      {
+        id: 'folder_home',
+        name: '林村 / 鍾屋村',
+        icon: '🏡',
+        locationName: '大埔林村',
+        lat: 22.4562,
+        lng: 114.1425
+      },
+      {
+        id: 'folder_taiwo',
+        name: '太和 / 大埔墟轉乘',
+        icon: '🚉',
+        locationName: '太和站',
+        lat: 22.4513,
+        lng: 114.1613
+      },
+      {
+        id: 'folder_urban',
+        name: '市區 / 九龍返程',
+        icon: '🏙️',
+        locationName: '旺角/九龍',
+        lat: 22.3193,
+        lng: 114.1694
+      }
+    ];
+
+    let routeFolders = loadSavedFolders();
+    let currentFolderId = routeFolders[0]?.id || 'ALL';
+    let geoPriorityEnabled = localStorage.getItem(GEO_PRIORITY_KEY) !== 'false'; // 預設開啟定位優先
+    let userManualSelectedFolder = false; // 若用戶手動點選其他分頁，暫停自動跳頁，但仍顯示距離排序
+    let userCurrentCoords = null; // { lat, lng }
+    let editingFolderId = null;
+
+    function loadSavedFolders() {
+      const raw = localStorage.getItem(FOLDERS_STORAGE_KEY);
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length >= 1) return parsed;
+        } catch (e) {}
+      }
+      return JSON.parse(JSON.stringify(DEFAULT_FOLDERS));
+    }
+
+    function saveRouteFolders() {
+      localStorage.setItem(FOLDERS_STORAGE_KEY, JSON.stringify(routeFolders));
+    }
+
+    // Haversine 計算兩組經緯度之間的直線距離 (公里 km)
+    function computeDistanceKm(lat1, lng1, lat2, lng2) {
+      if (lat1 == null || lng1 == null || lat2 == null || lng2 == null) return Infinity;
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLng = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function formatDistanceBadge(km) {
+      if (!isFinite(km)) return '';
+      if (km < 1) return `${Math.max(50, Math.round(km * 1000))}m`;
+      return `${km.toFixed(1)}km`;
+    }
+
+    // 取得依距離由近到遠排序後的資料夾清單
+    function getSortedFoldersByGps() {
+      const annotated = routeFolders.map(f => {
+        const hasCoords = typeof f.lat === 'number' && !isNaN(f.lat) && typeof f.lng === 'number' && !isNaN(f.lng);
+        const distKm = (userCurrentCoords && hasCoords)
+          ? computeDistanceKm(userCurrentCoords.lat, userCurrentCoords.lng, f.lat, f.lng)
+          : Infinity;
+        return { ...f, distKm };
+      });
+
+      if (geoPriorityEnabled && userCurrentCoords) {
+        annotated.sort((a, b) => a.distKm - b.distKm);
+      }
+      return annotated;
+    }
+
+    function updateGeoPriorityButtonUI() {
+      const btn = document.getElementById('geo-priority-btn');
+      if (!btn) return;
+      if (geoPriorityEnabled) {
+        btn.textContent = '📍 定位優先: 開';
+        btn.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500 text-black shadow transition';
+      } else {
+        btn.textContent = '📍 定位優先: 關';
+        btn.className = 'ctrl-btn px-2.5 py-1 text-xs font-bold text-mut transition';
+      }
+    }
+
+    function toggleGeoAutoFolder() {
+      geoPriorityEnabled = !geoPriorityEnabled;
+      localStorage.setItem(GEO_PRIORITY_KEY, String(geoPriorityEnabled));
+      userManualSelectedFolder = false;
+      updateGeoPriorityButtonUI();
+
+      if (geoPriorityEnabled) {
+        requestUserGpsNow(true);
+      } else {
+        renderFoldersBar();
+      }
+    }
+
+    function requestUserGpsNow(forceSwitchToNearest = false) {
+      const badge = document.getElementById('gps-status-badge');
+      if (!navigator.geolocation) {
+        if (badge) badge.textContent = '⚠️ 瀏覽器不支援 GPS';
+        return;
+      }
+
+      if (forceSwitchToNearest) userManualSelectedFolder = false;
+      if (badge) badge.textContent = '📍 正在定位...';
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          userCurrentCoords = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude
+          };
+          applyNearestFolderSelection(forceSwitchToNearest);
+        },
+        (err) => {
+          if (badge) badge.textContent = '📍 未授權或無法取得定位';
+          renderFoldersBar();
+        },
+        { enableHighAccuracy: true, timeout: 6000, maximumAge: 30000 }
+      );
+    }
+
+    function applyNearestFolderSelection(forceSwitch = false) {
+      const sorted = getSortedFoldersByGps();
+      const nearest = sorted.find(f => isFinite(f.distKm));
+      const badge = document.getElementById('gps-status-badge');
+
+      if (nearest) {
+        if (badge) {
+          badge.textContent = `📍 最近：${nearest.locationName || nearest.name} (${formatDistanceBadge(nearest.distKm)})`;
+          badge.className = 'text-[11px] font-black text-emerald-400 hidden sm:inline';
+        }
+        if (geoPriorityEnabled && (!userManualSelectedFolder || forceSwitch)) {
+          if (currentFolderId !== nearest.id) {
+            currentFolderId = nearest.id;
+            buildCardsSkeleton();
+            refreshAll(true);
+          }
+        }
+      } else {
+        if (badge) badge.textContent = '📍 已定位';
+      }
+
+      renderFoldersBar();
+    }
+
+    function selectFolderTab(folderId, isManualClick = true) {
+      if (isManualClick) userManualSelectedFolder = true;
+      currentFolderId = folderId;
+      renderFoldersBar();
+      buildCardsSkeleton();
+      refreshAll(true);
+    }
+
+    function renderFoldersBar() {
+      const bar = document.getElementById('folders-bar');
+      if (!bar) return;
+
+      const sortedFolders = getSortedFoldersByGps();
+      const nearestFolderId = (geoPriorityEnabled && userCurrentCoords && isFinite(sortedFolders[0]?.distKm))
+        ? sortedFolders[0].id
+        : null;
+
+      const folderButtonsHtml = sortedFolders.map(f => {
+        const isActive = currentFolderId === f.id;
+        const count = activeCards.filter(c => (c.folderId || routeFolders[0]?.id) === f.id).length;
+        const isNearest = nearestFolderId === f.id;
+        const distBadge = isFinite(f.distKm) ? formatDistanceBadge(f.distKm) : (f.locationName || '');
+
+        return `
+          <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer transition ${isActive ? 'folder-tab-active' : 'opacity-80 hover:opacity-100'}"
+               onclick="selectFolderTab('${f.id}', true)">
+            <span>${f.icon || '📁'}</span>
+            <span class="text-xs font-black ${isActive ? 'flap-amber' : 'text-pri'}">${f.name}</span>
+            <span class="flap-tile px-1.5 py-0.2 text-[10px] font-extrabold mono-num text-mut">${count}</span>
+            ${distBadge ? `
+              <span class="text-[10px] font-black px-1.5 py-0.2 rounded-full ${isNearest ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'text-mut'}">
+                ${isNearest ? '📍最近 ' : '📍'}${distBadge}
+              </span>
+            ` : ''}
+            <button onclick="openEditFolderModal('${f.id}', event)" class="text-[11px] text-mut hover:text-pri ml-0.5" title="編輯資料夾名稱及定位座標">⚙️</button>
+          </div>
+        `;
+      }).join('');
+
+      const isAllActive = currentFolderId === 'ALL';
+      const allBtnHtml = `
+        <div class="flap-row px-2.5 py-1 flex items-center gap-1.5 cursor-pointer transition ${isAllActive ? 'folder-tab-active' : 'opacity-75 hover:opacity-100'}"
+             onclick="selectFolderTab('ALL', true)">
+          <span>🗂️</span>
+          <span class="text-xs font-black ${isAllActive ? 'flap-amber' : 'text-pri'}">全部路線</span>
+          <span class="flap-tile px-1.5 py-0.2 text-[10px] font-extrabold mono-num text-mut">${activeCards.length}</span>
+        </div>
+      `;
+
+      bar.innerHTML = folderButtonsHtml + allBtnHtml;
+    }
+
+    // 資料夾新增 / 編輯 Modal 邏輯
+    function populateFolderPresetLocationsSelect() {
+      const sel = document.getElementById('folder-preset-loc');
+      if (!sel) return;
+      sel.innerHTML = `<option value="">-- 選擇香港常用地點快速帶入座標（或留空） --</option>` +
+        HK_PRESET_LOCATIONS.map((loc, idx) => `<option value="${idx}">${loc.label}</option>`).join('');
+    }
+
+    function onFolderPresetChange() {
+      const idx = document.getElementById('folder-preset-loc').value;
+      if (idx === '') return;
+      const loc = HK_PRESET_LOCATIONS[Number(idx)];
+      if (!loc) return;
+      document.getElementById('folder-loc-label').value = loc.name;
+      document.getElementById('folder-lat-input').value = loc.lat;
+      document.getElementById('folder-lng-input').value = loc.lng;
+    }
+
+    function fillFolderWithCurrentGps() {
+      const hint = document.getElementById('folder-gps-hint');
+      if (!navigator.geolocation) {
+        alert('你的瀏覽器不支援 GPS 定位功能');
+        return;
+      }
+      hint.textContent = '⏳ 正在讀取你目前的 GPS 座標...';
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = Number(pos.coords.latitude.toFixed(5));
+          const lng = Number(pos.coords.longitude.toFixed(5));
+          document.getElementById('folder-lat-input').value = lat;
+          document.getElementById('folder-lng-input').value = lng;
+          if (!document.getElementById('folder-loc-label').value.trim()) {
+            document.getElementById('folder-loc-label').value = '目前位置';
+          }
+          userCurrentCoords = { lat, lng };
+          hint.textContent = `✅ 已成功填入目前座標 (${lat}, ${lng})`;
+        },
+        () => {
+          hint.textContent = '⚠️ 無法取得定位，請確認已允許瀏覽器定位權限，或直接使用上方預設地點選單。';
+        },
+        { enableHighAccuracy: true, timeout: 6000 }
+      );
+    }
+
+    function clearFolderLocationFields() {
+      document.getElementById('folder-preset-loc').value = '';
+      document.getElementById('folder-loc-label').value = '';
+      document.getElementById('folder-lat-input').value = '';
+      document.getElementById('folder-lng-input').value = '';
+    }
+
+    function openAddFolderModal() {
+      editingFolderId = null;
+      populateFolderPresetLocationsSelect();
+      document.getElementById('folder-modal-title').textContent = '📁 新增路線資料夾與定位條件';
+      document.getElementById('folder-icon-input').value = '🏡';
+      document.getElementById('folder-name-input').value = '';
+      clearFolderLocationFields();
+      document.getElementById('folder-delete-btn').classList.add('hidden');
+
+      const modal = document.getElementById('folder-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function openEditFolderModal(folderId, event) {
+      if (event) event.stopPropagation();
+      const folder = routeFolders.find(f => f.id === folderId);
+      if (!folder) return;
+
+      editingFolderId = folderId;
+      populateFolderPresetLocationsSelect();
+      document.getElementById('folder-modal-title').textContent = `⚙️ 編輯資料夾：${folder.name}`;
+      document.getElementById('folder-icon-input').value = folder.icon || '📁';
+      document.getElementById('folder-name-input').value = folder.name || '';
+      document.getElementById('folder-loc-label').value = folder.locationName || '';
+      document.getElementById('folder-lat-input').value = (folder.lat !== undefined && folder.lat !== null) ? folder.lat : '';
+      document.getElementById('folder-lng-input').value = (folder.lng !== undefined && folder.lng !== null) ? folder.lng : '';
+
+      const delBtn = document.getElementById('folder-delete-btn');
+      if (routeFolders.length > 1) delBtn.classList.remove('hidden');
+      else delBtn.classList.add('hidden');
+
+      const modal = document.getElementById('folder-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeFolderModal() {
+      const modal = document.getElementById('folder-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function saveFolderModal() {
+      const icon = document.getElementById('folder-icon-input').value || '📁';
+      const name = document.getElementById('folder-name-input').value.trim();
+      if (!name) {
+        alert('請輸入資料夾名稱！');
+        return;
+      }
+
+      const locLabel = document.getElementById('folder-loc-label').value.trim();
+      const latRaw = document.getElementById('folder-lat-input').value.trim();
+      const lngRaw = document.getElementById('folder-lng-input').value.trim();
+      const lat = latRaw !== '' ? parseFloat(latRaw) : null;
+      const lng = lngRaw !== '' ? parseFloat(lngRaw) : null;
+
+      if (editingFolderId) {
+        const idx = routeFolders.findIndex(f => f.id === editingFolderId);
+        if (idx !== -1) {
+          routeFolders[idx] = {
+            ...routeFolders[idx],
+            name,
+            icon,
+            locationName: locLabel,
+            lat: !isNaN(lat) ? lat : null,
+            lng: !isNaN(lng) ? lng : null
+          };
+        }
+      } else {
+        const newId = 'folder_' + Date.now();
+        routeFolders.push({
+          id: newId,
+          name,
+          icon,
+          locationName: locLabel,
+          lat: !isNaN(lat) ? lat : null,
+          lng: !isNaN(lng) ? lng : null
+        });
+        currentFolderId = newId;
+      }
+
+      saveRouteFolders();
+      closeFolderModal();
+      applyNearestFolderSelection(false);
+      buildCardsSkeleton();
+      refreshAll(true);
+    }
+
+    function deleteCurrentEditingFolder() {
+      if (!editingFolderId || routeFolders.length <= 1) return;
+      const target = routeFolders.find(f => f.id === editingFolderId);
+      if (!confirm(`確定要刪除資料夾「${target?.name || ''}」嗎？（該資料夾內的路線將自動移至第一個資料夾）`)) return;
+
+      routeFolders = routeFolders.filter(f => f.id !== editingFolderId);
+      const fallbackFolderId = routeFolders[0].id;
+      activeCards.forEach(c => {
+        if (c.folderId === editingFolderId) c.folderId = fallbackFolderId;
+      });
+
+      if (currentFolderId === editingFolderId) currentFolderId = fallbackFolderId;
+      saveRouteFolders();
+      saveActiveCards();
+      closeFolderModal();
+      renderFoldersBar();
+      buildCardsSkeleton();
+      refreshAll(true);
+    }
+
+    // =========================================================================
+    // 6. 可自由增減的巴士 / 小巴 / 港鐵路線卡配置與 5 站動畫
+    // =========================================================================
+    const CARDS_STORAGE_KEY = 'transit_custom_cards_v5';
 
     const DEFAULT_CARDS = [
+      // 資料夾 1：林村 / 鍾屋村 (folder_home)
       {
+        folderId: 'folder_home',
         operator: 'KMB', route: '64K', bound: 'I', serviceType: '1', destName: '大埔墟站',
         stopId: '', stopSeq: 0, stopName: '鍾屋村',
         fiveStops: ['川背', '新塘', '新村', '放馬莆(許願樹)', '鍾屋村'], fiveStopIds: [], fiveStopSeqs: []
       },
       {
+        folderId: 'folder_home',
         operator: 'KMB', route: '64K', bound: 'O', serviceType: '1', destName: '元朗（西）',
         stopId: '', stopSeq: 0, stopName: '鍾屋村',
         fiveStops: ['太和廣場', '大埔公路大窩段', '梅樹坑', '大菴', '鍾屋村'], fiveStopIds: [], fiveStopSeqs: []
       },
       {
+        folderId: 'folder_home',
         operator: 'GMB', gmbRegion: 'NT', route: '25K', routeId: 2004067, routeSeq: 2, destName: '大埔墟 / 太和',
         stopId: 20011068, stopSeq: 8, stopName: '林錦公路, 近鍾屋村',
         fiveStops: ['白牛石', '麻布尾', '新塘', '放馬莆(許願樹)', '近鍾屋村'], isDefaultChungUk25K: true
       },
       {
+        folderId: 'folder_home',
         operator: 'KMB', route: '65K', bound: 'I', serviceType: '1', destName: '大埔中心',
         stopId: '', stopSeq: 0, stopName: '鍾屋村',
         fiveStops: ['川背', '新塘', '新村', '放馬莆(許願樹)', '鍾屋村'], fiveStopIds: [], fiveStopSeqs: []
+      },
+      // 資料夾 2：太和 / 大埔墟轉乘 (folder_taiwo)
+      {
+        folderId: 'folder_taiwo',
+        operator: 'KMB', route: '64K', bound: 'O', serviceType: '1', destName: '元朗（西）',
+        stopId: '', stopSeq: 0, stopName: '太和廣場',
+        fiveStops: ['大埔墟站', '大埔懷義街', '大埔安祥路', '大埔廣福道', '太和廣場'], fiveStopIds: [], fiveStopSeqs: []
+      },
+      {
+        folderId: 'folder_taiwo',
+        operator: 'MTR', route: 'EAL', bound: 'DOWN', serviceType: '1', destName: '金鐘',
+        stopId: 'TWO', stopSeq: 11, stopName: '太和站',
+        fiveStops: ['羅湖站', '上水站', '粉嶺站', '太和站', '太和站'], fiveStopIds: [], fiveStopSeqs: []
+      },
+      // 資料夾 3：市區 / 九龍返程 (folder_urban)
+      {
+        folderId: 'folder_urban',
+        operator: 'MTR', route: 'EAL', bound: 'UP', serviceType: '1', destName: '羅湖/落馬洲',
+        stopId: 'KOT', stopSeq: 5, stopName: '九龍塘站',
+        fiveStops: ['金鐘站', '會展站', '紅磡站', '旺角東站', '九龍塘站'], fiveStopIds: [], fiveStopSeqs: []
       }
     ];
 
@@ -1613,7 +2158,12 @@
       if (raw) {
         try {
           const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length >= 1) return parsed;
+          if (Array.isArray(parsed) && parsed.length >= 1) {
+            parsed.forEach(c => {
+              if (!c.folderId) c.folderId = 'folder_home';
+            });
+            return parsed;
+          }
         } catch (e) {}
       }
       return JSON.parse(JSON.stringify(DEFAULT_CARDS));
@@ -1625,8 +2175,12 @@
 
     function resetAllCardsToDefault() {
       localStorage.removeItem(CARDS_STORAGE_KEY);
+      localStorage.removeItem(FOLDERS_STORAGE_KEY);
+      routeFolders = JSON.parse(JSON.stringify(DEFAULT_FOLDERS));
       activeCards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
+      currentFolderId = routeFolders[0].id;
       closeRouteModal();
+      renderFoldersBar();
       buildCardsSkeleton();
       refreshAll(true);
     }
@@ -1638,6 +2192,7 @@
       }
       activeCards.splice(slotIdx, 1);
       saveActiveCards();
+      renderFoldersBar();
       buildCardsSkeleton();
       refreshAll(true);
     }
@@ -1647,9 +2202,33 @@
       return name.replace(/^林錦公路[\s,，、]*近?/g, '').replace(/\([A-Z0-9]+\)$/i, '').replace(/巴士總站|總站/g, '總站').trim().slice(0, 7);
     }
 
+    function getVisibleCardsWithOriginalIndex() {
+      const fallbackId = routeFolders[0]?.id || 'folder_home';
+      return activeCards
+        .map((card, originalIdx) => ({ card, originalIdx }))
+        .filter(item => currentFolderId === 'ALL' || (item.card.folderId || fallbackId) === currentFolderId);
+    }
+
     function buildCardsSkeleton() {
       const grid = document.getElementById('cards-grid');
-      grid.innerHTML = activeCards.map((card, idx) => {
+      const visibleItems = getVisibleCardsWithOriginalIndex();
+
+      if (visibleItems.length === 0) {
+        const currentFolderObj = routeFolders.find(f => f.id === currentFolderId);
+        grid.innerHTML = `
+          <div class="airport-panel p-8 col-span-1 md:col-span-2 text-center space-y-3">
+            <div class="text-3xl">${currentFolderObj?.icon || '📁'}</div>
+            <div class="text-base md:text-lg font-black text-pri">「${currentFolderObj?.name || '此資料夾'}」目前尚未加入任何路線</div>
+            <p class="text-xs font-bold text-mut">你可以點擊下方按鈕新增巴士、小巴或港鐵路線至此資料夾</p>
+            <button onclick="openAddRouteModal()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-xs shadow">
+              ➕ 立即新增路線至此資料夾
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = visibleItems.map(({ card, originalIdx: idx }) => {
         const badgeStyle =
           card.operator === 'KMB' ? 'background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%); color: #fff;' :
           card.operator === 'GMB' ? 'background: linear-gradient(180deg, #059669 0%, #047857 100%); color: #fff;' :
@@ -1660,6 +2239,11 @@
           card.operator === 'KMB' ? 'KMB 九巴' :
           card.operator === 'GMB' ? 'GMB 小巴' :
           card.operator === 'CTB' ? 'CTB 城巴' : 'MTR 港鐵';
+
+        const folderObj = routeFolders.find(f => f.id === card.folderId);
+        const folderBadgeHtml = (currentFolderId === 'ALL' && folderObj)
+          ? `<span class="flap-tile px-2 py-0.5 text-[10px] font-bold text-mut">${folderObj.icon || '📁'} ${folderObj.name}</span>`
+          : '';
 
         const stops5 = (card.fiveStops && card.fiveStops.length === 5)
           ? card.fiveStops
@@ -1683,8 +2267,9 @@
               </div>
 
               <div class="flex items-center gap-1.5 shrink-0">
+                ${folderBadgeHtml}
                 <span class="flap-tile px-2 py-0.5 text-[11px] font-black flap-amber hidden sm:inline-flex">${opLabel}</span>
-                <button onclick="openRouteModal(${idx})" class="ctrl-btn px-2.5 py-1 text-xs font-black hover:opacity-85" title="更改此格路線或站點">
+                <button onclick="openRouteModal(${idx})" class="ctrl-btn px-2.5 py-1 text-xs font-black hover:opacity-85" title="更改此格路線、站點或所屬資料夾">
                   ⚙️ 換線
                 </button>
                 ${activeCards.length > 1 ? `
@@ -1825,7 +2410,7 @@
     }
 
     // =========================================================================
-    // 6. 時鐘翻頁、日出日落深淺色主題、夜間黑屏 (00:00 - 06:00)
+    // 7. 時鐘翻頁、日出日落深淺色主題、可選是否開啟之夜間黑屏 (00:00 - 06:00)
     // =========================================================================
     function flipClockCard(cardId, newVal) {
       const card = document.getElementById(cardId);
@@ -1945,10 +2530,35 @@
       applyDayNightTheme(new Date());
     }
 
+    // 00:00 - 06:00 夜間自動黑屏開關邏輯
+    const AUTO_NIGHT_SLEEP_KEY = 'dashboard_auto_night_sleep_v1';
+    let autoNightSleepEnabled = localStorage.getItem(AUTO_NIGHT_SLEEP_KEY) !== 'false'; // 預設開啟，可隨時關閉
     let isSleeping = false;
     let manualSleepForced = false;
     let wakeOverrideUntil = 0;
     let hintTimeout = null;
+
+    function updateAutoSleepButtonUI() {
+      const btn = document.getElementById('auto-sleep-btn');
+      if (!btn) return;
+      if (autoNightSleepEnabled) {
+        btn.textContent = '🌙 自動黑屏: 開';
+        btn.className = 'ctrl-btn px-2 py-1 text-xs font-black flap-amber col-span-2';
+      } else {
+        btn.textContent = '🌙 自動黑屏: 關';
+        btn.className = 'ctrl-btn px-2 py-1 text-xs font-bold text-mut col-span-2';
+      }
+    }
+
+    function toggleAutoNightSleep() {
+      autoNightSleepEnabled = !autoNightSleepEnabled;
+      localStorage.setItem(AUTO_NIGHT_SLEEP_KEY, String(autoNightSleepEnabled));
+      updateAutoSleepButtonUI();
+      if (!autoNightSleepEnabled && isSleeping && !manualSleepForced) {
+        exitSleepMode();
+      }
+      checkSleepState(new Date());
+    }
 
     function isNightHours(dateObj) {
       const hour = dateObj.getHours();
@@ -2008,7 +2618,8 @@
         return;
       }
 
-      if (inNightWindow) {
+      // 只有當用戶開啟了「00:00-06:00 自動黑屏」時才會在凌晨自動休眠
+      if (autoNightSleepEnabled && inNightWindow) {
         const remainingWakeSec = Math.ceil((wakeOverrideUntil - Date.now()) / 1000);
         if (remainingWakeSec > 0) {
           wakeBadge.classList.remove('hidden');
@@ -2059,7 +2670,7 @@
     }
 
     // =========================================================================
-    // 7. 通用班次渲染器與 KMB / GMB / CTB / MTR 穩定版 API 引擎
+    // 8. 通用班次渲染器與 KMB / GMB / CTB / MTR 穩定版 API 引擎
     // =========================================================================
     function renderEtaFlapBoard(containerId, etas, emptyMessage = '暫無班次預報') {
       const container = document.getElementById(containerId);
@@ -2129,7 +2740,6 @@
       }).join('');
     }
 
-    // 使用單例 Promise 鎖定，確保全頁無論多少張九巴卡都只會下載一次站點清單
     let kmbStopNameMap = null;
     let kmbAllRoutesList = null;
     let kmbBaseDataPromise = null;
@@ -2163,7 +2773,15 @@
 
       await ensureKmbBaseData();
 
-      const isChungUk = (name) => name && (name.includes('鍾屋村') || name.includes('鐘屋村'));
+      const targetStopKeyword = (card.stopName || '鍾屋村').replace(/站|巴士總站/g, '');
+      const matchStopFn = (name) => {
+        if (!name) return false;
+        if (targetStopKeyword.includes('鍾屋村') || targetStopKeyword.includes('鐘屋村')) {
+          return name.includes('鍾屋村') || name.includes('鐘屋村');
+        }
+        return name.includes(targetStopKeyword);
+      };
+
       const [inRes, outRes] = await Promise.all([
         fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${card.route}/inbound/${card.serviceType || '1'}`, 6000).catch(() => ({ data: [] })),
         fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${card.route}/outbound/${card.serviceType || '1'}`, 6000).catch(() => ({ data: [] }))
@@ -2195,7 +2813,7 @@
         chosenBound = 'O';
       }
 
-      const targetIdx = chosenList.findIndex(item => isChungUk(kmbStopNameMap.get(item.stop)?.name_tc));
+      const targetIdx = chosenList.findIndex(item => matchStopFn(kmbStopNameMap.get(item.stop)?.name_tc));
       if (targetIdx !== -1) {
         const targetItem = chosenList[targetIdx];
         card.bound = chosenBound;
@@ -2203,7 +2821,6 @@
         card.stopSeq = Number(targetItem.seq);
         card.stopName = kmbStopNameMap.get(targetItem.stop)?.name_tc || card.stopName;
 
-        // 若是 64K 往大埔方向，一併記錄太和廣場站 ID 供交通預測計算實時車程
         if (card.route === '64K' && card.destName.includes('大埔')) {
           const twHit = chosenList.find(item => {
             const nm = kmbStopNameMap.get(item.stop)?.name_tc || '';
@@ -2220,7 +2837,6 @@
         card.fiveStopIds = slice.map(s => s.stop);
         card.fiveStopSeqs = slice.map(s => Number(s.seq));
 
-        // 立即儲存已解析的 stopId 至 localStorage，下次打開無需再重新搜尋
         saveActiveCards();
         const stopLabelEl = document.getElementById(`card-stop-${ activeCards.indexOf(card) }`);
         if (stopLabelEl) stopLabelEl.textContent = `本站：${card.stopName}`;
@@ -2236,11 +2852,9 @@
           return;
         }
 
-        // 1. 直接使用最穩定的九巴單站 ETA API (/eta/{stop_id}/{route}/1) 獲取到站時間
         const etaJson = await fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/eta/${card.stopId}/${card.route}/${card.serviceType || '1'}`, 4500);
         const rawList = (etaJson.data || []).filter(e => Boolean(e.eta));
 
-        // 優先按方向或目的地篩選；若該站只有單一方向則直接採用全部班次
         const cleanDestKey = (card.destName || '').replace(/（.*）|\(.*\)|站|總站/g, '').trim().slice(0, 2);
         let filteredRaw = rawList.filter(e => {
           if (cleanDestKey && e.dest_tc && e.dest_tc.includes(cleanDestKey)) return true;
@@ -2256,7 +2870,6 @@
           remark: e.rmk_tc || '實時班次'
         }));
 
-        // 2. 若是 64K 往大埔方向且有太和站 ID，非阻塞計算鍾屋村->太和實時車程差
         if (card.route === '64K' && card.destName.includes('大埔') && card.taiWoStopId && filteredRaw.length > 0) {
           latestKmbRemarks = filteredRaw[0]?.rmk_tc || '';
           fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/eta/${card.taiWoStopId}/64K/1`, 3500)
@@ -2278,7 +2891,6 @@
         renderEtaFlapBoard(`eta-card-${slotIdx}`, formattedEtas, '目前暫無班次預報');
         updateJrApproachBoard(slotIdx, card, formattedEtas, null);
       } catch (err) {
-        console.error('KMB ETA Error:', err);
         renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '暫時無法連線九巴伺服器，5秒後重試');
       }
     }
@@ -2430,7 +3042,8 @@
     }
 
     async function fetchAllActiveCards() {
-      await Promise.all(activeCards.map((card, idx) => {
+      const visibleItems = getVisibleCardsWithOriginalIndex();
+      await Promise.all(visibleItems.map(({ card, originalIdx: idx }) => {
         if (card.operator === 'KMB') return fetchKmbCardData(idx, card);
         if (card.operator === 'GMB') return fetchGmbCardData(idx, card);
         if (card.operator === 'CTB') return fetchCtbCardData(idx, card);
@@ -2440,7 +3053,7 @@
     }
 
     // =========================================================================
-    // 8. 新增路線 / 更換路線 設定視窗邏輯
+    // 9. 新增路線 / 更換路線 設定視窗邏輯 (支援選擇所屬資料夾)
     // =========================================================================
     let modalEditingSlot = 0;
     let isAddingNewRoute = false;
@@ -2458,11 +3071,24 @@
       ISL: { name: '港島綫 (ISL)', stations: [{ id: 'KET', name: '堅尼地城' }, { id: 'HKU', name: '香港大學' }, { id: 'SYP', name: '西營盤' }, { id: 'SHW', name: '上環' }, { id: 'CEN', name: '中環' }, { id: 'ADM', name: '金鐘' }, { id: 'WAC', name: '灣仔' }, { id: 'CAB', name: '銅鑼灣' }, { id: 'TIH', name: '天后' }, { id: 'FOH', name: '炮台山' }, { id: 'NOP', name: '北角' }, { id: 'QUB', name: '鰂魚涌' }, { id: 'TAK', name: '太古' }, { id: 'SWH', name: '西灣河' }, { id: 'SKW', name: '筲箕灣' }, { id: 'HFC', name: '杏花邨' }, { id: 'CHW', name: '柴灣' }] }
     };
 
+    function populateModalFolderSelect(selectedFolderId) {
+      const sel = document.getElementById('modal-folder-select');
+      if (!sel) return;
+      const defaultTarget = (selectedFolderId && selectedFolderId !== 'ALL')
+        ? selectedFolderId
+        : (routeFolders[0]?.id || 'folder_home');
+
+      sel.innerHTML = routeFolders.map(f =>
+        `<option value="${f.id}" ${f.id === defaultTarget ? 'selected' : ''}>${f.icon || '📁'} ${f.name}${f.locationName ? `（📍${f.locationName}）` : ''}</option>`
+      ).join('');
+    }
+
     function openAddRouteModal() {
       isAddingNewRoute = true;
       modalEditingSlot = activeCards.length;
+      populateModalFolderSelect(currentFolderId);
       document.getElementById('route-modal-title').textContent = '➕ 新增顯示路線';
-      document.getElementById('route-modal-slot-label').textContent = `將在看板新增第 ${activeCards.length + 1} 條路線`;
+      document.getElementById('route-modal-slot-label').textContent = `將在所選資料夾新增路線卡片`;
       document.getElementById('modal-save-btn').textContent = '➕ 確認新增路線';
       document.getElementById('modal-route-Filter').value = '';
 
@@ -2476,8 +3102,9 @@
       isAddingNewRoute = false;
       modalEditingSlot = slotIdx;
       const currentCard = activeCards[slotIdx];
-      document.getElementById('route-modal-title').textContent = '⚙️ 更換路線及站點';
-      document.getElementById('route-modal-slot-label').textContent = `正在修改：第 ${slotIdx + 1} 格看板（目前為 ${currentCard.route} 往${currentCard.destName}）`;
+      populateModalFolderSelect(currentCard.folderId || currentFolderId);
+      document.getElementById('route-modal-title').textContent = '⚙️ 更換路線、站點或資料夾';
+      document.getElementById('route-modal-slot-label').textContent = `正在修改：${currentCard.route} 往${currentCard.destName}（${currentCard.stopName}）`;
       document.getElementById('modal-save-btn').textContent = '✅ 儲存套用至此格';
       document.getElementById('modal-route-Filter').value = '';
 
@@ -2630,6 +3257,7 @@
     }
 
     function saveModalRouteCard() {
+      const chosenFolderId = document.getElementById('modal-folder-select').value || routeFolders[0]?.id || 'folder_home';
       const routeCode = document.getElementById('modal-route-select').value;
       const dirIdx = document.getElementById('modal-dir-select').value;
       const stopIdx = Number(document.getElementById('modal-stop-select').value);
@@ -2643,6 +3271,7 @@
       while (slice.length < 5 && slice.length > 0) slice.unshift(slice[0]);
 
       const newCard = {
+        folderId: chosenFolderId,
         operator: modalOperator, gmbRegion: modalGmbRegion, route: routeCode,
         bound: dirObj.bound || 'I', serviceType: dirObj.serviceType || '1',
         routeId: dirObj.routeId || null, routeSeq: dirObj.routeSeq || null,
@@ -2655,26 +3284,28 @@
       if (isAddingNewRoute) activeCards.push(newCard);
       else activeCards[modalEditingSlot] = newCard;
 
+      currentFolderId = chosenFolderId;
       saveActiveCards();
       closeRouteModal();
+      renderFoldersBar();
       buildCardsSkeleton();
       refreshAll(true);
     }
 
     // =========================================================================
-    // 9. 獨立分離 5 秒極速刷新控制 (ETA 與 慢速背景資料互不阻塞)
+    // 10. 獨立分離 5 秒極速刷新控制 (ETA 與 慢速背景資料互不阻塞)
     // =========================================================================
     async function refreshAll(isManualOrInitial = false) {
       refreshCountdown = REFRESH_INTERVAL_SEC;
       document.getElementById('countdown').textContent = refreshCountdown;
 
-      // 背景更新天氣與交通消息 (不阻塞 5 秒巴士到站更新)
       if (isManualOrInitial || slowSyncCounter % 6 === 0) {
         fetchTdTrafficNews().catch(() => {});
       }
       if (isManualOrInitial || slowSyncCounter % 12 === 0) {
         fetchHkoSunTimes().catch(() => {});
         fetchWeather().catch(() => {});
+        if (geoPriorityEnabled) requestUserGpsNow(false);
       }
       slowSyncCounter++;
 
@@ -2692,11 +3323,15 @@
 
     // 啟動執行
     setUiStyle(currentUiStyle);
+    updateAutoSleepButtonUI();
+    updateGeoPriorityButtonUI();
     renderWeatherRegionsBar();
     evaluateAndRenderAllTrafficMonitors();
+    renderFoldersBar();
     buildCardsSkeleton();
     computeHkSunTimes(new Date());
     updateClock();
+    if (geoPriorityEnabled) requestUserGpsNow(true);
     refreshAll(true);
   </script>
 </body>
