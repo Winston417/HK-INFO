@@ -62,9 +62,6 @@
       --track-bg: #070b12; --track-border: #1e293b; --dock-bg: rgba(17, 23, 38, 0.96); font-family: 'Noto Sans HK', sans-serif;
     }
 
-    /* =========================================================================
-       共用元件與普通模式 / 手機模式切換規則
-       ========================================================================= */
     body { background: var(--bg-board); background-attachment: fixed; color: var(--text-main); transition: background 0.35s ease, color 0.35s ease; -webkit-tap-highlight-color: transparent; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -121,25 +118,25 @@
     body.style-flap .flap-animate { animation: splitFlapFlip 0.42s cubic-bezier(0.2, 0.85, 0.35, 1.15); }
     @keyframes splitFlapFlip { 0% { transform: rotateX(-85deg); opacity: 0.35; } 60% { transform: rotateX(12deg); opacity: 1; } 100% { transform: rotateX(0deg); opacity: 1; } }
 
-    /* 5 站橫向路軌 (卡片預覽) */
+    /* 橫向路軌 (支援動態站數 1~5 站) */
     .jr-board { background-color: var(--track-bg); border: 1.5px solid var(--track-border); border-radius: var(--row-radius); padding: 6px 8px 5px 8px; position: relative; color: #f8fafc; transition: all 0.25s ease; }
-    .jr-track-container { position: relative; height: 34px; margin: 0 7%; }
-    .jr-rail-line { position: absolute; left: 0; right: 0; top: 21px; height: 4px; background: linear-gradient(90deg, #334155 0%, #475569 75%, #10b981 100%); border-radius: 999px; z-index: 1; }
-    .jr-chevron { position: absolute; top: 12px; transform: translateX(-50%); font-size: 10px; color: #64748b; z-index: 2; letter-spacing: -2px; animation: jrArrowPulse 1.8s infinite; }
+    .jr-track-container { position: relative; height: 36px; margin: 0 7%; }
+    .jr-rail-line { position: absolute; left: 0; right: 0; top: 22px; height: 4px; background: linear-gradient(90deg, #334155 0%, #475569 75%, #10b981 100%); border-radius: 999px; z-index: 1; }
+    .jr-chevron { position: absolute; top: 13px; transform: translateX(-50%); font-size: 10px; color: #64748b; z-index: 2; letter-spacing: -2px; animation: jrArrowPulse 1.8s infinite; }
     @keyframes jrArrowPulse { 0%, 100% { opacity: 0.35; color: #64748b; } 50% { opacity: 1; color: #fbbf24; } }
-    .jr-station-node { position: absolute; top: 14px; transform: translateX(-50%); width: 17px; height: 17px; border-radius: 6px; background-color: #1e293b; border: 2px solid #94a3b8; z-index: 3; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
-    body.style-android .jr-station-node, body.style-apple .jr-station-node { border-radius: 9999px; }
-    .jr-station-node.is-target { width: 21px; height: 21px; top: 12px; border-color: #34d399; background-color: #064e3b; box-shadow: 0 0 10px rgba(52, 211, 153, 0.6); }
+    .jr-station-node { position: absolute; top: 24px; transform: translate(-50%, -50%); width: 16px; height: 16px; border-radius: 9999px; background-color: #1e293b; border: 2.5px solid #94a3b8; z-index: 4; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+    .jr-station-node.is-target { width: 20px; height: 20px; border-color: #34d399; background-color: #064e3b; box-shadow: 0 0 10px rgba(52, 211, 153, 0.7); }
     .jr-station-node.is-lit { background-color: #f59e0b; border-color: #fde68a; box-shadow: 0 0 12px rgba(251, 191, 36, 0.95); }
     .jr-station-node.is-arriving { background-color: #10b981; border-color: #a7f3d0; box-shadow: 0 0 14px rgba(16, 185, 129, 1); animation: pulse 0.8s infinite; }
-    .jr-bus-actor { position: absolute; top: -4px; transform: translateX(-50%); z-index: 10; transition: left 1.1s cubic-bezier(0.22, 1, 0.36, 1); display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+    
+    .jr-bus-actor { position: absolute; top: 18px; transform: translate(-50%, -100%); z-index: 10; transition: left 1.1s cubic-bezier(0.22, 1, 0.36, 1); display: flex; flex-direction: column; align-items: center; pointer-events: none; }
     .jr-bus-pill { display: inline-flex; align-items: center; gap: 2px; padding: 1px 6px; border-radius: 9999px; background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%); color: #090d16; font-weight: 900; font-size: 10.5px; line-height: 1.2; border: 1.5px solid #fef08a; box-shadow: 0 0 12px rgba(251, 191, 36, 0.9), 0 2px 4px rgba(0,0,0,0.6); white-space: nowrap; animation: busHoverBounce 1.5s ease-in-out infinite; }
     .jr-bus-pill.is-arriving { background: linear-gradient(180deg, #34d399 0%, #059669 100%); border-color: #d1fae5; color: #022c22; box-shadow: 0 0 14px rgba(52, 211, 153, 0.95); }
     .jr-bus-pill.is-second { background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); border-color: #bae6fd; color: #082f49; opacity: 0.92; transform: scale(0.9); }
     @keyframes busHoverBounce { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-2px); } }
 
     /* 垂直路線詳情路軌 (含分叉路綫適配) */
-    .v-stop-node { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #475569; border: 2.5px solid #0f172a; z-index: 2; transform: translate(-50%, -50%); margin: 0; }
+    .v-stop-node { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #ffffff; border: 2.5px solid #000000; z-index: 2; transform: translate(-50%, -50%); margin: 0; }
     .v-stop-node.passed { background: #64748b; }
     .v-stop-node.target { background: #10b981; border-color: #a7f3d0; box-shadow: 0 0 12px rgba(16,185,129,0.95); width: 20px; height: 20px; z-index: 3; }
     .v-bus-actor { position: absolute; z-index: 10; transition: top 0.8s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; transform: translate(0, -50%); }
@@ -165,12 +162,9 @@
     </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- 1. 巴士/港鐵路線詳情子頁面 (垂直可滑動路線圖 + 接下來 3 班車) -->
-  <!-- ========================================================= -->
+  <!-- 1. 路線詳情子頁面 (垂直可滑動路線圖 + 接下來 3 班車) -->
   <div id="route-detail-modal" onclick="if(event.target===this)closeRouteDetail()" class="fixed inset-0 bg-black/80 z-[60] hidden flex-col justify-end sm:justify-center items-center p-0 sm:p-3">
     <div class="airport-panel w-full sm:w-[500px] max-h-[92vh] h-[88vh] sm:h-[84vh] flex flex-col rounded-b-none sm:rounded-b-[22px] overflow-hidden relative shadow-2xl">
-      <!-- 頂部標題區 -->
       <div class="flex items-center justify-between p-3.5 border-b border-slate-500/30 shrink-0">
         <div class="flex flex-col min-w-0 pr-2">
           <div class="flex items-center gap-2">
@@ -182,14 +176,12 @@
         <button onclick="closeRouteDetail()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-black shrink-0">✕ 返回看板</button>
       </div>
 
-      <!-- 中間：垂直可滑動路線圖 (限制單屏不超過 8-10 站，支援順暢上下滑動) -->
       <div id="route-detail-scroll-area" class="flex-1 overflow-y-auto px-3 py-3 bg-slate-950/60">
         <div id="route-detail-track" class="relative pb-8 pt-2">
           <div class="text-center text-slate-400 text-sm py-16 font-bold">⏳ 正在載入完整沿線站點與實時位置...</div>
         </div>
       </div>
 
-      <!-- 底部：接下來 3 班車實時到站預報 -->
       <div class="p-3 border-t border-slate-500/30 shrink-0">
         <div class="flex items-center justify-between mb-1.5 px-1">
           <span class="text-xs font-black text-pri">⏱️ 本站接下來 3 班車預報：</span>
@@ -202,9 +194,7 @@
     </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- 2. 系統及外觀統一設定介面 (Settings Modal)                 -->
-  <!-- ========================================================= -->
+  <!-- 2. 系統及外觀設定視窗 -->
   <div id="settings-modal" onclick="if(event.target===this)closeSettingsModal()" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-md w-full p-4 sm:p-5 max-h-[90vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
       <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
@@ -218,7 +208,7 @@
 
       <div class="space-y-4 text-sm">
         <div>
-          <label class="block font-black text-pri mb-1.5">🖥️ 1. 畫面佈局模式（普通模式 / 手機豎屏模式）</label>
+          <label class="block font-black text-pri mb-1.5">🖥️ 1. 畫面佈局模式</label>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="setUiMode('normal')" id="set-ui-normal" class="ctrl-btn py-2.5 text-xs font-black">🖥️ 普通寬屏模式</button>
             <button onclick="setUiMode('mobile')" id="set-ui-mobile" class="ctrl-btn py-2.5 text-xs font-black">📱 手機豎屏模式</button>
@@ -248,15 +238,15 @@
           <div class="flap-row p-3.5 space-y-3">
             <div class="flex items-center justify-between gap-2">
               <div>
-                <div class="text-xs font-black text-pri">🚌 路線卡動態進站路軌動畫</div>
-                <div class="text-[11px] font-bold text-mut">自動依剩餘站點縮短路軌，關閉後卡片更緊湊</div>
+                <div class="text-xs font-black text-pri">🚌 路線卡實時路軌圖動畫</div>
+                <div class="text-[11px] font-bold text-mut">依各站實際到站時間顯示區間行車進度</div>
               </div>
               <button onclick="toggleTrackAnimation()" id="set-track-btn" class="ctrl-btn px-3.5 py-1.5 text-xs font-black shrink-0">開啟中</button>
             </div>
             <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-500/20">
               <div>
                 <div class="text-xs font-black text-pri">🌙 00:00 – 06:00 自動黑屏休眠</div>
-                <div class="text-[11px] font-bold text-mut">凌晨自動黑屏防烙印，輕觸可喚醒 60 秒</div>
+                <div class="text-[11px] font-bold text-mut">防烙印，輕觸可暫時喚醒 60 秒</div>
               </div>
               <button onclick="toggleAutoNightSleep()" id="set-sleep-btn" class="ctrl-btn px-3.5 py-1.5 text-xs font-black shrink-0">開啟中</button>
             </div>
@@ -277,16 +267,14 @@
     </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- 3. 直接搜尋路線查看時間視窗 (Quick Search Modal)            -->
-  <!-- ========================================================= -->
+  <!-- 3. 直接搜尋路線視窗 -->
   <div id="quick-search-modal" onclick="if(event.target===this)closeQuickSearchModal()" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-xl w-full p-4 sm:p-5 max-h-[92vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
       <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3.5">
         <div>
           <h2 class="text-lg sm:text-xl font-black text-pri">🔍 直接搜尋路線到站時間</h2>
-          <p class="text-xs font-bold text-mut mt-0.5">無需加入資料夾，即時查詢九巴、大嶼山巴士、小巴、城巴或港鐵班次</p>
+          <p class="text-xs font-bold text-mut mt-0.5">無需加入資料夾，即時查詢各交通班次</p>
         </div>
         <button onclick="closeQuickSearchModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
@@ -333,7 +321,7 @@
         </div>
 
         <div>
-          <label class="block font-black text-pri mb-1">4. 選擇查詢站點（自動即時計時）：</label>
+          <label class="block font-black text-pri mb-1">4. 選擇查詢站點：</label>
           <select id="qs-stop-select" onchange="executeQuickSearch()"
             class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-emerald-300 font-black text-sm focus:outline-none">
             <option value="">請先選擇方向...</option>
@@ -348,7 +336,7 @@
 
         <div id="qs-result-box" class="hidden mt-2 pt-2 border-t border-slate-500/30">
           <div class="flex items-center justify-between mb-1.5 px-1">
-            <span class="text-xs font-black text-pri">⏱️ 實時到站預報（每 5 秒同步更新）：</span>
+            <span class="text-xs font-black text-pri">⏱️ 實時到站預報：</span>
             <span id="qs-last-update" class="text-[10px] font-bold text-mut mono-num">--:--:--</span>
           </div>
           <div id="qs-result" class="space-y-1.5"></div>
@@ -357,16 +345,14 @@
     </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- 4. 版面區塊順序與顯示隱藏設定視窗 (Layout Modal)            -->
-  <!-- ========================================================= -->
+  <!-- 4. 版面排序設定視窗 -->
   <div id="layout-modal" onclick="if(event.target===this)closeLayoutModal()" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-lg w-full p-4 sm:p-5 max-h-[90vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
       <div class="w-10 h-1 bg-slate-400/40 rounded-full mx-auto mb-2.5 sm:hidden"></div>
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3.5">
         <div>
           <h2 class="text-lg sm:text-xl font-black text-pri">🎛️ 版面排序及顯示設定</h2>
-          <p class="text-xs font-bold text-mut mt-0.5">點擊 ⬆️ / ⬇️ 自由調整各區塊上下順序，或取消勾選隱藏該區塊</p>
+          <p class="text-xs font-bold text-mut mt-0.5">點擊 ⬆️ / ⬇️ 調整順序，取消勾選可隱藏該區塊</p>
         </div>
         <button onclick="closeLayoutModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
@@ -378,15 +364,13 @@
     </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- 5. 天文台分區天氣 / 交通監測 / 新增路線 / 資料夾 Modals     -->
-  <!-- ========================================================= -->
+  <!-- 5. 天氣/交通/新增/資料夾 Modals -->
   <div id="weather-modal" onclick="if(event.target===this)closeWeatherModal()" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
     <div class="airport-panel max-w-2xl w-full p-4 sm:p-5 max-h-[85vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3">
         <div>
           <h2 class="text-lg sm:text-xl font-black text-pri">🌤️ 選擇香港天文台分區天氣</h2>
-          <p class="text-xs font-bold text-mut mt-0.5">點擊即可加入或移除頂部顯示的分區氣象站（至少保留 1 個）</p>
+          <p class="text-xs font-bold text-mut mt-0.5">點擊即可加入或移除頂部顯示的氣象站</p>
         </div>
         <button onclick="closeWeatherModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold shrink-0">✕ 關閉</button>
       </div>
@@ -399,7 +383,6 @@
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-4">
         <div>
           <h2 id="traffic-modal-title" class="text-lg sm:text-xl font-black text-pri">🚦 新增實時交通監測項目</h2>
-          <p class="text-xs font-bold text-mut mt-0.5">支援 18 區、兩區 A➔B 連接道路、指定幹道、9 條港鐵綫及各隧道橋梁</p>
         </div>
         <button onclick="closeTrafficModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold shrink-0">✕ 關閉</button>
       </div>
@@ -483,7 +466,7 @@
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3.5">
         <div>
           <h2 id="folder-modal-title" class="text-lg sm:text-xl font-black text-pri">📁 資料夾與 18 區定位設定</h2>
-          <p class="text-xs font-bold text-mut mt-0.5">內置全港 18 區超過 135 個熱門座標，自動優先顯示最接近你的資料夾</p>
+          <p class="text-xs font-bold text-mut mt-0.5">內置全港熱門座標，支援時間與距離自動優先排序</p>
         </div>
         <button onclick="closeFolderModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold shrink-0">✕ 關閉</button>
       </div>
@@ -502,11 +485,11 @@
         </div>
         <div class="flap-row p-3.5 space-y-2.5">
           <div class="flex items-center justify-between gap-2">
-            <label class="font-black text-pri text-xs">📍 綁定觸發地點（距離最近時優先開啟）：</label>
+            <label class="font-black text-pri text-xs">📍 綁定觸發地點：</label>
             <button type="button" onclick="fillFolderWithCurrentGps()" class="px-2.5 py-1 rounded-lg bg-sky-500 text-white font-black text-xs shadow">🎯 讀取目前 GPS</button>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-mut mb-1">從香港 18 區（共 135 個地點）快速選取座標：</label>
+            <label class="block text-[11px] font-bold text-mut mb-1">從 18 區快速選取座標：</label>
             <select id="folder-preset-loc" onchange="onFolderPresetChange()" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-bold text-xs"></select>
           </div>
           <div class="grid grid-cols-3 gap-2">
@@ -534,9 +517,7 @@
     </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- 主看板容器 (支援透過 🎛️ 版面排序自由調換 4 大區塊位置及隱藏) -->
-  <!-- ========================================================= -->
+  <!-- 主看板容器 -->
   <div class="app-shell w-full mx-auto flex-1 flex flex-col gap-2">
 
     <!-- 區塊 1：頂部天氣與時間欄 -->
@@ -569,7 +550,6 @@
         </div>
       </div>
 
-      <!-- 分區天氣列 + 快捷功能鍵 -->
       <div class="flex items-center justify-between gap-2 pt-2 mt-2 border-t border-slate-500/20 flex-wrap">
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
           <div class="flex items-center gap-1 shrink-0">
@@ -636,7 +616,7 @@
 
     <!-- 底部狀態列 -->
     <footer style="order: 999;" class="mt-1 pt-1 flex flex-wrap items-center justify-between text-[11px] font-bold text-mut gap-2">
-      <div>💡 點擊任何路線卡可查看「垂直全線圖及接下來 3 班車」・點擊 ⬆️/⬇️ 可直接調整路線順序</div>
+      <div>💡 點擊路線卡可查看完整路線圖與實時車輛位置</div>
       <div class="flex items-center gap-3">
         <button onclick="openLayoutModal()" class="underline hover:opacity-80">🎛️ 版面排序</button>
         <button onclick="openSettingsModal()" class="underline hover:opacity-80">⚙️ 系統設定</button>
@@ -647,7 +627,7 @@
 
   </div>
 
-  <!-- 手機豎屏模式專用底部導航列 (中間下方設醒目「🔍 搜尋」按鈕) -->
+  <!-- 手機豎屏模式專用底部導航列 -->
   <nav class="mobile-bottom-dock only-mobile-ui fixed bottom-0 left-0 right-0 z-30 hidden">
     <button onclick="openAddRouteModal()" class="dock-btn">
       <span class="text-lg leading-none">➕</span>
@@ -679,9 +659,7 @@
     let refreshCountdown = REFRESH_INTERVAL_SEC;
     let isFetchingEtas = false;
     let slowSyncCounter = 0;
-    const previousFlapValues = {};
     let latestTdAllMessages = [];
-    let latestCorridorMinutes = null;
 
     async function fetchWithTimeout(url, timeoutMs = 4500) {
       const controller = new AbortController();
@@ -700,7 +678,7 @@
     }
 
     // =========================================================================
-    // 1. 全港 18 區超過 135 個預設座標庫 (每區平均 7-8 個熱門地點)
+    // 1. 全港 18 區預設座標庫與港鐵/巴士資料庫
     // =========================================================================
     const HK_PRESET_LOCATIONS = [
       { district: '中西區', places: [
@@ -819,7 +797,7 @@
     ];
     let FLAT_PRESET_LOCATIONS = [];
 
-    // 全港 9 條港鐵重鐵綫完整車站字典 (加入分叉路綫標示 ⑂ 及指定終點方向)
+    // 全港 9 條港鐵重鐵綫完整車站字典 (含東鐵/將軍澳分叉標示，以及屯馬綫完整方向適配)
     const MTR_LINES_DATA = {
       EAL: { name: '港鐵東鐵綫 (EAL)', sampleSta: 'TWO', upDest: '羅湖 / 落馬洲', downDest: '金鐘', keywords: ['東鐵綫', '東鐵線', '太和站', '大埔墟站'], stations: [{ id: 'ADM', name: '金鐘' }, { id: 'EXC', name: '會展' }, { id: 'HUH', name: '紅磡' }, { id: 'MKK', name: '旺角東' }, { id: 'KOT', name: '九龍塘' }, { id: 'TAW', name: '大圍' }, { id: 'SHT', name: '沙田' }, { id: 'FOT', name: '火炭' }, { id: 'RAC', name: '馬場 ⑂' }, { id: 'UNI', name: '大學' }, { id: 'TAP', name: '大埔墟' }, { id: 'TWO', name: '太和' }, { id: 'FAN', name: '粉嶺' }, { id: 'SHS', name: '上水' }, { id: 'LOW', name: '羅湖 ⑂' }, { id: 'LMC', name: '落馬洲 ⑂' }] },
       TML: { name: '港鐵屯馬綫 (TML)', sampleSta: 'TAW', upDest: '屯門', downDest: '烏溪沙', keywords: ['屯馬綫', '屯馬線'], stations: [{ id: 'WKS', name: '烏溪沙' }, { id: 'MOS', name: '馬鞍山' }, { id: 'HEO', name: '恆安' }, { id: 'TSH', name: '大水坑' }, { id: 'SHM', name: '石門' }, { id: 'CIO', name: '第一城' }, { id: 'STW', name: '沙田圍' }, { id: 'CKT', name: '車公廟' }, { id: 'TAW', name: '大圍' }, { id: 'HIK', name: '顯徑' }, { id: 'DIH', name: '鑽石山' }, { id: 'KAT', name: '啟德' }, { id: 'SUW', name: '宋皇臺' }, { id: 'TKW', name: '土瓜灣' }, { id: 'HOM', name: '何文田' }, { id: 'HUH', name: '紅磡' }, { id: 'ETS', name: '尖東' }, { id: 'AUS', name: '柯士甸' }, { id: 'NAC', name: '南昌' }, { id: 'MEF', name: '美孚' }, { id: 'TWW', name: '荃灣西' }, { id: 'KSR', name: '錦上路' }, { id: 'YUL', name: '元朗' }, { id: 'LOP', name: '朗屏' }, { id: 'TIS', name: '天水圍' }, { id: 'SIH', name: '兆康' }, { id: 'TUM', name: '屯門' }] },
@@ -836,7 +814,6 @@
       code, name: obj.name, sampleSta: obj.sampleSta, keywords: obj.keywords
     }));
 
-    // 建立一個純淨的港鐵站名對照表 (過濾掉 ⑂ 符號，方便 ETA 顯示純站名)
     const MTR_STATION_DICT = {};
     Object.values(MTR_LINES_DATA).forEach(line => {
       line.stations.forEach(st => {
@@ -844,7 +821,6 @@
       });
     });
 
-    // 港鐵 ETA 通用處理引擎 (自動加上往哪個終點的標籤及尾班車判斷)
     function parseMtrEta(t) {
       let destStr = '';
       if (t.dest) {
@@ -854,15 +830,28 @@
       }
       const platStr = t.plat ? `(${t.plat}月台)` : '';
       const remark = [destStr, platStr].filter(Boolean).join(' ') || '實時列車';
+      const rawMin = parseInt(t.ttnt, 10);
+      const diffMin = isNaN(rawMin) ? 0 : Math.max(0, rawMin);
+      const etaTime = t.time ? new Date(t.time.replace(' ', 'T')) : new Date(Date.now() + diffMin * 60000);
       return {
-        timestamp: new Date(Date.now() + (Number(t.ttnt) || 0) * 60000).toISOString(),
-        diffMin: Number(t.ttnt) || 0,
+        timestamp: isNaN(etaTime.getTime()) ? new Date(Date.now() + diffMin * 60000).toISOString() : etaTime.toISOString(),
+        diffMin: diffMin,
         remark: remark,
-        isLast: t.isLastTrain === '1' || t.isLastTrain === true
+        isLast: t.isLastTrain === '1' || t.isLastTrain === 'Y' || t.isLastTrain === true
       };
     }
 
-    // 大嶼山巴士 (NLB) 預設路線庫 (同時支援動態載入官方 API)
+    function extractMtrTrains(json, lineCode, staCode, bound) {
+      const node = json?.data?.[`${lineCode}-${staCode}`];
+      if (!node) return [];
+      let list = node[bound];
+      if (!Array.isArray(list)) {
+        // 部分站點或終點站在 API 中可能只存在單一方向陣列，自動相容讀取
+        list = [...(node.UP || []), ...(node.DOWN || [])];
+      }
+      return list.map(parseMtrEta);
+    }
+
     let nlbRoutesCache = null;
     const NLB_FALLBACK_ROUTES = [
       { routeId: '2', routeNo: '1', orig_tc: '梅窩碼頭', dest_tc: '大澳' },
@@ -904,7 +893,6 @@
       return nlbRoutesCache;
     }
 
-    // 九巴基礎資料單例快取
     let kmbStopNameMap = null;
     let kmbAllRoutesList = null;
     let kmbBaseDataPromise = null;
@@ -1472,7 +1460,7 @@
       } else if (cat === 'road') {
         body.innerHTML = `<div><label class="block font-black text-pri mb-1">選擇或輸入指定道路：</label><input id="tm-road-custom" type="text" value="${HK_MAJOR_ROADS[0]}" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black" /></div>`;
       } else if (cat === 'mtr') {
-        body.innerHTML = `<div><label class="block font-black text-pri mb-1">選擇港鐵綫路（含東涌、將軍澳、南港島、機場快綫）：</label><select id="tm-mtr-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black">${MTR_LINES_META.map(l => `<option value="${l.code}">${l.name}</option>`).join('')}</select></div>`;
+        body.innerHTML = `<div><label class="block font-black text-pri mb-1">選擇港鐵綫路（含東鐵、屯馬、將軍澳、東涌等）：</label><select id="tm-mtr-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black">${MTR_LINES_META.map(l => `<option value="${l.code}">${l.name}</option>`).join('')}</select></div>`;
       } else if (cat === 'tunnel') {
         body.innerHTML = `<div><label class="block font-black text-pri mb-1">選擇隧道或橋梁：</label><select id="tm-tunnel-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-black">${HK_TUNNELS_AND_BRIDGES.map((t, i) => `<option value="${i}">${t.name}</option>`).join('')}</select></div>`;
       }
@@ -1504,7 +1492,7 @@
     }
 
     // =========================================================================
-    // 6. 資料夾與 18 區 135+ 座標定位優先模組
+    // 6. 資料夾與 18 區定位及時間智能優先模組
     // =========================================================================
     const FOLDERS_STORAGE_KEY = 'transit_custom_folders_v1';
     const GEO_PRIORITY_KEY = 'transit_geo_priority_enabled_v1';
@@ -1576,15 +1564,10 @@
       const [h1, m1] = startStr.split(':').map(Number);
       const [h2, m2] = endStr.split(':').map(Number);
       if (isNaN(h1) || isNaN(h2)) return false;
-      
       const startMin = h1 * 60 + m1;
       const endMin = h2 * 60 + m2;
-      
-      if (startMin <= endMin) {
-        return nowMin >= startMin && nowMin <= endMin;
-      } else {
-        return nowMin >= startMin || nowMin <= endMin;
-      }
+      if (startMin <= endMin) return nowMin >= startMin && nowMin <= endMin;
+      return nowMin >= startMin || nowMin <= endMin;
     }
 
     function getSortedFolders() {
@@ -1638,10 +1621,10 @@
       const badge = document.getElementById('gps-status-badge');
       if (nearest) {
         if (badge) badge.textContent = `📍 最近：${nearest.locationName || nearest.name} (${formatDistanceBadge(nearest.distKm)})`;
-        if (geoPriorityEnabled && (!userManualSelectedFolder || forceSwitch)) {
-          const topFolder = sorted[0];
-          if (currentFolderId !== topFolder.id) { currentFolderId = topFolder.id; buildCardsSkeleton(); refreshAll(true); }
-        }
+      }
+      if (geoPriorityEnabled && (!userManualSelectedFolder || forceSwitch) && sorted.length > 0) {
+        const topFolder = sorted[0];
+        if (currentFolderId !== topFolder.id) { currentFolderId = topFolder.id; buildCardsSkeleton(); refreshAll(true); }
       }
       renderFoldersBar();
     }
@@ -1758,7 +1741,7 @@
     }
 
     // =========================================================================
-    // 7. 路線卡片渲染、⬆️/⬇️ 直接排序及各交通工具實時 ETA 引擎
+    // 7. 路線卡片渲染、動態站數路軌圖 (1~5站) 及各交通工具實時 ETA 引擎
     // =========================================================================
     const CARDS_STORAGE_KEY = 'transit_custom_cards_v7';
     const DEFAULT_CARDS = [
@@ -1785,12 +1768,12 @@
       {
         folderId: 'folder_taiwo', operator: 'MTR', route: 'EAL', bound: 'DOWN', serviceType: '1', destName: '金鐘',
         stopId: 'TWO', stopSeq: 11, stopName: '太和站',
-        fiveStops: ['羅湖站', '上水站', '粉嶺站', '太和站']
+        fiveStops: ['上水站', '粉嶺站', '太和站']
       },
       {
         folderId: 'folder_lantau', operator: 'NLB', route: '23', nlbRouteId: '25', bound: 'O', destName: '昂坪',
         stopId: '115', stopName: '東涌達東路巴士總站',
-        fiveStops: ['東涌達東路', '裕東苑', '石門甲', '深屈道口', '昂坪']
+        fiveStops: ['東涌達東路巴士總站']
       }
     ];
 
@@ -1812,7 +1795,17 @@
       if (activeCards.length <= 1) { alert('看板至少需要保留 1 條路線！'); return; }
       activeCards.splice(idx, 1); saveActiveCards(); renderFoldersBar(); buildCardsSkeleton(); refreshAll(true);
     }
-    function shortStopName(name) { if (!name) return '---'; return name.replace(/^林錦公路[\s,，、]*近?/g, '').replace(/\([A-Z0-9]+\)$/i, '').trim().slice(0, 6); }
+    function shortStopName(name) { if (!name) return '---'; return name.replace(/^林錦公路[\s,，、]*近?/g, '').replace(/\([A-Z0-9]+\)$/i, '').replace(/ ⑂/g, '').trim().slice(0, 6); }
+    
+    // 動態過濾重複填充的站點，當前方不足 4 個站時自動減少顯示站數 (例如只有 2 個前站則顯示 3 站)
+    function getEffectiveTrackStops(card) {
+      let raw = (card.fiveStops && card.fiveStops.length > 0) ? [...card.fiveStops] : [card.stopName || '本站'];
+      while (raw.length > 1 && raw[0] === raw[1]) {
+        raw.shift();
+      }
+      return raw.slice(-5);
+    }
+
     function getVisibleCardsWithOriginalIndex() {
       const fb = routeFolders[0]?.id || 'folder_home';
       return activeCards.map((card, originalIdx) => ({ card, originalIdx })).filter(item => currentFolderId === 'ALL' || (item.card.folderId || fb) === currentFolderId);
@@ -1850,30 +1843,29 @@
         const trackVisible = isCardTrackVisible(idx);
         const isFirst = (vIdx === 0);
         const isLast = (vIdx === visible.length - 1);
+        
+        const stopsList = getEffectiveTrackStops(card);
+        const nStops = stopsList.length;
 
-        // 1. 動態計算路軌站點清單 (當前置站點不足 4 個時自動縮減，不重複補位)
-        let rawStops = (card.fiveStops && card.fiveStops.length > 0) ? card.fiveStops : [card.stopName || '本站'];
-        let stopsList = [];
-        for (let i = 0; i < rawStops.length; i++) {
-          if (i === 0 || rawStops[i] !== rawStops[i - 1] || i === rawStops.length - 1) {
-            stopsList.push(rawStops[i]);
+        let chevronsHtml = '';
+        if (nStops > 1) {
+          for (let i = 0; i < nStops - 1; i++) {
+            const leftPct = ((i + 0.5) / (nStops - 1)) * 100;
+            chevronsHtml += `<span class="jr-chevron" style="left: ${leftPct}%">▶▶</span>`;
           }
         }
-        if (stopsList.length < 2) stopsList = ['起點站', stopsList[0] || card.stopName || '本站'];
-        const numStops = stopsList.length;
 
-        // 2. 動態生成路軌線段上的節點與箭頭
-        let trackNodesHtml = '';
-        let trackChevronsHtml = '';
-        for (let sIdx = 0; sIdx < numStops; sIdx++) {
-          const pct = ((sIdx / (numStops - 1)) * 100).toFixed(2);
-          const isTarget = (sIdx === numStops - 1);
-          trackNodesHtml += `<div id="jr-node-${idx}-${sIdx}" class="jr-station-node ${isTarget ? 'is-target' : ''}" style="left: ${pct}%"></div>`;
-          if (sIdx < numStops - 1) {
-            const chvPct = (((sIdx + 0.5) / (numStops - 1)) * 100).toFixed(2);
-            trackChevronsHtml += `<span class="jr-chevron" style="left: ${chvPct}%">▶▶</span>`;
-          }
+        let nodesHtml = '';
+        for (let i = 0; i < nStops; i++) {
+          const leftPct = nStops === 1 ? 50 : (i / (nStops - 1)) * 100;
+          const isTarget = (i === nStops - 1);
+          nodesHtml += `<div id="jr-node-${idx}-${i}" class="jr-station-node ${isTarget ? 'is-target' : ''}" style="left: ${leftPct}%"></div>`;
         }
+
+        const labelsHtml = stopsList.map((st, sIdx) => {
+          const isTarget = (sIdx === nStops - 1);
+          return `<div id="jr-stname-${idx}-${sIdx}" class="text-[10px] font-bold truncate ${isTarget ? 'text-emerald-300 font-black' : 'text-slate-300'}">${shortStopName(st)}</div>`;
+        }).join('');
 
         return `
           <div class="airport-panel p-3 sm:p-3.5 flex flex-col justify-between gap-2 cursor-pointer hover:border-sky-400/60 transition" onclick="openRouteDetail(${idx})" title="點擊查看完整垂直路線圖及接下來 3 班車">
@@ -1899,17 +1891,17 @@
 
             <div id="jr-board-wrap-${idx}" class="jr-board ${trackVisible ? '' : 'hidden'}">
               <div class="flex items-center justify-between text-[10px] font-bold mb-1 px-0.5">
-                <span class="text-slate-400">實時進站路軌 (${numStops}站・點擊展開全線)</span>
+                <span class="text-slate-400">實時進站路軌 (${nStops}站區間)</span>
                 <span id="jr-status-text-${idx}" class="text-emerald-300 font-black truncate">追蹤位置中...</span>
               </div>
               <div class="jr-track-container">
-                <div class="jr-rail-line"></div>
-                ${trackChevronsHtml}
-                ${trackNodesHtml}
+                <div class="jr-rail-line" style="${nStops === 1 ? 'left: 35%; right: 35%;' : ''}"></div>
+                ${chevronsHtml}
+                ${nodesHtml}
                 <div id="jr-vehicles-${idx}"></div>
               </div>
-              <div class="text-center gap-0.5 mt-1 pt-1 border-t border-slate-700/60" style="display: grid; grid-template-columns: repeat(${numStops}, minmax(0, 1fr));">
-                ${stopsList.map((st, sIdx) => `<div id="jr-stname-${idx}-${sIdx}" class="text-[10px] font-bold truncate ${sIdx === numStops - 1 ? 'text-emerald-300 font-black' : 'text-slate-300'}">${shortStopName(st)}</div>`).join('')}
+              <div class="grid text-center gap-0.5 mt-1 pt-1 border-t border-slate-700/60" style="grid-template-columns: repeat(${nStops}, minmax(0, 1fr));">
+                ${labelsHtml}
               </div>
             </div>
 
@@ -1943,7 +1935,7 @@
         card.stopSeq = Number(targetItem.seq);
         card.stopName = kmbStopNameMap.get(targetItem.stop)?.name_tc || card.stopName;
         const startIdx = Math.max(0, targetIdx - 4);
-        const slice = chosenList.slice(startIdx, targetIdx + 1); // 不重複填充補位
+        const slice = chosenList.slice(startIdx, targetIdx + 1);
         card.fiveStops = slice.map(s => kmbStopNameMap.get(s.stop)?.name_tc || '車站');
         saveActiveCards();
       }
@@ -2012,8 +2004,7 @@
     async function fetchMtrCardData(slotIdx, card) {
       try {
         const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${card.route}&sta=${card.stopId}&lang=TC`, 4500);
-        const trains = json?.data?.[`${card.route}-${card.stopId}`]?.[card.bound] || [];
-        const etas = trains.map(parseMtrEta);
+        const etas = extractMtrTrains(json, card.route, card.stopId, card.bound);
         renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '目前暫無列車班次');
         updateJrApproachBoard(slotIdx, card, etas);
       } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取港鐵失敗'); }
@@ -2074,24 +2065,13 @@
     }
 
     function updateJrApproachBoard(slotIdx, card, etas) {
-      let rawStops = (card.fiveStops && card.fiveStops.length > 0) ? card.fiveStops : [card.stopName || '本站'];
-      let stopsList = [];
-      for (let i = 0; i < rawStops.length; i++) {
-        if (i === 0 || rawStops[i] !== rawStops[i - 1] || i === rawStops.length - 1) {
-          stopsList.push(rawStops[i]);
-        }
-      }
-      if (stopsList.length < 2) stopsList = ['起點站', stopsList[0] || card.stopName || '本站'];
-      const numStops = stopsList.length;
-      const targetIdx = numStops - 1;
+      const stopNames = getEffectiveTrackStops(card);
+      const nStops = stopNames.length;
+      const segments = Math.max(1, nStops - 1);
 
-      // 更新站名文字
-      for (let i = 0; i < numStops; i++) {
+      for (let i = 0; i < nStops; i++) {
         const el = document.getElementById(`jr-stname-${slotIdx}-${i}`);
-        if (el) el.textContent = shortStopName(stopsList[i]);
-      }
-      // 重置節點樣式
-      for (let i = 0; i < numStops; i++) {
+        if (el) el.textContent = shortStopName(stopNames[i]);
         const node = document.getElementById(`jr-node-${slotIdx}-${i}`);
         if (node) node.classList.remove('is-lit', 'is-arriving');
       }
@@ -2108,44 +2088,46 @@
 
       const vehicleIcon = card.operator === 'MTR' ? '🚆' : (card.operator === 'GMB' ? '🚐' : '🚌');
       const actorsHtml = [];
-      const totalIntervals = numStops - 1; // 總區間數
-      const secPerStop = card.operator === 'MTR' ? 120 : 100;
-      const maxTrackSec = totalIntervals * secPerStop;
+      const secPerStop = card.operator === 'MTR' ? 130 : 105;
+      const maxWindowSec = secPerStop * segments;
 
       etas.slice(0, 2).forEach((item, vIdx) => {
         const diffMin = item.diffMin;
         const diffSec = diffMin * 60;
         const isLast = item.isLast || (item.remark && item.remark.includes('尾班'));
-
-        let percent = diffSec <= 20 ? 100 : Math.max(0, Math.min(100, Math.round((1 - (diffSec / maxTrackSec)) * 100)));
-        if (vIdx === 1 && diffSec > maxTrackSec * 1.2) return;
-        if (vIdx === 1 && actorsHtml.length > 0) percent = Math.max(0, percent - 12);
-
-        const floatIndex = (percent / 100) * totalIntervals;
-        const nearestNodeIdx = Math.min(targetIdx, Math.max(0, Math.round(floatIndex)));
+        
+        let percent = nStops === 1 ? 50 : (diffSec <= 20 ? 100 : Math.max(0, Math.min(100, Math.round((1 - (diffSec / maxWindowSec)) * 100))));
+        if (vIdx === 1 && diffSec > maxWindowSec + 60) return;
+        if (vIdx === 1 && actorsHtml.length > 0 && nStops > 1) percent = Math.max(0, percent - 15);
+        
+        const nearestNodeIdx = nStops === 1 ? 0 : Math.min(nStops - 1, Math.max(0, Math.round((percent / 100) * segments)));
         const nodeEl = document.getElementById(`jr-node-${slotIdx}-${nearestNodeIdx}`);
         if (nodeEl) {
-          if (nearestNodeIdx === targetIdx && diffSec <= 60) nodeEl.classList.add('is-arriving');
+          if (nearestNodeIdx === nStops - 1 && diffSec <= 60) nodeEl.classList.add('is-arriving');
           else nodeEl.classList.add('is-lit');
         }
-
+        
         if (vIdx === 0) {
+          const targetName = shortStopName(stopNames[nStops - 1]);
           if (diffSec <= 60) {
-            statusTextEl.textContent = `🟢 即將進站 (${shortStopName(stopsList[targetIdx])})`;
+            statusTextEl.textContent = `🟢 即將進站 (${targetName})`;
             statusTextEl.className = 'text-emerald-400 font-black truncate animate-pulse';
-          } else if (diffSec > maxTrackSec) {
-            statusTextEl.textContent = `約 ${diffMin} 分鐘後到達（${totalIntervals}站外）`;
+          } else if (nStops === 1) {
+            statusTextEl.textContent = `起點總站待發（約 ${diffMin} 分鐘）`;
+            statusTextEl.className = 'text-amber-300 font-bold truncate';
+          } else if (diffSec > maxWindowSec) {
+            statusTextEl.textContent = `約 ${diffMin} 分鐘後到達（${segments}站外）`;
             statusTextEl.className = 'text-amber-300 font-bold truncate';
           } else {
-            const currentSecIdx = Math.min(totalIntervals - 1, Math.floor(floatIndex));
-            statusTextEl.textContent = `距此 ${targetIdx - currentSecIdx} 站｜${shortStopName(stopsList[currentSecIdx])} ➔ ${shortStopName(stopsList[currentSecIdx + 1])}`;
+            const fromStopIdx = Math.min(nStops - 2, Math.floor((percent / 100) * segments));
+            statusTextEl.textContent = `距此 ${nStops - 1 - fromStopIdx} 站｜${shortStopName(stopNames[fromStopIdx])} ➔ ${shortStopName(stopNames[fromStopIdx + 1])}`;
             statusTextEl.className = 'text-amber-300 font-black truncate';
           }
           if (isLast) statusTextEl.textContent = `⚠️ 尾班車 - ${statusTextEl.textContent}`;
         }
-
+        
         let customStyle = isLast ? 'background: linear-gradient(180deg, #e11d48 0%, #be123c 100%); border-color: #fda4af; color: #fff; box-shadow: 0 0 12px rgba(225, 29, 72, 0.8);' : '';
-
+        
         actorsHtml.push(`
           <div class="jr-bus-actor" style="left: ${percent}%;">
             <div class="jr-bus-pill ${vIdx === 1 ? 'is-second' : (diffSec <= 60 ? 'is-arriving' : '')}" style="${customStyle}">
@@ -2156,7 +2138,6 @@
           </div>
         `);
       });
-
       vehiclesContainer.innerHTML = actorsHtml.join('');
     }
 
@@ -2220,8 +2201,7 @@
           stops = stns.map(s => ({ id: s.id, name_tc: s.name.includes('⑂') ? s.name.replace(' ⑂', '站 ⑂') : `${s.name}站` }));
           
           const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${card.route}&sta=${card.stopId}&lang=TC`, 4500);
-          const trains = json?.data?.[`${card.route}-${card.stopId}`]?.[card.bound] || [];
-          etas = trains.map(parseMtrEta);
+          etas = extractMtrTrains(json, card.route, card.stopId, card.bound);
         } else if (card.operator === 'NLB') {
           const rId = card.nlbRouteId || '25';
           const [sJson, eJson] = await Promise.all([
@@ -2280,7 +2260,7 @@
       } catch (e) {}
 
       if (stops.length === 0) {
-        stops = (card.fiveStops || [card.stopName]).map((n, i) => ({ id: String(i), name_tc: n }));
+        stops = getEffectiveTrackStops(card).map((n, i) => ({ id: String(i), name_tc: n }));
       }
       renderVerticalRoute(stops, etas, card, scrollToTarget);
     }
@@ -2312,14 +2292,16 @@
 
       let stopCoords = {};
       let flatStops = [];
+      const targetRowIndex = trackRows.findIndex(r => r.some(st => String(st.id) === String(targetStopId)));
+
       trackRows.forEach((row, rowIdx) => {
         const y = rowIdx * 56 + 26;
         row.forEach((s, colIdx) => {
           let col = colIdx; 
           if (card.operator === 'MTR' && MTR_COLS[s.id] !== undefined) col = MTR_COLS[s.id];
-          const x = col === 0 ? 34 : 104;
+          const x = col === 0 ? 34 : 134;
           const isTarget = String(s.id) === String(targetStopId);
-          const isPassed = rowIdx < trackRows.findIndex(r => r.some(st => String(st.id) === String(targetStopId)));
+          const isPassed = rowIdx < targetRowIndex;
           
           const coord = { x, y, isTarget, isPassed, col, ...s };
           stopCoords[s.id] = coord;
@@ -2341,9 +2323,11 @@
         const p2 = stopCoords[id2];
         if (p1 && p2) {
           if (p1.x === p2.x) {
-            svgPaths += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="url(#trackGrad)" stroke-width="4" stroke-linecap="round" />`;
+            svgPaths += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="url(#trackGrad)" stroke-width="5" stroke-linecap="round" />`;
           } else {
-            svgPaths += `<path d="M ${p1.x} ${p1.y} C ${p1.x} ${(p1.y+p2.y)/2}, ${p2.x} ${(p1.y+p2.y)/2}, ${p2.x} ${p2.y}" fill="none" stroke="url(#trackGrad)" stroke-width="4" stroke-linecap="round" />`;
+            // 直角分岔繪製，還原港鐵路線圖風格
+            const midY = (p1.y + p2.y) / 2;
+            svgPaths += `<path d="M ${p1.x} ${p1.y} L ${p1.x} ${midY} L ${p2.x} ${midY} L ${p2.x} ${p2.y}" fill="none" stroke="url(#trackGrad)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" />`;
           }
         }
       });
@@ -2355,9 +2339,9 @@
         
         nodesHtml += `
           <div class="${nodeClass}" style="left: ${s.x}px; top: ${s.y}px;"></div>
-          <div style="position: absolute; left: ${s.x + 16}px; top: ${s.y}px; transform: translateY(-50%); white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis;" class="text-sm ${textClass} tracking-wide">
-            ${s.name_tc}
-            ${s.isTarget ? '<span class="ml-1 px-1.5 py-0.5 rounded-full bg-emerald-500 text-black font-black text-[9px] align-middle shadow-md">📍</span>' : ''}
+          <div style="position: absolute; left: ${s.x + 16}px; top: ${s.y}px; transform: translateY(-50%); white-space: nowrap; max-width: 145px; overflow: hidden; text-overflow: ellipsis;" class="text-sm ${textClass} tracking-wide">
+            ${s.name_tc.replace(/ ⑂/g, '')}
+            ${s.isTarget ? '<span class="ml-1 px-1.5 py-0.5 rounded-full bg-emerald-500 text-black font-black text-[9px] align-middle shadow-md">📍本站</span>' : ''}
           </div>
         `;
       });
@@ -2371,12 +2355,10 @@
         const minPerStop = card.operator === 'MTR' ? 2.1 : 1.6;
         const estStopsAway = diffMin <= 0.5 ? 0 : (diffMin / minPerStop);
         
-        const targetRowIdx = trackRows.findIndex(r => r.some(st => String(st.id) === String(targetStopId)));
-        const busPosRowIdx = Math.max(0, Math.min(targetRowIdx, targetRowIdx - estStopsAway));
-        
+        const busPosRowIdx = Math.max(0, Math.min(targetRowIndex, targetRowIndex - estStopsAway));
         const topPx = busPosRowIdx * 56 + 26;
         const targetStopCoord = stopCoords[targetStopId];
-        const leftPx = targetStopCoord ? targetStopCoord.x + 14 : 48;
+        const leftPx = targetStopCoord ? targetStopCoord.x - 18 : 16;
         
         const pillClass = (bIdx === 0 && diffMin <= 1) ? 'is-arriving' : (bIdx > 0 ? 'is-second' : '');
         let customStyle = isLast ? 'background: linear-gradient(180deg, #e11d48 0%, #be123c 100%); border-color: #fda4af; color: #fff; box-shadow: 0 0 12px rgba(225, 29, 72, 0.8);' : '';
@@ -2393,12 +2375,12 @@
       });
 
       const html = `
-        <div class="relative w-full overflow-x-auto no-scrollbar" style="height: ${totalHeight}px; min-width: 250px;">
+        <div class="relative w-full overflow-x-auto no-scrollbar" style="height: ${totalHeight}px; min-width: 270px;">
           <svg class="absolute inset-0 pointer-events-none" width="100%" height="${totalHeight}px">
             <defs>
               <linearGradient id="trackGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#334155" />
-                <stop offset="60%" stop-color="#38bdf8" />
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="65%" stop-color="#0284c7" />
                 <stop offset="100%" stop-color="#10b981" />
               </linearGradient>
             </defs>
@@ -2554,7 +2536,6 @@
       return [];
     }
 
-    // 設定路線 Modal 操作
     async function selectModalOperator(op) {
       modalOperator = op;
       ['KMB', 'NLB', 'GMB', 'CTB', 'MTR'].forEach(k => {
@@ -2602,8 +2583,9 @@
       const stopObj = modalStopsPool[stopIdx];
       if (!code || !dirObj || !stopObj) return;
 
+      // 根據實際前站數量儲存 (1~5個站)，不再強行重複塞滿5個
       const startIdx = Math.max(0, stopIdx - 4);
-      const slice = modalStopsPool.slice(startIdx, stopIdx + 1); // 不補位，動態截取
+      const slice = modalStopsPool.slice(startIdx, stopIdx + 1);
 
       const newCard = {
         folderId, operator: modalOperator, gmbRegion: modalGmbRegion, route: code,
@@ -2701,8 +2683,7 @@
           etas = (json.data || []).filter(e => e.eta && (!dirObj.bound || e.dir === dirObj.bound)).map(e => ({ timestamp: e.eta, remark: e.rmk_tc || '城巴實時' }));
         } else if (qsOperator === 'MTR') {
           const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${code}&sta=${stopObj.stopId}&lang=TC`, 4500);
-          const trains = json?.data?.[`${code}-${stopObj.stopId}`]?.[dirObj.bound] || [];
-          etas = trains.map(parseMtrEta);
+          etas = extractMtrTrains(json, code, stopObj.stopId, dirObj.bound);
         }
       } catch (e) {}
 
@@ -2711,13 +2692,13 @@
     }
 
     // =========================================================================
-    // 10. 主時鐘循環與 5 秒非阻塞自動刷新
+    // 10. 主時鐘循環與自動刷新 (包含每 1 分鐘自動更新 GPS 定位)
     // =========================================================================
     let lastTickMinute = -1;
+    let gpsAutoUpdateCounter = 0; // 每 60 秒計時器
 
     function updateClock() {
       const now = new Date();
-      
       flipClockCard('clock-hh', String(now.getHours()).padStart(2, '0'));
       flipClockCard('clock-mm', String(now.getMinutes()).padStart(2, '0'));
       flipClockCard('clock-ss', String(now.getSeconds()).padStart(2, '0'));
@@ -2729,8 +2710,15 @@
       const currentMinute = now.getMinutes();
       if (currentMinute !== lastTickMinute) {
         lastTickMinute = currentMinute;
-        if (geoPriorityEnabled) {
-          applyNearestFolderSelection(false); 
+        if (geoPriorityEnabled) applyNearestFolderSelection(false);
+      }
+
+      // 🌟 每 60 秒在背景自動重新獲取一次 GPS 定位 (休眠模式下暫停以省電)
+      if (!isSleeping && geoPriorityEnabled) {
+        gpsAutoUpdateCounter++;
+        if (gpsAutoUpdateCounter >= 60) {
+          gpsAutoUpdateCounter = 0;
+          requestUserGpsNow(false);
         }
       }
 
@@ -2779,7 +2767,12 @@
     renderFoldersBar();
     buildCardsSkeleton();
     updateClock();
-    if (geoPriorityEnabled) requestUserGpsNow(true);
+
+    // 🌟 網頁啟動時：立即發起一次定位請求
+    if (geoPriorityEnabled) {
+      requestUserGpsNow(true);
+    }
+
     refreshAll(true);
   </script>
 </body>
