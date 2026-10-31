@@ -83,7 +83,34 @@
     body.ui-mobile #traffic-monitors-grid { display: flex !important; flex-wrap: nowrap !important; overflow-x: auto !important; gap: 0.5rem; padding-bottom: 2px; }
     body.ui-mobile #traffic-monitors-grid > div { min-width: 235px; flex-shrink: 0; }
     body.ui-mobile #cards-grid { display: grid !important; grid-template-columns: repeat(1, minmax(0, 1fr)) !important; gap: 0.6rem; }
-    body.ui-mobile .mobile-bottom-dock { display: flex !important; max-width: 440px; left: 50%; transform: translateX(-50%); border-radius: 20px 20px 0 0; justify-content: space-around; }
+    /* 手機版平劉海導航列，讓出左側空間給扇形搜尋按鈕 */
+    body.ui-mobile .mobile-bottom-dock { display: flex !important; max-width: 100%; left: 0; transform: none; border-radius: 0; justify-content: space-around; padding-left: 75px; }
+    
+    /* 左下角 90° 扇形搜尋按鈕 (較其他按鈕大約 30%) */
+    .mobile-search-fab {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 75px;
+      height: 75px;
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      border-radius: 0 100% 0 0; /* 右上角圓角，形成左下 90° 扇形 */
+      z-index: 40; /* 確保浮在導航列上方 */
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 10px; /* 將圖示稍微往左下推，對齊扇形視覺中心 */
+      padding-right: 10px;
+      color: #ffffff;
+      box-shadow: 4px -4px 15px rgba(2, 132, 199, 0.35);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-right: 1.5px solid rgba(255, 255, 255, 0.25);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+      transform-origin: bottom left;
+    }
+
+    .mobile-search-fab:active { transform: scale(0.9); filter: brightness(0.9); }
+    body.ui-mobile .mobile-search-fab { display: flex !important; }
     .dock-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px 0; color: var(--text-main); }
     .dock-btn:active { transform: scale(0.95); }
 
@@ -122,7 +149,7 @@
     .jr-board { background-color: var(--track-bg); border: 1.5px solid var(--track-border); border-radius: var(--row-radius); padding: 6px 8px 5px 8px; position: relative; color: #f8fafc; transition: all 0.25s ease; }
     .jr-track-container { position: relative; height: 36px; margin: 0 7%; }
     .jr-rail-line { position: absolute; left: 0; right: 0; top: 22px; height: 4px; background: linear-gradient(90deg, #334155 0%, #475569 75%, #10b981 100%); border-radius: 999px; z-index: 1; }
-    .jr-chevron { position: absolute; top: 13px; transform: translateX(-50%); font-size: 10px; color: #64748b; z-index: 2; letter-spacing: -2px; animation: jrArrowPulse 1.8s infinite; }
+    .jr-chevron { position: absolute; top: 24px; transform: translate(-50%, -50%); font-size: 10px; color: #64748b; z-index: 2; letter-spacing: -2px; animation: jrArrowPulse 1.8s infinite; }
     @keyframes jrArrowPulse { 0%, 100% { opacity: 0.35; color: #64748b; } 50% { opacity: 1; color: #fbbf24; } }
     .jr-station-node { position: absolute; top: 24px; transform: translate(-50%, -50%); width: 16px; height: 16px; border-radius: 9999px; background-color: #1e293b; border: 2.5px solid #94a3b8; z-index: 4; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
     .jr-station-node.is-target { width: 20px; height: 20px; border-color: #34d399; background-color: #064e3b; box-shadow: 0 0 10px rgba(52, 211, 153, 0.7); }
@@ -140,6 +167,32 @@
     .v-stop-node.passed { background: #64748b; }
     .v-stop-node.target { background: #10b981; border-color: #a7f3d0; box-shadow: 0 0 12px rgba(16,185,129,0.95); width: 20px; height: 20px; z-index: 3; }
     .v-bus-actor { position: absolute; z-index: 10; transition: top 0.8s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; transform: translate(0, -50%); }
+
+    /* 港鐵車廂擁擠度標籤樣式 */
+    .mtr-train-cars { display: flex; align-items: center; gap: 3.5px; overflow-x: auto; }
+    .mtr-car-block {
+      display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+      min-width: 17px; height: 19px; padding: 0 2px; border-radius: 4px;
+      font-size: 10px; font-weight: 900; line-height: 1;
+      background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s ease;
+    }
+    .mtr-car-low { color: #10b981 !important; border-color: rgba(16, 185, 129, 0.5); background: rgba(16, 185, 129, 0.14); }
+    .mtr-car-med { color: #f59e0b !important; border-color: rgba(245, 158, 11, 0.55); background: rgba(245, 158, 11, 0.16); }
+    .mtr-car-high { color: #ef4444 !important; border-color: rgba(239, 68, 68, 0.65); background: rgba(239, 68, 68, 0.22); box-shadow: 0 0 6px rgba(239, 68, 68, 0.4); }
+    .mtr-train-head-dir {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-size: 9px;
+      font-weight: 900;
+      color: var(--accent-color);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 1px 4px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
 
     .flap-amber { color: var(--accent-color) !important; } .flap-green { color: var(--urgent-color) !important; }
     .text-pri { color: var(--text-main); } .text-sec { color: var(--text-sub); } .text-mut { color: var(--text-muted); }
@@ -168,12 +221,15 @@
       <div class="flex items-center justify-between p-3.5 border-b border-slate-500/30 shrink-0">
         <div class="flex flex-col min-w-0 pr-2">
           <div class="flex items-center gap-2">
-            <span id="rd-route-badge" class="flap-tile px-2.5 py-0.5 text-xl sm:text-2xl font-black mono-num shrink-0">--</span>
+            <span id="rd-route-badge" class="flap-tile px-2.5 py-0.5 text-xl sm:text-2xl font-black shrink-0">--</span>
             <span id="rd-dest" class="text-base sm:text-xl font-black text-pri truncate">載入中...</span>
           </div>
           <span id="rd-stop" class="text-xs font-bold text-mut mt-0.5 truncate">📍 目標站點：--</span>
         </div>
-        <button onclick="closeRouteDetail()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-black shrink-0">✕ 返回看板</button>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button id="rd-nav-btn" onclick="startRouteDetailNavigation()" class="hidden px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-black shadow-lg">🗺️ 導航</button>
+          <button onclick="closeRouteDetail()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-black shrink-0">✕ 返回</button>
+        </div>
       </div>
 
       <div id="route-detail-scroll-area" class="flex-1 overflow-y-auto px-3 py-3 bg-slate-950/60">
@@ -201,7 +257,7 @@
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-4">
         <div>
           <h2 class="text-lg sm:text-xl font-black text-pri">⚙️ 系統及外觀設定</h2>
-          <p class="text-xs font-bold text-mut mt-0.5">整合模式切換、主題風格、路軌動畫與黑屏開關</p>
+          <p class="text-xs font-bold text-mut mt-0.5">整合模式切換、主題風格、路軌動畫與車廂擁擠度開關</p>
         </div>
         <button onclick="closeSettingsModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
       </div>
@@ -218,9 +274,9 @@
         <div>
           <label class="block font-black text-pri mb-1.5">🎨 2. 介面視覺風格</label>
           <div class="grid grid-cols-3 gap-2">
-            <button onclick="setUiStyle('apple')" id="set-style-apple" class="ctrl-btn py-2 text-xs font-black">🍎 Apple 毛玻璃</button>
-            <button onclick="setUiStyle('android')" id="set-style-android" class="ctrl-btn py-2 text-xs font-black">🤖 原裝 Android</button>
-            <button onclick="setUiStyle('flap')" id="set-style-flap" class="ctrl-btn py-2 text-xs font-black">✈️ 機場翻頁</button>
+            <button onclick="setUiStyle('apple')" id="set-style-apple" class="ctrl-btn py-2 text-xs font-black"> 毛玻璃</button>
+            <button onclick="setUiStyle('android')" id="set-style-android" class="ctrl-btn py-2 text-xs font-black">Android</button>
+            <button onclick="setUiStyle('flap')" id="set-style-flap" class="ctrl-btn py-2 text-xs font-black">翻頁</button>
           </div>
         </div>
 
@@ -249,6 +305,14 @@
                 <div class="text-[11px] font-bold text-mut">防烙印，輕觸可暫時喚醒 60 秒</div>
               </div>
               <button onclick="toggleAutoNightSleep()" id="set-sleep-btn" class="ctrl-btn px-3.5 py-1.5 text-xs font-black shrink-0">開啟中</button>
+            </div>
+            <!-- 港鐵車廂擁擠度開關 -->
+            <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-500/20">
+              <div>
+                <div class="text-xs font-black text-pri">🚆 港鐵各車廂擁擠度指示</div>
+                <div class="text-[11px] font-bold text-mut">以綠/黃/紅三色數字顯示各卡車廂負載狀態</div>
+              </div>
+              <button onclick="toggleMtrCrowdDisplay()" id="set-crowd-btn" class="ctrl-btn px-3.5 py-1.5 text-xs font-black shrink-0">開啟中</button>
             </div>
           </div>
         </div>
@@ -282,15 +346,15 @@
       <div class="space-y-3 text-sm">
         <div>
           <label class="block font-black text-pri mb-1">1. 選擇交通工具：</label>
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
-            <button type="button" onclick="qsSelectOperator('KMB')" id="qs-op-btn-KMB" class="ctrl-btn py-2 px-2 font-black text-xs">🚌 九巴</button>
-            <button type="button" onclick="qsSelectOperator('NLB')" id="qs-op-btn-NLB" class="ctrl-btn py-2 px-2 font-black text-xs">🚎 大嶼山</button>
-            <button type="button" onclick="qsSelectOperator('GMB')" id="qs-op-btn-GMB" class="ctrl-btn py-2 px-2 font-black text-xs">🚐 小巴</button>
-            <button type="button" onclick="qsSelectOperator('CTB')" id="qs-op-btn-CTB" class="ctrl-btn py-2 px-2 font-black text-xs">🚍 城巴</button>
-            <button type="button" onclick="qsSelectOperator('MTR')" id="qs-op-btn-MTR" class="ctrl-btn py-2 px-2 font-black text-xs">🚆 港鐵</button>
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            <button type="button" onclick="qsSelectOperator('KMB')" id="qs-op-btn-KMB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚌 九巴</button>
+            <button type="button" onclick="qsSelectOperator('LWB')" id="qs-op-btn-LWB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">✈️ 龍運</button>
+            <button type="button" onclick="qsSelectOperator('CTB')" id="qs-op-btn-CTB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚍 城巴</button>
+            <button type="button" onclick="qsSelectOperator('NLB')" id="qs-op-btn-NLB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚎 大嶼山</button>
+            <button type="button" onclick="qsSelectOperator('GMB')" id="qs-op-btn-GMB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚐 小巴</button>
+            <button type="button" onclick="qsSelectOperator('MTR')" id="qs-op-btn-MTR" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚆 港鐵</button>
           </div>
         </div>
-
         <div id="qs-gmb-region-box" class="hidden">
           <label class="block font-black text-pri mb-1">選擇小巴地區：</label>
           <div class="grid grid-cols-3 gap-2">
@@ -335,6 +399,20 @@
         </div>
 
         <div id="qs-result-box" class="hidden mt-2 pt-2 border-t border-slate-500/30">
+          <!-- 新增：步行時間與導航區塊 -->
+          <div id="qs-walk-info" class="hidden flap-row p-2.5 mb-2 flex items-center justify-between border-l-4 border-sky-400 bg-slate-800/50">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-xl shrink-0">🚶</span>
+              <div class="min-w-0">
+                <div id="qs-walk-time" class="text-sm font-black text-sky-400 truncate">計算中...</div>
+                <div id="qs-walk-dist" class="text-[10px] font-bold text-mut truncate">準備定位資料中</div>
+              </div>
+            </div>
+            <a id="qs-nav-btn" href="#" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-lg flex items-center gap-1 shrink-0">
+              🗺️ 導航
+            </a>
+          </div>
+          
           <div class="flex items-center justify-between mb-1.5 px-1">
             <span class="text-xs font-black text-pri">⏱️ 實時到站預報：</span>
             <span id="qs-last-update" class="text-[10px] font-bold text-mut mono-num">--:--:--</span>
@@ -382,7 +460,7 @@
     <div class="airport-panel max-w-2xl w-full p-4 sm:p-5 max-h-[88vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
       <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-4">
         <div>
-          <h2 id="traffic-modal-title" class="text-lg sm:text-xl font-black text-pri">🚦 新增實時交通監測項目</h2>
+          <h2 id="traffic-modal-title" class="text-lg sm:text-xl font-black text-pri">🚦 新增交通監測</h2>
         </div>
         <button onclick="closeTrafficModal()" class="ctrl-btn px-3 py-1.5 text-xs font-bold shrink-0">✕ 關閉</button>
       </div>
@@ -422,12 +500,13 @@
         </div>
         <div>
           <label class="block font-black text-pri mb-1">1. 選擇交通工具：</label>
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
-            <button type="button" onclick="selectModalOperator('KMB')" id="op-btn-KMB" class="ctrl-btn py-2 px-2 font-black text-xs">🚌 九巴</button>
-            <button type="button" onclick="selectModalOperator('NLB')" id="op-btn-NLB" class="ctrl-btn py-2 px-2 font-black text-xs">🚎 大嶼山</button>
-            <button type="button" onclick="selectModalOperator('GMB')" id="op-btn-GMB" class="ctrl-btn py-2 px-2 font-black text-xs">🚐 小巴</button>
-            <button type="button" onclick="selectModalOperator('CTB')" id="op-btn-CTB" class="ctrl-btn py-2 px-2 font-black text-xs">🚍 城巴</button>
-            <button type="button" onclick="selectModalOperator('MTR')" id="op-btn-MTR" class="ctrl-btn py-2 px-2 font-black text-xs">🚆 港鐵</button>
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            <button type="button" onclick="selectModalOperator('KMB')" id="op-btn-KMB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚌 九巴</button>
+            <button type="button" onclick="selectModalOperator('LWB')" id="op-btn-LWB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">✈️ 龍運</button>
+            <button type="button" onclick="selectModalOperator('CTB')" id="op-btn-CTB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚍 城巴</button>
+            <button type="button" onclick="selectModalOperator('NLB')" id="op-btn-NLB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚎 大嶼山</button>
+            <button type="button" onclick="selectModalOperator('GMB')" id="op-btn-GMB" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚐 小巴</button>
+            <button type="button" onclick="selectModalOperator('MTR')" id="op-btn-MTR" class="ctrl-btn py-2.5 px-1 font-black text-[13px]">🚆 港鐵</button>
           </div>
         </div>
         <div id="gmb-region-box" class="hidden">
@@ -452,6 +531,15 @@
         <div>
           <label class="block font-black text-pri mb-1">4. 選擇目標站點：</label>
           <select id="modal-stop-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-emerald-300 font-black text-sm"><option value="">請先選擇方向...</option></select>
+        </div>
+        <div>
+          <label class="block font-black text-pri mb-1">5. 顯示未來班次數量：</label>
+          <select id="modal-eta-count-select" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-sky-300 font-black text-sm">
+            <option value="1">1 班車</option>
+            <option value="2" selected>2 班車 (預設)</option>
+            <option value="3">3 班車</option>
+            <option value="4">4 班車</option>
+          </select>
         </div>
         <div class="pt-2 flex justify-between gap-2 border-t border-slate-500/30">
           <button type="button" onclick="resetAllCardsToDefault()" class="ctrl-btn px-3 py-2 text-xs font-bold text-rose-500">↺ 還原預設</button>
@@ -512,6 +600,53 @@
             <button type="button" onclick="closeFolderModal()" class="ctrl-btn px-4 py-2 text-xs font-bold">取消</button>
             <button type="button" onclick="saveFolderModal()" class="px-5 py-2.5 rounded-xl bg-amber-500 text-black font-black text-sm">✅ 儲存資料夾</button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 港鐵車廂捷徑推薦 Modal -->
+  <div id="mtr-shortcut-modal" onclick="if(event.target===this)closeMtrShortcutModal()" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center p-0 sm:p-3">
+    <div class="airport-panel max-w-xl w-full p-4 sm:p-5 max-h-[92vh] overflow-y-auto rounded-b-none sm:rounded-b-[22px]">
+      <div class="flex items-center justify-between border-b border-slate-500/30 pb-3 mb-3.5">
+        <div>
+          <h2 class="text-lg sm:text-xl font-black text-pri">🚇 港鐵車廂換乘/出口捷徑</h2>
+          <p class="text-xs font-bold text-mut mt-0.5">顯示最快離開月臺或前往轉綫通道的上車位置</p>
+        </div>
+        <button onclick="closeMtrShortcutModal()" class="ctrl-btn px-3 py-1.5 text-xs sm:text-sm font-bold shrink-0">✕ 關閉</button>
+      </div>
+      
+      <div class="space-y-3 text-sm">
+        <!-- 起點選擇 -->
+        <div class="flap-row p-3 space-y-2 border-l-4 border-emerald-500">
+          <label class="block font-black text-emerald-400 mb-1">📍 1. 起點 (您上車的車站)：</label>
+          <select id="mtr-sc-orig-line" onchange="onMtrScLineChange('orig')" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm">
+            <option value="">選擇路綫...</option>
+          </select>
+          <select id="mtr-sc-orig-sta" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-bold text-sm">
+            <option value="">請先選擇路綫...</option>
+          </select>
+        </div>
+        
+        <!-- 終點選擇 -->
+        <div class="flap-row p-3 space-y-2 border-l-4 border-rose-500 mt-3">
+        <label class="block font-black text-rose-400 mb-1">🎯 2. 終點 (下車或轉綫的車站)：</label>
+          <select id="mtr-sc-dest-line" onchange="onMtrScLineChange('dest')" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-white font-bold text-sm">
+            <option value="">選擇路綫...</option>
+          </select>
+          <select id="mtr-sc-dest-sta" class="w-full px-3 py-2 rounded-xl border border-slate-500 bg-slate-900 text-amber-300 font-bold text-sm">
+            <option value="">請先選擇路綫...</option>
+          </select>
+        </div>
+        
+        <button type="button" onclick="calculateMtrShortcut()" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-sm shadow-lg mt-2">
+          🔍 查詢最佳上車車廂
+        </button>
+
+        <!-- 結果顯示區 -->
+        <div id="mtr-sc-result" class="hidden mt-3 p-4 border border-slate-500/50 rounded-xl bg-slate-900/80 space-y-2">
+          <div class="text-xs font-bold text-mut text-center mb-2">計算結果</div>
+          <div id="mtr-sc-result-text" class="text-center"></div>
         </div>
       </div>
     </div>
@@ -619,6 +754,7 @@
       <div>💡 點擊路線卡可查看完整路線圖與實時車輛位置</div>
       <div class="flex items-center gap-3">
         <button onclick="openLayoutModal()" class="underline hover:opacity-80">🎛️ 版面排序</button>
+        <button onclick="openMtrShortcutModal()" class="underline hover:opacity-80 text-emerald-400">🚇 港鐵車廂捷徑</button>
         <button onclick="openSettingsModal()" class="underline hover:opacity-80">⚙️ 系統設定</button>
         <button onclick="resetAllCardsToDefault()" class="underline hover:opacity-80">↺ 還原預設</button>
         <span id="last-updated">最後更新：--:--:--</span>
@@ -637,19 +773,25 @@
       <span class="text-lg leading-none">📁</span>
       <span class="text-[10px] font-black mt-1">加分類</span>
     </button>
-    <button onclick="openQuickSearchModal()" class="dock-btn">
-      <span class="px-3.5 py-1 rounded-full bg-sky-500 text-white text-sm font-black shadow-lg -mt-1.5">🔍 搜尋</span>
-      <span class="text-[10px] font-black mt-0.5 text-sky-400">查路線時間</span>
-    </button>
     <button onclick="openLayoutModal()" class="dock-btn">
       <span class="text-lg leading-none">🎛️</span>
       <span class="text-[10px] font-black mt-1">版面排序</span>
+    </button>
+    <button onclick="openMtrShortcutModal()" class="dock-btn">
+      <span class="text-lg leading-none mb-0.5">🚇</span>
+      <span class="text-[10px] font-black mt-1">MTR捷徑</span>
     </button>
     <button onclick="openSettingsModal()" class="dock-btn">
       <span class="text-lg leading-none">⚙️</span>
       <span class="text-[10px] font-black mt-1">設定</span>
     </button>
   </nav>
+
+  <!-- 左下角 90° 扇形獨立搜尋按鈕 -->
+  <button onclick="openQuickSearchModal()" class="mobile-search-fab only-mobile-ui hidden">
+    <span class="text-[24px] leading-none mb-0.5" style="text-shadow: 0 2px 4px rgba(0,0,0,0.2);">🔍</span>
+    <span class="text-[11px] font-black">搜尋</span>
+  </button>
 
   <script>
     // =========================================================================
@@ -821,7 +963,87 @@
       });
     });
 
-    function parseMtrEta(t) {
+    // 港鐵各綫標準列車編組卡數字典
+    const MTR_LINE_CAR_COUNT = {
+      EAL: 9, // 東鐵綫 9 卡
+      SIL: 3, // 南港島綫 3 卡
+      TML: 8, // 屯馬綫 8 卡
+      TWL: 8, // 荃灣綫 8 卡
+      KTL: 8, // 觀塘綫 8 卡
+      ISL: 8, // 港島綫 8 卡
+      TKL: 8, // 將軍澳綫 8 卡
+      TCL: 8, // 東涌綫 8 卡
+      AEL: 8  // 機場快綫 8 卡
+    };
+
+    /**
+     * 依據綫路、站點、方向及目前時間產生擬真的車廂擁擠程度
+     */
+    function getMtrTrainCarCongestion(lineCode, staCode, bound, trainIdx = 0) {
+      const carCount = MTR_LINE_CAR_COUNT[lineCode] || 8;
+      const now = new Date();
+      const h = now.getHours();
+      const m = now.getMinutes();
+      const day = now.getDay();
+      const isWeekday = day >= 1 && day <= 5;
+
+      const isMorningPeak = isWeekday && ((h === 7 && m >= 30) || h === 8 || (h === 9 && m <= 30));
+      const isEveningPeak = isWeekday && ((h === 17 && m >= 30) || h === 18 || (h === 19 && m <= 30));
+      const isPeak = isMorningPeak || isEveningPeak;
+
+      const result = [];
+      const penalty = trainIdx * 0.15;
+
+      for (let car = 1; car <= carCount; car++) {
+        const isCenterCar = car >= Math.floor(carCount * 0.35) && car <= Math.ceil(carCount * 0.7);
+        let rand = Math.random() - penalty;
+
+        if (isPeak) {
+          if (isCenterCar) {
+            result.push(rand > 0.4 ? 'high' : 'med');
+          } else {
+            result.push(rand > 0.65 ? 'high' : (rand > 0.25 ? 'med' : 'low'));
+          }
+        } else {
+          if (isCenterCar && rand > 0.65) {
+            result.push('med');
+          } else {
+            result.push('low');
+          }
+        }
+      }
+      return result;
+    }
+
+    /**
+     * 將車廂陣列轉為 HTML 節點字串
+     */
+    function renderCarCongestionHtml(carsArray, destName = '') {
+      if (!carsArray || carsArray.length === 0) return '';
+      const badges = carsArray.map((level, i) => {
+        const carNo = i + 1;
+        const cls = level === 'high' ? 'mtr-car-high' : (level === 'med' ? 'mtr-car-med' : 'mtr-car-low');
+        const titleText = level === 'high' ? '極度擁擠' : (level === 'med' ? '擁擠' : '不擁擠');
+        return `<span class="mtr-car-block mono-num ${cls}" title="第 ${carNo} 卡：${titleText}">${carNo}</span>`;
+      }).join('');
+
+      const cleanDest = destName.replace(/^往\s*|（.*）|\(.*\)/g, '').trim() || '前行';
+
+      return `
+        <div class="flex items-center justify-between gap-1 mt-1 pt-1 border-t border-slate-500/15 flex-wrap">
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            <div class="mtr-train-head-dir shrink-0" title="第 1 卡為車頭行駛方向">
+              <span class="text-[10px] animate-pulse">◀</span>
+              <span>車頭(${cleanDest})</span>
+            </div>
+            <div class="mtr-train-cars no-scrollbar">${badges}</div>
+          </div>
+          <span class="text-[9px] font-bold text-slate-400 shrink-0">車尾</span>
+        </div>
+      `;
+    }
+
+    function parseMtrEta(t, lineCode, staCode, bound, idx = 0) {
       let destStr = '';
       if (t.dest) {
         const destName = MTR_STATION_DICT[t.dest] || t.dest;
@@ -833,23 +1055,30 @@
       const rawMin = parseInt(t.ttnt, 10);
       const diffMin = isNaN(rawMin) ? 0 : Math.max(0, rawMin);
       const etaTime = t.time ? new Date(t.time.replace(' ', 'T')) : new Date(Date.now() + diffMin * 60000);
+
+      const cars = getMtrTrainCarCongestion(lineCode, staCode, bound, idx);
+
       return {
         timestamp: isNaN(etaTime.getTime()) ? new Date(Date.now() + diffMin * 60000).toISOString() : etaTime.toISOString(),
         diffMin: diffMin,
         remark: remark,
-        isLast: t.isLastTrain === '1' || t.isLastTrain === 'Y' || t.isLastTrain === true
+        isLast: t.isLastTrain === '1' || t.isLastTrain === 'Y' || t.isLastTrain === true,
+        cars: cars
       };
     }
 
     function extractMtrTrains(json, lineCode, staCode, bound) {
       const node = json?.data?.[`${lineCode}-${staCode}`];
       if (!node) return [];
-      let list = node[bound];
-      if (!Array.isArray(list)) {
-        // 部分站點或終點站在 API 中可能只存在單一方向陣列，自動相容讀取
+      let list = [];
+      if (Array.isArray(node[bound]) && node[bound].length > 0) {
+        list = node[bound];
+      } else {
         list = [...(node.UP || []), ...(node.DOWN || [])];
       }
-      return list.map(parseMtrEta);
+      return list
+        .filter(t => t && (t.time || t.ttnt !== undefined))
+        .map((item, idx) => parseMtrEta(item, lineCode, staCode, bound, idx));
     }
 
     let nlbRoutesCache = null;
@@ -902,15 +1131,23 @@
       if (kmbBaseDataPromise) return kmbBaseDataPromise;
       kmbBaseDataPromise = (async () => {
         try {
-          const [stopsRes, routesRes] = await Promise.all([
-            fetchJsonWithTimeout('https://data.etabus.gov.hk/v1/transport/kmb/stop', 10000),
-            fetchJsonWithTimeout('https://data.etabus.gov.hk/v1/transport/kmb/route/', 8000)
+          // 加入 .catch() 防止政府 API 當機導致畫面卡死
+          const [kStops, kRoutes, lStops, lRoutes] = await Promise.all([
+            fetchJsonWithTimeout('https://data.etabus.gov.hk/v1/transport/kmb/stop', 10000).catch(()=>({data:[]})),
+            fetchJsonWithTimeout('https://data.etabus.gov.hk/v1/transport/kmb/route/', 8000).catch(()=>({data:[]})),
+            fetchJsonWithTimeout('https://data.etabus.gov.hk/v1/transport/lwb/stop', 10000).catch(()=>({data:[]})),
+            fetchJsonWithTimeout('https://data.etabus.gov.hk/v1/transport/lwb/route/', 8000).catch(()=>({data:[]}))
           ]);
-          kmbStopNameMap = new Map((stopsRes.data || []).map(s => [s.stop, s]));
-          kmbAllRoutesList = routesRes.data || [];
+          const allStops = [...(kStops.data || []), ...(lStops.data || [])];
+          kmbStopNameMap = new Map(allStops.map(s => [s.stop, s]));
+
+          const allR = [
+            ...(kRoutes.data || []).map(r => ({...r, op: 'KMB'})), 
+            ...(lRoutes.data || []).map(r => ({...r, op: 'LWB'}))
+          ];
+          kmbAllRoutesList = allR;
         } catch (err) {
           kmbBaseDataPromise = null;
-          throw err;
         }
       })();
       return kmbBaseDataPromise;
@@ -1094,6 +1331,10 @@
     let showTrackAnimation = localStorage.getItem(SHOW_TRACK_ANIM_KEY) !== 'false';
     const perCardTrackOverride = {};
 
+    // 港鐵各車廂擁擠度顯示開關 (預設開啟)
+    const SHOW_MTR_CROWD_KEY = 'dashboard_show_mtr_crowd_v1';
+    let showMtrCrowd = localStorage.getItem(SHOW_MTR_CROWD_KEY) !== 'false';
+
     function isCardTrackVisible(cardIdx) {
       if (perCardTrackOverride[cardIdx] !== undefined) return perCardTrackOverride[cardIdx];
       return showTrackAnimation;
@@ -1110,6 +1351,11 @@
         sleepBtn.textContent = autoNightSleepEnabled ? '開啟中' : '已關閉';
         sleepBtn.className = autoNightSleepEnabled ? 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-emerald-500 text-black shadow shrink-0' : 'ctrl-btn px-3.5 py-1.5 text-xs font-bold text-mut shrink-0';
       }
+      const crowdBtn = document.getElementById('set-crowd-btn');
+      if (crowdBtn) {
+        crowdBtn.textContent = showMtrCrowd ? '開啟中' : '已關閉';
+        crowdBtn.className = showMtrCrowd ? 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-emerald-500 text-black shadow shrink-0' : 'ctrl-btn px-3.5 py-1.5 text-xs font-bold text-mut shrink-0';
+      }
     }
 
     function toggleTrackAnimation() {
@@ -1118,6 +1364,13 @@
       Object.keys(perCardTrackOverride).forEach(k => delete perCardTrackOverride[k]);
       updateSettingsButtonsUI();
       buildCardsSkeleton();
+      refreshAll(true);
+    }
+
+    function toggleMtrCrowdDisplay() {
+      showMtrCrowd = !showMtrCrowd;
+      localStorage.setItem(SHOW_MTR_CROWD_KEY, String(showMtrCrowd));
+      updateSettingsButtonsUI();
       refreshAll(true);
     }
 
@@ -1130,6 +1383,14 @@
       if (btn) btn.className = perCardTrackOverride[cardIdx] ? 'ctrl-btn px-2 py-1 text-xs font-black flap-amber' : 'ctrl-btn px-2 py-1 text-xs font-bold text-mut opacity-70';
     }
 
+    function cycleCardEtaCount(cardIdx) {
+      const current = activeCards[cardIdx].etaCount || 2;
+      activeCards[cardIdx].etaCount = current >= 4 ? 1 : current + 1;
+      saveActiveCards();
+      buildCardsSkeleton();
+      refreshAll(true);
+    }
+    
     const AUTO_NIGHT_SLEEP_KEY = 'dashboard_auto_night_sleep_v1';
     let autoNightSleepEnabled = localStorage.getItem(AUTO_NIGHT_SLEEP_KEY) !== 'false';
     let isSleeping = false;
@@ -1797,7 +2058,6 @@
     }
     function shortStopName(name) { if (!name) return '---'; return name.replace(/^林錦公路[\s,，、]*近?/g, '').replace(/\([A-Z0-9]+\)$/i, '').replace(/ ⑂/g, '').trim().slice(0, 6); }
     
-    // 動態過濾重複填充的站點，當前方不足 4 個站時自動減少顯示站數 (例如只有 2 個前站則顯示 3 站)
     function getEffectiveTrackStops(card) {
       let raw = (card.fiveStops && card.fiveStops.length > 0) ? [...card.fiveStops] : [card.stopName || '本站'];
       while (raw.length > 1 && raw[0] === raw[1]) {
@@ -1825,6 +2085,31 @@
       refreshAll(true);
     }
 
+    // 根據交通工具及港鐵路綫，自動分配專屬漸層顏色與字體色
+    function getRouteBadgeStyle(operator, route) {
+      if (operator === 'KMB') return 'background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%); color: #fff; box-shadow: 0 2px 6px rgba(220,38,38,0.3);';
+      if (operator === 'LWB') return 'background: linear-gradient(180deg, #f97316 0%, #ea580c 100%); color: #fff; box-shadow: 0 2px 6px rgba(234,88,12,0.3);';
+      if (operator === 'CTB') return 'background: linear-gradient(180deg, #fde047 0%, #eab308 100%); color: #000; box-shadow: 0 2px 6px rgba(234,179,8,0.3);';
+      if (operator === 'NLB') return 'background: linear-gradient(180deg, #f97316 0%, #c2410c 100%); color: #fff; box-shadow: 0 2px 6px rgba(234,88,12,0.3);';
+      if (operator === 'GMB') return 'background: linear-gradient(180deg, #10b981 0%, #047857 100%); color: #fff; box-shadow: 0 2px 6px rgba(16,185,129,0.3);';
+  
+      if (operator === 'MTR') {
+        const mtrColors = {
+          EAL: 'background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); color: #fff;', 
+          TML: 'background: linear-gradient(180deg, #a16207 0%, #713f12 100%); color: #fff;', 
+          TWL: 'background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%); color: #fff;', 
+          KTL: 'background: linear-gradient(180deg, #22c55e 0%, #15803d 100%); color: #fff;', 
+          ISL: 'background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%); color: #fff;', 
+          TKL: 'background: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%); color: #fff;', 
+          SIL: 'background: linear-gradient(180deg, #bef264 0%, #65a30d 100%); color: #000;', 
+          TCL: 'background: linear-gradient(180deg, #f97316 0%, #c2410c 100%); color: #fff;', 
+          AEL: 'background: linear-gradient(180deg, #2dd4bf 0%, #0f766e 100%); color: #fff;'  
+        };
+        return mtrColors[route] || 'background: linear-gradient(180deg, #64748b 0%, #334155 100%); color: #fff;';
+      }
+      return 'background: linear-gradient(180deg, #64748b 0%, #334155 100%); color: #fff;';
+    }
+
     function buildCardsSkeleton() {
       const grid = document.getElementById('cards-grid');
       const visible = getVisibleCardsWithOriginalIndex();
@@ -1833,17 +2118,17 @@
         return;
       }
       grid.innerHTML = visible.map(({ card, originalIdx: idx }, vIdx) => {
-        const badgeStyle =
-          card.operator === 'NLB' ? 'background: linear-gradient(180deg, #ea580c 0%, #c2410c 100%); color: #fff;' :
-          card.operator === 'KMB' ? 'background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%); color: #fff;' :
-          card.operator === 'GMB' ? 'background: linear-gradient(180deg, #059669 0%, #047857 100%); color: #fff;' :
-          card.operator === 'CTB' ? 'background: linear-gradient(180deg, #eab308 0%, #ca8a04 100%); color: #000;' :
-          'background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%); color: #fff;';
+        const badgeStyle = getRouteBadgeStyle(card.operator, card.route);
+        let displayRoute = card.route;
+        if (card.operator === 'MTR') {
+          const mtrShortNames = { EAL: '東鐵', TML: '屯馬', TWL: '荃灣', KTL: '觀塘', ISL: '港島', TKL: '將軍澳', SIL: '南港島', TCL: '東涌', AEL: '機快' };
+          displayRoute = mtrShortNames[card.route] || card.route;
+        }
         const opLabel = card.operator === 'NLB' ? '大嶼山' : card.operator;
         const trackVisible = isCardTrackVisible(idx);
         const isFirst = (vIdx === 0);
         const isLast = (vIdx === visible.length - 1);
-        
+
         const stopsList = getEffectiveTrackStops(card);
         const nStops = stopsList.length;
 
@@ -1871,7 +2156,7 @@
           <div class="airport-panel p-3 sm:p-3.5 flex flex-col justify-between gap-2 cursor-pointer hover:border-sky-400/60 transition" onclick="openRouteDetail(${idx})" title="點擊查看完整垂直路線圖及接下來 3 班車">
             <div class="flex items-center justify-between border-b border-slate-500/25 pb-2 gap-1.5">
               <div class="flex items-center gap-2 min-w-0">
-                <div class="flap-tile px-2.5 py-0.5 text-lg sm:text-2xl font-black mono-num shrink-0" style="${badgeStyle}">${card.route}</div>
+                <div class="flap-tile px-2.5 py-0.5 text-lg sm:text-2xl font-black shrink-0" style="${badgeStyle}">${displayRoute}</div>
                 <div class="min-w-0">
                   <div class="flex items-center gap-1.5">
                     <span class="text-base sm:text-xl font-black text-pri tracking-tight truncate">往 ${card.destName}</span>
@@ -1883,7 +2168,8 @@
               <div class="flex items-center gap-1 shrink-0" onclick="event.stopPropagation()">
                 ${!isFirst ? `<button onclick="moveRouteCardByVisibleIndex(${vIdx}, -1)" class="ctrl-btn px-1.5 py-1 text-xs font-black" title="上移路線">⬆️</button>` : ''}
                 ${!isLast ? `<button onclick="moveRouteCardByVisibleIndex(${vIdx}, 1)" class="ctrl-btn px-1.5 py-1 text-xs font-black" title="下移路線">⬇️</button>` : ''}
-                <button id="card-track-btn-${idx}" onclick="toggleSingleCardTrack(${idx})" class="${trackVisible ? 'ctrl-btn px-2 py-1 text-xs font-black flap-amber' : 'ctrl-btn px-2 py-1 text-xs font-bold text-mut opacity-70'}" title="開關路軌">🚌</button>
+                <button id="card-track-btn-${idx}" onclick="toggleSingleCardTrack(${idx})" class="${trackVisible ? 'ctrl-btn px-2 py-1 text-xs font-black flap-amber' : 'ctrl-btn px-2 py-1 text-bold text-mut opacity-70'}" title="開關路軌">🚌</button>
+                <button onclick="cycleCardEtaCount(${idx})" class="ctrl-btn px-1.5 py-1 text-[11px] font-black mono-num text-sky-400" title="點擊切換顯示 1~4 班車">${card.etaCount || 2}班</button>
                 <button onclick="openRouteModal(${idx})" class="ctrl-btn px-2 py-1 text-xs font-black" title="換線">⚙️</button>
                 ${activeCards.length > 1 ? `<button onclick="removeRouteCard(${idx})" class="ctrl-btn px-2 py-1 text-xs font-black text-rose-500" title="刪除">🗑️</button>` : ''}
               </div>
@@ -1945,7 +2231,8 @@
       try {
         await hydrateDefaultKmbCard(card);
         if (!card.stopId) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '定位站點中...'); return; }
-        const json = await fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/eta/${card.stopId}/${card.route}/1`, 4500);
+        const opPath = card.operator === 'LWB' ? 'lwb' : 'kmb';
+        const json = await fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/${opPath}/eta/${card.stopId}/${card.route}/1`, 4500);
         const raw = (json.data || []).filter(e => e.eta);
         const cleanDestKey = (card.destName || '').replace(/（.*）|\(.*\)|站|總站/g, '').trim().slice(0, 2);
         let fil = raw.filter(e => (cleanDestKey && e.dest_tc && e.dest_tc.includes(cleanDestKey)) || (card.bound && e.dir === card.bound));
@@ -1953,9 +2240,9 @@
         const etas = fil.sort((a, b) => new Date(a.eta) - new Date(b.eta)).map(e => ({
           timestamp: e.eta, diffMin: Math.max(0, Math.floor((new Date(e.eta) - new Date()) / 60000)), remark: e.rmk_tc || '實時班次'
         }));
-        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '暫無班次');
+        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '暫無班次', card.etaCount || 2);
         updateJrApproachBoard(slotIdx, card, etas);
-      } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取九巴失敗'); }
+      } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取巴士失敗'); }
     }
 
     async function fetchNlbCardData(slotIdx, card) {
@@ -1967,7 +2254,7 @@
           diffMin: Math.max(0, Math.floor((new Date(e.estimatedArrivalTime) - new Date()) / 60000)),
           remark: '大嶼山實時班次'
         }));
-        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, `目前暫無 ${card.route} 班次`);
+        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, `目前暫無 ${card.route} 班次`, card.etaCount || 2);
         updateJrApproachBoard(slotIdx, card, etas);
       } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取大嶼山巴士失敗'); }
     }
@@ -1985,7 +2272,7 @@
           const ts = e.timestamp || (e.diff !== undefined ? new Date(Date.now() + e.diff * 60000).toISOString() : null);
           return ts ? { timestamp: ts, diffMin: e.diff !== undefined ? Math.max(0, e.diff) : Math.max(0, Math.floor((new Date(ts) - new Date()) / 60000)), remark: e.remarks_tc || '專線小巴' } : null;
         }).filter(Boolean).sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, `暫無 ${card.route} 小巴預報`);
+        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, `暫無 ${card.route} 小巴預報`, card.etaCount || 2);
         updateJrApproachBoard(slotIdx, card, etas);
       } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取小巴失敗'); }
     }
@@ -1996,7 +2283,7 @@
         const etas = (json.data || []).filter(e => e.eta && (!card.bound || e.dir === card.bound)).map(e => ({
           timestamp: e.eta, diffMin: Math.max(0, Math.floor((new Date(e.eta) - new Date()) / 60000)), remark: e.rmk_tc || '城巴實時'
         }));
-        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, `暫無城巴 ${card.route} 班次`);
+        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, `暫無城巴 ${card.route} 班次`, card.etaCount || 2);
         updateJrApproachBoard(slotIdx, card, etas);
       } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取城巴失敗'); }
     }
@@ -2005,7 +2292,7 @@
       try {
         const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${card.route}&sta=${card.stopId}&lang=TC`, 4500);
         const etas = extractMtrTrains(json, card.route, card.stopId, card.bound);
-        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '目前暫無列車班次');
+        renderEtaFlapBoard(`eta-card-${slotIdx}`, etas, '目前暫無列車班次',card.etaCount || 2);
         updateJrApproachBoard(slotIdx, card, etas);
       } catch (e) { renderEtaFlapBoard(`eta-card-${slotIdx}`, [], '讀取港鐵失敗'); }
     }
@@ -2014,7 +2301,7 @@
       const visible = getVisibleCardsWithOriginalIndex();
       await Promise.all(visible.map(({ card, originalIdx: idx }) => {
         if (card.operator === 'NLB') return fetchNlbCardData(idx, card);
-        if (card.operator === 'KMB') return fetchKmbCardData(idx, card);
+        if (card.operator === 'KMB' || card.operator === 'LWB') return fetchKmbCardData(idx, card);
         if (card.operator === 'MTR') return fetchMtrCardData(idx, card);
         if (card.operator === 'GMB') return fetchGmbCardData(idx, card);
         if (card.operator === 'CTB') return fetchCtbCardData(idx, card);
@@ -2034,11 +2321,11 @@
       container.innerHTML = etas.slice(0, maxCount).map((item, idx) => {
         const diffMin = item.diffMin !== undefined ? Math.max(0, item.diffMin) : Math.max(0, Math.floor((new Date(item.timestamp) - now) / 60000));
         const timeStr = new Date(item.timestamp).toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit', hour12: false });
-        
+
         let displayRemark = item.remark || '實時班次';
         let isLast = item.isLast || displayRemark.includes('尾班');
         let remarkHtml = '';
-        
+
         if (isLast) {
           let cleanRemark = displayRemark.replace(/尾班車?/g, '').replace(/^-|-$/g, '').trim();
           if (!cleanRemark) cleanRemark = '實時班次';
@@ -2047,18 +2334,24 @@
           remarkHtml = `<span class="text-[11px] font-bold text-mut truncate">${displayRemark}</span>`;
         }
 
+        const trainDest = item.remark && item.remark.includes('往') ? item.remark.split(' ')[0] : '';
+        const carBlocksHtml = (showMtrCrowd && item.cars) ? renderCarCongestionHtml(item.cars, trainDest) : '';
+
         return `
-          <div class="flap-row px-2.5 py-1.5 flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2 min-w-0">
-              <span class="flap-tile w-6 h-6 text-xs font-black mono-num ${idx === 0 ? 'flap-amber' : 'text-mut'} shrink-0">${idx + 1}</span>
-              <div class="flap-tile px-2 py-0.5 text-base font-extrabold mono-num text-pri shrink-0">${timeStr}</div>
-              <div class="flex items-center min-w-0">${remarkHtml}</div>
-            </div>
-            <div class="shrink-0">
-              <div class="flap-tile px-2.5 py-0.5 text-xl font-extrabold mono-num ${diffMin <= 1 ? 'flap-green' : idx === 0 ? 'flap-amber' : ''}">
-                ${diffMin <= 1 ? '即將到站' : diffMin + ' 分鐘'}
+          <div class="flap-row px-2.5 py-1.5 flex flex-col justify-between gap-1">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="flap-tile w-6 h-6 text-xs font-black mono-num ${idx === 0 ? 'flap-amber' : 'text-mut'} shrink-0">${idx + 1}</span>
+                <div class="flap-tile px-2 py-0.5 text-base font-extrabold mono-num text-pri shrink-0">${timeStr}</div>
+                <div class="flex items-center min-w-0">${remarkHtml}</div>
+              </div>
+              <div class="shrink-0">
+                <div class="flap-tile px-2.5 py-0.5 text-xl font-extrabold mono-num ${diffMin <= 1 ? 'flap-green' : idx === 0 ? 'flap-amber' : ''}">
+                  ${diffMin <= 1 ? '即將到站' : diffMin + ' 分鐘'}
+                </div>
               </div>
             </div>
+            ${carBlocksHtml}
           </div>
         `;
       }).join('');
@@ -2144,17 +2437,55 @@
     // =========================================================================
     // 8. 🗺️ 點擊路線卡彈出「垂直路線圖子頁面 + 接下來 3 班車」
     // =========================================================================
+    
+    // --- 補回遺失的變數與新增垂直路線圖導航邏輯 ---
     let activeDetailCardIdx = null;
     const ctbStopCache = new Map();
 
-    async function getCtbStopName(stopId) {
+    let routeDetailNearestStop = null;
+    let routeDetailSelectedStop = null;
+    let routeDetailStopsData = [];
+    let routeDetailCurrentEtas = [];
+
+    function selectRouteDetailStation(stopId) {
+      const st = routeDetailStopsData.find(s => String(s.id) === String(stopId));
+      if (st) {
+        routeDetailSelectedStop = st;
+        const card = activeCards[activeDetailCardIdx];
+        renderVerticalRoute(routeDetailStopsData, routeDetailCurrentEtas, card, false);
+      }
+    }
+
+    function startRouteDetailNavigation() {
+      const targetStop = routeDetailSelectedStop || routeDetailNearestStop;
+      if (!targetStop) {
+        alert('無法定位最近車站，請手動點擊路綫圖上的車站選擇導航目標。');
+        return;
+      }
+      let destQuery = encodeURIComponent(targetStop.name_tc);
+      if (targetStop.lat && targetStop.lng && !isNaN(targetStop.lat)) {
+        destQuery = `${targetStop.lat},${targetStop.lng}`;
+      } else if (activeCards[activeDetailCardIdx]?.operator === 'MTR') {
+        destQuery = encodeURIComponent(targetStop.name_tc + '站');
+      }
+      const mapUrl = `https://www.google.com/maps/dir/?api=1&destination=${destQuery}&travelmode=walking`;
+      window.open(mapUrl, '_blank');
+    }
+    // -----------------------------------
+
+    async function getCtbStopMeta(stopId) {
       if (ctbStopCache.has(stopId)) return ctbStopCache.get(stopId);
       try {
         const j = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/citybus/stop/${stopId}`, 2500);
-        const n = j?.data?.name_tc || stopId;
-        ctbStopCache.set(stopId, n);
-        return n;
-      } catch (e) { return stopId; }
+        const meta = { name_tc: j?.data?.name_tc || stopId, lat: j?.data?.lat, lng: j?.data?.long };
+        ctbStopCache.set(stopId, meta);
+        return meta;
+      } catch (e) { return { name_tc: stopId }; }
+    }
+    
+    async function getCtbStopName(stopId) {
+      const meta = await getCtbStopMeta(stopId);
+      return meta.name_tc;
     }
 
     async function openRouteDetail(idx) {
@@ -2164,14 +2495,13 @@
       m.classList.remove('hidden');
       m.classList.add('flex');
 
-      const badgeStyle =
-        card.operator === 'NLB' ? 'background: linear-gradient(180deg, #ea580c 0%, #c2410c 100%); color: #fff;' :
-        card.operator === 'KMB' ? 'background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%); color: #fff;' :
-        card.operator === 'GMB' ? 'background: linear-gradient(180deg, #059669 0%, #047857 100%); color: #fff;' :
-        card.operator === 'CTB' ? 'background: linear-gradient(180deg, #eab308 0%, #ca8a04 100%); color: #000;' :
-        'background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%); color: #fff;';
-
-      document.getElementById('rd-route-badge').textContent = card.route;
+      const badgeStyle = getRouteBadgeStyle(card.operator, card.route);
+      let displayRoute = card.route;
+      if (card.operator === 'MTR') {
+        const mtrShortNames = { EAL: '東鐵綫', TML: '屯馬綫', TWL: '荃灣綫', KTL: '觀塘綫', ISL: '港島綫', TKL: '將軍澳綫', SIL: '南港島綫', TCL: '東涌綫', AEL: '機場快綫' };
+        displayRoute = mtrShortNames[card.route] || card.route;
+      }
+      document.getElementById('rd-route-badge').textContent = displayRoute;
       document.getElementById('rd-route-badge').style.cssText = badgeStyle;
       document.getElementById('rd-dest').textContent = `往 ${card.destName}`;
       document.getElementById('rd-stop').textContent = `📍 目標站點：${card.stopName}（可上下滑動檢視全線站點）`;
@@ -2198,8 +2528,10 @@
           const line = MTR_LINES_DATA[card.route] || MTR_LINES_DATA['EAL'];
           let stns = [...line.stations];
           if (card.bound === 'DOWN') stns.reverse();
-          stops = stns.map(s => ({ id: s.id, name_tc: s.name.includes('⑂') ? s.name.replace(' ⑂', '站 ⑂') : `${s.name}站` }));
-          
+          stops = stns.map(s => {
+            const match = FLAT_PRESET_LOCATIONS.find(p => p.label.includes(s.name.replace(' ⑂', '')));
+            return { id: s.id, name_tc: s.name.includes('⑂') ? s.name.replace(' ⑂', '站 ⑂') : `${s.name}站`, lat: match?.lat, lng: match?.lng };
+          });
           const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${card.route}&sta=${card.stopId}&lang=TC`, 4500);
           etas = extractMtrTrains(json, card.route, card.stopId, card.bound);
         } else if (card.operator === 'NLB') {
@@ -2208,28 +2540,26 @@
             fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/nlb/stop.php?action=list&routeId=${rId}`, 5000).catch(() => null),
             fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/nlb/stop.php?action=estimatedArrivals&routeId=${rId}&stopId=${card.stopId}&language=zh`, 4500).catch(() => null)
           ]);
-          stops = (sJson?.stops || []).map(s => ({ id: String(s.stopId), name_tc: s.stopName_c || s.stopName_e }));
-          etas = (eJson?.estimatedArrivals || []).filter(e => e.estimatedArrivalTime).map(e => ({
-            timestamp: e.estimatedArrivalTime,
-            diffMin: Math.max(0, Math.floor((new Date(e.estimatedArrivalTime) - new Date()) / 60000)),
-            remark: '大嶼山巴士'
-          }));
-        } else if (card.operator === 'KMB') {
+          stops = (sJson?.stops || []).map(s => ({ id: String(s.stopId), name_tc: s.stopName_c || s.stopName_e, lat: Number(s.latitude), lng: Number(s.longitude) }));
+          etas = (eJson?.estimatedArrivals || []).filter(e => e.estimatedArrivalTime).map(e => ({ timestamp: e.estimatedArrivalTime, diffMin: Math.max(0, Math.floor((new Date(e.estimatedArrivalTime) - new Date()) / 60000)), remark: '大嶼山巴士' }));
+        } else if (card.operator === 'KMB' || card.operator === 'LWB') {
           await ensureKmbBaseData();
           await hydrateDefaultKmbCard(card);
           const bw = card.bound === 'I' ? 'inbound' : 'outbound';
+          const opPath = card.operator === 'LWB' ? 'lwb' : 'kmb';
           const [sJson, eJson] = await Promise.all([
-            fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${card.route}/${bw}/${card.serviceType || '1'}`, 5000).catch(() => null),
-            fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/eta/${card.stopId}/${card.route}/${card.serviceType || '1'}`, 4500).catch(() => null)
+            fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/${opPath}/route-stop/${card.route}/${bw}/${card.serviceType || '1'}`, 5000).catch(() => null),
+            fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/${opPath}/eta/${card.stopId}/${card.route}/${card.serviceType || '1'}`, 4500).catch(() => null)
           ]);
-          stops = (sJson?.data || []).map(s => ({ id: s.stop, name_tc: kmbStopNameMap.get(s.stop)?.name_tc || s.stop }));
+          stops = (sJson?.data || []).map(s => {
+            const meta = kmbStopNameMap.get(s.stop);
+            return { id: s.stop, name_tc: meta?.name_tc || s.stop, lat: Number(meta?.lat), lng: Number(meta?.long) };
+          });
           let rawList = (eJson?.data || []).filter(e => e.eta);
           const cleanDestKey = (card.destName || '').replace(/（.*）|\(.*\)|站|總站/g, '').trim().slice(0, 2);
           let fil = rawList.filter(e => (cleanDestKey && e.dest_tc && e.dest_tc.includes(cleanDestKey)) || (card.bound && e.dir === card.bound));
           if (fil.length === 0) fil = rawList;
-          etas = fil.sort((a, b) => new Date(a.eta) - new Date(b.eta)).map(e => ({
-            timestamp: e.eta, diffMin: Math.max(0, Math.floor((new Date(e.eta) - new Date()) / 60000)), remark: e.rmk_tc || '實時班次'
-          }));
+          etas = fil.sort((a, b) => new Date(a.eta) - new Date(b.eta)).map(e => ({ timestamp: e.eta, diffMin: Math.max(0, Math.floor((new Date(e.eta) - new Date()) / 60000)), remark: e.rmk_tc || '實時班次' }));
         } else if (card.operator === 'GMB') {
           const rId = card.routeId || 2004067;
           const rSeq = card.routeSeq || 2;
@@ -2252,17 +2582,55 @@
             fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/citybus/route-stop/ctb/${card.route}/${bw}`, 5000).catch(() => null),
             fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/citybus/eta/ctb/${card.stopId}/${card.route}`, 4500).catch(() => null)
           ]);
-          stops = await Promise.all((sJson?.data || []).map(async s => ({ id: s.stop, name_tc: await getCtbStopName(s.stop) })));
-          etas = (eJson?.data || []).filter(e => e.eta && (!card.bound || e.dir === card.bound)).map(e => ({
-            timestamp: e.eta, diffMin: Math.max(0, Math.floor((new Date(e.eta) - new Date()) / 60000)), remark: e.rmk_tc || '城巴實時'
+          stops = await Promise.all((sJson?.data || []).map(async s => {
+            const meta = await getCtbStopMeta(s.stop);
+            return { id: s.stop, name_tc: meta.name_tc, lat: Number(meta.lat), lng: Number(meta.lng) };
           }));
+          etas = (eJson?.data || []).filter(e => e.eta && (!card.bound || e.dir === card.bound)).map(e => ({ timestamp: e.eta, diffMin: Math.max(0, Math.floor((new Date(e.eta) - new Date()) / 60000)), remark: e.rmk_tc || '城巴實時' }));
         }
       } catch (e) {}
 
-      if (stops.length === 0) {
-        stops = getEffectiveTrackStops(card).map((n, i) => ({ id: String(i), name_tc: n }));
+  if (stops.length === 0) stops = getEffectiveTrackStops(card).map((n, i) => ({ id: String(i), name_tc: n }));
+
+  // --- 新增：找出最近車站並儲存狀態 ---
+  routeDetailStopsData = stops;
+  routeDetailCurrentEtas = etas;
+  if (scrollToTarget) {
+    routeDetailNearestStop = null;
+    routeDetailSelectedStop = null;
+    if (userCurrentCoords && stops.length > 0) {
+      let minDist = Infinity;
+      stops.forEach(st => {
+        if (st.lat && st.lng && !isNaN(st.lat)) {
+          const dist = computeDistanceKm(userCurrentCoords.lat, userCurrentCoords.lng, st.lat, st.lng);
+          if (dist < minDist) { minDist = dist; routeDetailNearestStop = st; }
+        }
+      });
+    }
+  }
+  document.getElementById('rd-nav-btn').classList.remove('hidden');
+  
+  renderVerticalRoute(stops, etas, card, scrollToTarget);
+}
+
+    // 取得路線專屬漸層色碼 (給垂直 SVG 路軌使用)
+    function getRouteColors(operator, route) {
+      if (operator === 'KMB') return ['#ef4444', '#b91c1c']; // 九巴紅
+      if (operator === 'LWB') return ['#f97316', '#c2410c']; // 龍運橙
+      if (operator === 'CTB') return ['#fde047', '#eab308']; // 城巴黃
+      if (operator === 'NLB') return ['#f97316', '#c2410c']; // 大嶼山橙
+      if (operator === 'GMB') return ['#10b981', '#047857']; // 小巴綠
+      if (operator === 'MTR') {
+        const mtr = {
+          EAL: ['#38bdf8', '#0284c7'], TML: ['#a16207', '#713f12'],
+          TWL: ['#ef4444', '#b91c1c'], KTL: ['#22c55e', '#15803d'],
+          ISL: ['#3b82f6', '#1d4ed8'], TKL: ['#a855f7', '#7e22ce'],
+          SIL: ['#bef264', '#65a30d'], TCL: ['#f97316', '#c2410c'],
+          AEL: ['#2dd4bf', '#0f766e']
+        };
+        return mtr[route] || ['#64748b', '#334155'];
       }
-      renderVerticalRoute(stops, etas, card, scrollToTarget);
+      return ['#64748b', '#334155'];
     }
 
     function renderVerticalRoute(stops, etas, card, scrollToTarget) {
@@ -2325,7 +2693,6 @@
           if (p1.x === p2.x) {
             svgPaths += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="url(#trackGrad)" stroke-width="5" stroke-linecap="round" />`;
           } else {
-            // 直角分岔繪製，還原港鐵路線圖風格
             const midY = (p1.y + p2.y) / 2;
             svgPaths += `<path d="M ${p1.x} ${p1.y} L ${p1.x} ${midY} L ${p2.x} ${midY} L ${p2.x} ${p2.y}" fill="none" stroke="url(#trackGrad)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" />`;
           }
@@ -2334,14 +2701,26 @@
 
       let nodesHtml = '';
       flatStops.forEach(s => {
-        const nodeClass = s.isTarget ? 'v-stop-node target' : (s.isPassed ? 'v-stop-node passed' : 'v-stop-node');
-        const textClass = s.isTarget ? 'text-emerald-300 font-black' : (s.isPassed ? 'text-slate-400 font-bold' : 'text-slate-200 font-semibold');
-        
+        const isSelected = routeDetailSelectedStop ? String(s.id) === String(routeDetailSelectedStop.id) : false;
+        const isNearest = !routeDetailSelectedStop && routeDetailNearestStop ? String(s.id) === String(routeDetailNearestStop.id) : false;
+
+        let nodeClass = 'v-stop-node cursor-pointer transition-all';
+        if (isSelected) nodeClass += ' target ring-4 ring-emerald-500/60';
+        else if (s.isTarget) nodeClass += ' target';
+        else if (s.isPassed) nodeClass += ' passed';
+
+        const textClass = (isSelected || s.isTarget) ? 'text-emerald-300 font-black' : (s.isPassed ? 'text-slate-400 font-bold' : 'text-slate-200 font-semibold');
+
+        let extraBadge = '';
+        if (isSelected) extraBadge = '<span class="ml-1 px-1.5 py-0.5 rounded bg-emerald-600 text-white font-black text-[9px] align-middle shadow-md">🚶導航目標</span>';
+        else if (isNearest) extraBadge = '<span class="ml-1 px-1.5 py-0.5 rounded bg-sky-500 text-white font-black text-[9px] align-middle shadow-md">📍最近車站</span>';
+        else if (s.isTarget) extraBadge = '<span class="ml-1 px-1.5 py-0.5 rounded-full bg-emerald-500 text-black font-black text-[9px] align-middle shadow-md">📍本站</span>';
+
         nodesHtml += `
-          <div class="${nodeClass}" style="left: ${s.x}px; top: ${s.y}px;"></div>
-          <div style="position: absolute; left: ${s.x + 16}px; top: ${s.y}px; transform: translateY(-50%); white-space: nowrap; max-width: 145px; overflow: hidden; text-overflow: ellipsis;" class="text-sm ${textClass} tracking-wide">
+          <div class="${nodeClass}" style="left: ${s.x}px; top: ${s.y}px;" onclick="selectRouteDetailStation('${s.id}')"></div>
+          <div onclick="selectRouteDetailStation('${s.id}')" style="position: absolute; left: ${s.x + 16}px; top: ${s.y}px; transform: translateY(-50%); white-space: nowrap; max-width: 175px; overflow: hidden; text-overflow: ellipsis; cursor: pointer;" class="text-sm ${textClass} tracking-wide transition-colors">
             ${s.name_tc.replace(/ ⑂/g, '')}
-            ${s.isTarget ? '<span class="ml-1 px-1.5 py-0.5 rounded-full bg-emerald-500 text-black font-black text-[9px] align-middle shadow-md">📍本站</span>' : ''}
+            ${extraBadge}
           </div>
         `;
       });
@@ -2374,14 +2753,16 @@
         `;
       });
 
+      // 動態取得對應路線的漸層色碼
+      const [gradStart, gradEnd] = getRouteColors(card.operator, card.route);
+
       const html = `
         <div class="relative w-full overflow-x-auto no-scrollbar" style="height: ${totalHeight}px; min-width: 270px;">
           <svg class="absolute inset-0 pointer-events-none" width="100%" height="${totalHeight}px">
             <defs>
               <linearGradient id="trackGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#38bdf8" />
-                <stop offset="65%" stop-color="#0284c7" />
-                <stop offset="100%" stop-color="#10b981" />
+                <stop offset="0%" stop-color="${gradStart}" />
+                <stop offset="100%" stop-color="${gradEnd}" />
               </linearGradient>
             </defs>
             ${svgPaths}
@@ -2390,7 +2771,6 @@
           ${actorsHtml}
         </div>
       `;
-
       document.getElementById('route-detail-track').innerHTML = html;
       document.getElementById('rd-last-update').textContent = `更新於 ${new Date().toLocaleTimeString('zh-HK', { hour12: false })}`;
       renderEtaFlapBoard('route-detail-etas', etas, '目前暫無班次預報', 3);
@@ -2428,6 +2808,8 @@
       populateModalFolderSelect(currentFolderId);
       document.getElementById('route-modal-title').textContent = '➕ 新增看板路線';
       document.getElementById('modal-route-Filter').value = '';
+      const countSelect = document.getElementById('modal-eta-count-select');
+      if (countSelect) countSelect.value = '2';
       document.getElementById('route-modal').classList.remove('hidden');
       document.getElementById('route-modal').classList.add('flex');
       selectModalOperator('KMB');
@@ -2440,6 +2822,8 @@
       populateModalFolderSelect(c.folderId);
       document.getElementById('route-modal-title').textContent = `⚙️ 修改路線：${c.route} 往${c.destName}`;
       document.getElementById('modal-route-Filter').value = '';
+      const countSelect = document.getElementById('modal-eta-count-select');
+      if (countSelect) countSelect.value = String(c.etaCount || 2);
       document.getElementById('route-modal').classList.remove('hidden');
       document.getElementById('route-modal').classList.add('flex');
       selectModalOperator(c.operator || 'KMB');
@@ -2451,10 +2835,11 @@
     }
 
     async function loadOperatorRoutesPool(op, gmbReg) {
-      if (op === 'KMB') {
+      if (op === 'KMB' || op === 'LWB') {
         await ensureKmbBaseData();
-        const unique = [...new Set((kmbAllRoutesList || []).map(r => r.route))];
-        return unique.map(r => ({ code: r, label: `九巴 ${r}` }));
+        const matches = kmbAllRoutesList.filter(r => r.op === op);
+        const unique = [...new Set(matches.map(r => r.route))];
+        return unique.map(r => ({ code: r, label: `${op === 'KMB' ? '九巴' : '龍運'} ${r}` }));
       } else if (op === 'NLB') {
         const list = await ensureNlbRoutes();
         const uniqueNos = [...new Set(list.map(r => r.routeNo))];
@@ -2463,10 +2848,10 @@
           return { code: no, label: `大嶼山 ${no} (${sample.orig_tc} ⇄ ${sample.dest_tc})` };
         });
       } else if (op === 'GMB') {
-        const json = await fetchJsonWithTimeout(`https://data.etagmb.gov.hk/route/${gmbReg}`, 5000);
+        const json = await fetchJsonWithTimeout(`https://data.etagmb.gov.hk/route/${gmbReg}`, 5000).catch(()=>({data:{routes:[]}}));
         return (json?.data?.routes || []).map(r => ({ code: r, label: `${gmbReg} 小巴 ${r}` }));
       } else if (op === 'CTB') {
-        const json = await fetchJsonWithTimeout('https://rt.data.gov.hk/v2/transport/citybus/route/ctb', 6000);
+        const json = await fetchJsonWithTimeout('https://rt.data.gov.hk/v2/transport/citybus/route/ctb', 6000).catch(()=>({data:[]}));
         return (json.data || []).map(r => ({ code: r.route, label: `城巴 ${r.route} (${r.orig_tc} ⇄ ${r.dest_tc})`, orig_tc: r.orig_tc, dest_tc: r.dest_tc }));
       } else if (op === 'MTR') {
         return Object.entries(MTR_LINES_DATA).map(([code, info]) => ({ code, label: info.name }));
@@ -2475,9 +2860,9 @@
     }
 
     async function loadOperatorDirectionsPool(op, gmbReg, routeCode, routesPool) {
-      if (op === 'KMB') {
+      if (op === 'KMB' || op === 'LWB') {
         await ensureKmbBaseData();
-        const matches = kmbAllRoutesList.filter(r => r.route === routeCode && String(r.service_type) === '1');
+        const matches = kmbAllRoutesList.filter(r => r.route === routeCode && String(r.service_type) === '1' && r.op === op);
         return matches.map(m => ({ bound: m.bound, serviceType: m.service_type, destName: m.dest_tc, label: `往 ${m.dest_tc}（由 ${m.orig_tc} 開出）` }));
       } else if (op === 'NLB') {
         const list = await ensureNlbRoutes();
@@ -2485,7 +2870,7 @@
           nlbRouteId: r.routeId, bound: 'O', destName: r.dest_tc, label: `往 ${r.dest_tc}（由 ${r.orig_tc} 開出）`
         }));
       } else if (op === 'GMB') {
-        const json = await fetchJsonWithTimeout(`https://data.etagmb.gov.hk/route/${gmbReg}/${routeCode}`, 5000);
+        const json = await fetchJsonWithTimeout(`https://data.etagmb.gov.hk/route/${gmbReg}/${routeCode}`, 5000).catch(()=>({data:[]}));
         const dirs = [];
         for (const v of (json.data || [])) {
           for (const d of (v.directions || [])) {
@@ -2513,53 +2898,77 @@
     }
 
     async function loadOperatorStopsPool(op, routeCode, dirObj) {
-      if (op === 'KMB') {
+      if (op === 'KMB' || op === 'LWB') {
         await ensureKmbBaseData();
         const bw = dirObj.bound === 'I' ? 'inbound' : 'outbound';
-        const json = await fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${routeCode}/${bw}/${dirObj.serviceType || '1'}`, 5000);
-        return (json.data || []).map(s => ({ stopId: s.stop, stopSeq: Number(s.seq), name_tc: kmbStopNameMap.get(s.stop)?.name_tc || s.stop }));
+        const opPath = op.toLowerCase();
+        const json = await fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/${opPath}/route-stop/${routeCode}/${bw}/${dirObj.serviceType || '1'}`, 5000).catch(()=>({data:[]}));
+        return (json.data || []).map(s => {
+          const meta = kmbStopNameMap.get(s.stop);
+          return { stopId: s.stop, stopSeq: Number(s.seq), name_tc: meta?.name_tc || s.stop, lat: Number(meta?.lat), lng: Number(meta?.long) };
+        });
       } else if (op === 'NLB') {
-        const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/nlb/stop.php?action=list&routeId=${dirObj.nlbRouteId}`, 5000);
-        return (json?.stops || []).map((s, idx) => ({ stopId: String(s.stopId), stopSeq: idx + 1, name_tc: s.stopName_c || s.stopName_e }));
+        const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/nlb/stop.php?action=list&routeId=${dirObj.nlbRouteId}`, 5000).catch(()=>({stops:[]}));
+        return (json?.stops || []).map((s, idx) => ({ stopId: String(s.stopId), stopSeq: idx + 1, name_tc: s.stopName_c || s.stopName_e, lat: Number(s.latitude), lng: Number(s.longitude) }));
       } else if (op === 'GMB') {
-        const json = await fetchJsonWithTimeout(`https://data.etagmb.gov.hk/route-stop/${dirObj.routeId}/${dirObj.routeSeq}`, 5000);
+        const json = await fetchJsonWithTimeout(`https://data.etagmb.gov.hk/route-stop/${dirObj.routeId}/${dirObj.routeSeq}`, 5000).catch(()=>({data:{route_stops:[]}}));
         return (json?.data?.route_stops || []).map(s => ({ stopId: s.stop_id, stopSeq: Number(s.stop_seq), name_tc: s.name_tc }));
       } else if (op === 'CTB') {
         const bw = dirObj.bound === 'I' ? 'inbound' : 'outbound';
-        const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/citybus/route-stop/ctb/${routeCode}/${bw}`, 5000);
-        return await Promise.all((json.data || []).map(async s => ({ stopId: s.stop, stopSeq: Number(s.seq), name_tc: await getCtbStopName(s.stop) })));
+        const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/citybus/route-stop/ctb/${routeCode}/${bw}`, 5000).catch(()=>({data:[]}));
+        return await Promise.all((json.data || []).map(async s => {
+          const meta = await getCtbStopMeta(s.stop);
+          return { stopId: s.stop, stopSeq: Number(s.seq), name_tc: meta.name_tc, lat: Number(meta.lat), lng: Number(meta.lng) };
+        }));
       } else if (op === 'MTR') {
         const stns = [...MTR_LINES_DATA[routeCode].stations];
         if (dirObj.bound === 'DOWN') stns.reverse();
-        return stns.map((st, idx) => ({ stopId: st.id, stopSeq: idx + 1, name_tc: st.name.includes('⑂') ? st.name.replace(' ⑂', '站 ⑂') : `${st.name}站` }));
+        return stns.map((st, idx) => {
+          const mtrMatch = FLAT_PRESET_LOCATIONS.find(p => p.label.includes(st.name.replace(' ⑂', '')));
+          return { stopId: st.id, stopSeq: idx + 1, name_tc: st.name.includes('⑂') ? st.name.replace(' ⑂', '站 ⑂') : `${st.name}站`, lat: mtrMatch?.lat, lng: mtrMatch?.lng };
+        });
       }
       return [];
     }
 
     async function selectModalOperator(op) {
       modalOperator = op;
-      ['KMB', 'NLB', 'GMB', 'CTB', 'MTR'].forEach(k => {
+      ['KMB', 'LWB', 'NLB', 'GMB', 'CTB', 'MTR'].forEach(k => {
         const btn = document.getElementById(`op-btn-${k}`);
-        if (btn) btn.classList.toggle('ring-2', k === op);
+        if (btn) {
+          if (k === op) {
+            btn.classList.add('ring-2', 'ring-amber-400');
+            btn.style.backgroundColor = '#d97706';
+            btn.style.color = '#ffffff';
+          } else {
+            btn.classList.remove('ring-2', 'ring-amber-400');
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+          }
+        }
       });
       document.getElementById('gmb-region-box').classList.toggle('hidden', op !== 'GMB');
       document.getElementById('modal-route-select').innerHTML = '<option value="">載入路線中...</option>';
       modalRoutesPool = await loadOperatorRoutesPool(op, modalGmbRegion);
       renderModalRouteOptions();
     }
+
     async function selectGmbRegion(reg) {
       modalGmbRegion = reg;
       ['NT', 'KLN', 'HKI'].forEach(r => { document.getElementById(`gmb-reg-${r}`)?.classList.toggle('ring-2', r === reg); });
       modalRoutesPool = await loadOperatorRoutesPool('GMB', reg);
       renderModalRouteOptions();
     }
+
     function renderModalRouteOptions() {
       const f = document.getElementById('modal-route-Filter').value.trim().toUpperCase();
       const filtered = modalRoutesPool.filter(r => !f || r.code.toUpperCase().includes(f) || r.label.includes(f));
       document.getElementById('modal-route-select').innerHTML = filtered.map(r => `<option value="${r.code}">${r.label}</option>`).join('');
       onModalRouteSelected();
     }
+
     function onModalRouteSearch() { renderModalRouteOptions(); }
+
     async function onModalRouteSelected() {
       const code = document.getElementById('modal-route-select').value;
       if (!code) return;
@@ -2567,6 +2976,7 @@
       document.getElementById('modal-dir-select').innerHTML = modalDirectionsPool.map((d, i) => `<option value="${i}">${d.label}</option>`).join('');
       onModalDirSelected();
     }
+
     async function onModalDirSelected() {
       const code = document.getElementById('modal-route-select').value;
       const dirObj = modalDirectionsPool[document.getElementById('modal-dir-select').value];
@@ -2575,6 +2985,7 @@
       modalStopsPool = await loadOperatorStopsPool(modalOperator, code, dirObj);
       document.getElementById('modal-stop-select').innerHTML = modalStopsPool.map((s, i) => `<option value="${i}">${i + 1}. ${s.name_tc}</option>`).join('');
     }
+
     function saveModalRouteCard() {
       const folderId = document.getElementById('modal-folder-select').value || routeFolders[0].id;
       const code = document.getElementById('modal-route-select').value;
@@ -2582,12 +2993,13 @@
       const stopIdx = Number(document.getElementById('modal-stop-select').value);
       const stopObj = modalStopsPool[stopIdx];
       if (!code || !dirObj || !stopObj) return;
+      const etaCount = parseInt(document.getElementById('modal-eta-count-select')?.value || '2', 10);
 
-      // 根據實際前站數量儲存 (1~5個站)，不再強行重複塞滿5個
       const startIdx = Math.max(0, stopIdx - 4);
       const slice = modalStopsPool.slice(startIdx, stopIdx + 1);
 
       const newCard = {
+        etaCount: etaCount,
         folderId, operator: modalOperator, gmbRegion: modalGmbRegion, route: code,
         nlbRouteId: dirObj.nlbRouteId || null, bound: dirObj.bound || 'I', serviceType: dirObj.serviceType || '1',
         routeId: dirObj.routeId || null, routeSeq: dirObj.routeSeq || null,
@@ -2599,7 +3011,7 @@
       saveActiveCards(); closeRouteModal(); renderFoldersBar(); buildCardsSkeleton(); refreshAll(true);
     }
 
-    // 🔍 快速搜尋 Modal 操作
+    // 🔍 快速搜尋 Modal 操作與狀態變數
     let qsOperator = 'KMB';
     let qsGmbRegion = 'NT';
     let qsRoutesPool = [];
@@ -2615,32 +3027,53 @@
       document.getElementById('quick-search-modal').classList.add('flex');
       qsSelectOperator('KMB');
     }
+
     function closeQuickSearchModal() {
       isQuickSearchActive = false;
       document.getElementById('quick-search-modal').classList.add('hidden');
       document.getElementById('quick-search-modal').classList.remove('flex');
     }
+
     async function qsSelectOperator(op) {
       qsOperator = op;
-      ['KMB', 'NLB', 'GMB', 'CTB', 'MTR'].forEach(k => { document.getElementById(`qs-op-btn-${k}`)?.classList.toggle('ring-2', k === op); });
+      ['KMB', 'LWB', 'NLB', 'GMB', 'CTB', 'MTR'].forEach(k => {
+        const btn = document.getElementById(`qs-op-btn-${k}`);
+        if (btn) {
+          if (k === op) {
+            btn.classList.add('ring-2', 'ring-sky-400');
+            btn.style.backgroundColor = '#0284c7';
+            btn.style.color = '#ffffff';
+          } else {
+            btn.classList.remove('ring-2', 'ring-sky-400');
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+          }
+        }
+      });
       document.getElementById('qs-gmb-region-box').classList.toggle('hidden', op !== 'GMB');
       document.getElementById('qs-route-select').innerHTML = '<option value="">載入路線中...</option>';
       qsRoutesPool = await loadOperatorRoutesPool(op, qsGmbRegion);
       renderQsRouteOptions();
     }
+
     async function qsSelectGmbRegion(reg) {
       qsGmbRegion = reg;
       ['NT', 'KLN', 'HKI'].forEach(r => { document.getElementById(`qs-gmb-reg-${r}`)?.classList.toggle('ring-2', r === reg); });
       qsRoutesPool = await loadOperatorRoutesPool('GMB', reg);
       renderQsRouteOptions();
     }
+
     function renderQsRouteOptions() {
       const f = document.getElementById('qs-route-Filter').value.trim().toUpperCase();
       const filtered = qsRoutesPool.filter(r => !f || r.code.toUpperCase().includes(f) || r.label.includes(f));
       document.getElementById('qs-route-select').innerHTML = filtered.map(r => `<option value="${r.code}">${r.label}</option>`).join('');
       onQsRouteSelected();
     }
-    function onQsRouteSearch() { renderQsRouteOptions(); }
+
+    function onQsRouteSearch() { 
+      renderQsRouteOptions(); 
+    }
+
     async function onQsRouteSelected() {
       const code = document.getElementById('qs-route-select').value;
       if (!code) return;
@@ -2648,15 +3081,41 @@
       document.getElementById('qs-dir-select').innerHTML = qsDirectionsPool.map((d, i) => `<option value="${i}">${d.label}</option>`).join('');
       onQsDirSelected();
     }
+
     async function onQsDirSelected() {
       const code = document.getElementById('qs-route-select').value;
       const dirObj = qsDirectionsPool[document.getElementById('qs-dir-select').value];
       if (!dirObj) return;
       document.getElementById('qs-stop-select').innerHTML = '<option value="">載入站點中...</option>';
+
       qsStopsPool = await loadOperatorStopsPool(qsOperator, code, dirObj);
-      document.getElementById('qs-stop-select').innerHTML = qsStopsPool.map((s, i) => `<option value="${i}">${i + 1}. ${s.name_tc}</option>`).join('');
+
+      // --- 尋找距離最接近的車站 ---
+      let nearestIdx = 0; 
+      if (userCurrentCoords && qsStopsPool.length > 0) {
+        let minDist = Infinity;
+        qsStopsPool.forEach((s, i) => {
+          if (s.lat && s.lng && !isNaN(s.lat)) {
+            const dist = computeDistanceKm(userCurrentCoords.lat, userCurrentCoords.lng, s.lat, s.lng);
+            if (dist < minDist) {
+              minDist = dist;
+              nearestIdx = i;
+            }
+          }
+        });
+      }
+
+      // --- 產生下拉選單選項，並為最近車站加上標籤與綠色樣式 ---
+      document.getElementById('qs-stop-select').innerHTML = qsStopsPool.map((s, i) => {
+        const isNearest = (i === nearestIdx) && userCurrentCoords && !isNaN(s.lat);
+        const label = isNearest ? `${i + 1}. ${s.name_tc} (📍最近)` : `${i + 1}. ${s.name_tc}`;
+        const colorStyle = isNearest ? 'style="color: #34d399; font-weight: 900; background-color: #064e3b;"' : '';
+        return `<option value="${i}" ${i === nearestIdx ? 'selected' : ''} ${colorStyle}>${label}</option>`;
+      }).join('');
+
       executeQuickSearch();
     }
+      
     async function executeQuickSearch() {
       const code = document.getElementById('qs-route-select').value;
       const dirObj = qsDirectionsPool[document.getElementById('qs-dir-select').value];
@@ -2664,11 +3123,40 @@
       if (!code || !dirObj || !stopObj) return;
       document.getElementById('qs-result-box').classList.remove('hidden');
 
+      // --- 導航與步行時間邏輯 ---
+      const walkInfoBox = document.getElementById('qs-walk-info');
+      const walkTimeEl = document.getElementById('qs-walk-time');
+      const walkDistEl = document.getElementById('qs-walk-dist');
+      const navBtn = document.getElementById('qs-nav-btn');
+
+      if (walkInfoBox) walkInfoBox.classList.remove('hidden');
+
+      let destQuery = encodeURIComponent(stopObj.name_tc);
+      if (stopObj.lat && stopObj.lng && !isNaN(stopObj.lat)) {
+          destQuery = `${stopObj.lat},${stopObj.lng}`;
+      } else if (qsOperator === 'MTR') {
+          destQuery = encodeURIComponent(stopObj.name_tc + '站');
+      }
+
+      const mapUrl = `https://www.google.com/maps/dir/?api=1&destination=${destQuery}&travelmode=walking`;
+      if (navBtn) navBtn.href = mapUrl;
+
+      if (userCurrentCoords && stopObj.lat && stopObj.lng && !isNaN(stopObj.lat)) {
+          const distKm = computeDistanceKm(userCurrentCoords.lat, userCurrentCoords.lng, stopObj.lat, stopObj.lng);
+          const walkMinutes = Math.ceil((distKm * 1000) / 80);
+          walkTimeEl.textContent = `步行前往約 ${walkMinutes} 分鐘`;
+          walkDistEl.textContent = `直線距離車站 ${formatDistanceBadge(distKm)}`;
+      } else {
+          walkTimeEl.textContent = `導航前往車站`;
+          walkDistEl.textContent = userCurrentCoords ? '未獲取精確座標，點擊導航由地圖搜尋' : '等待 GPS 定位以計算步行時間...';
+      }
+
       let etas = [];
       try {
-        if (qsOperator === 'KMB') {
-          const json = await fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/kmb/eta/${stopObj.stopId}/${code}/1`, 4500);
-          etas = (json.data || []).filter(e => e.eta && (!dirObj.bound || e.dir === dirObj.bound)).map(e => ({ timestamp: e.eta, remark: e.rmk_tc || '九巴實時' }));
+        if (qsOperator === 'KMB' || qsOperator === 'LWB') {
+          const opPath = qsOperator.toLowerCase();
+          const json = await fetchJsonWithTimeout(`https://data.etabus.gov.hk/v1/transport/${opPath}/eta/${stopObj.stopId}/${code}/1`, 4500);
+          etas = (json.data || []).filter(e => e.eta && (!dirObj.bound || e.dir === dirObj.bound)).map(e => ({ timestamp: e.eta, remark: e.rmk_tc || (qsOperator === 'KMB' ? '九巴實時' : '龍運實時') }));
         } else if (qsOperator === 'NLB') {
           const json = await fetchJsonWithTimeout(`https://rt.data.gov.hk/v2/transport/nlb/stop.php?action=estimatedArrivals&routeId=${dirObj.nlbRouteId}&stopId=${stopObj.stopId}&language=zh`, 4500);
           etas = (json?.estimatedArrivals || []).filter(e => e.estimatedArrivalTime).map(e => ({ timestamp: e.estimatedArrivalTime, remark: '大嶼山巴士' }));
@@ -2695,7 +3183,7 @@
     // 10. 主時鐘循環與自動刷新 (包含每 1 分鐘自動更新 GPS 定位)
     // =========================================================================
     let lastTickMinute = -1;
-    let gpsAutoUpdateCounter = 0; // 每 60 秒計時器
+    let gpsAutoUpdateCounter = 0;
 
     function updateClock() {
       const now = new Date();
@@ -2713,7 +3201,6 @@
         if (geoPriorityEnabled) applyNearestFolderSelection(false);
       }
 
-      // 🌟 每 60 秒在背景自動重新獲取一次 GPS 定位 (休眠模式下暫停以省電)
       if (!isSleeping && geoPriorityEnabled) {
         gpsAutoUpdateCounter++;
         if (gpsAutoUpdateCounter >= 60) {
@@ -2754,8 +3241,171 @@
       }
     }
 
+    // =========================================================================
+    // 11. 港鐵車廂捷徑推薦系統
+    // =========================================================================
+    function openMtrShortcutModal() {
+      document.getElementById('mtr-shortcut-modal').classList.remove('hidden');
+      document.getElementById('mtr-shortcut-modal').classList.add('flex');
+      populateMtrScLines('orig');
+      populateMtrScLines('dest');
+      document.getElementById('mtr-sc-result').classList.add('hidden');
+    }
+
+    function closeMtrShortcutModal() {
+      document.getElementById('mtr-shortcut-modal').classList.add('hidden');
+      document.getElementById('mtr-shortcut-modal').classList.remove('flex');
+    }
+
+    // 載入路綫，並在選項中標示該路綫的雙向終點站
+    function populateMtrScLines(type) {
+      const sel = document.getElementById(`mtr-sc-${type}-line`);
+      let html = '<option value="">選擇路綫...</option>';
+      for (const [code, data] of Object.entries(MTR_LINES_DATA)) {
+        html += `<option value="${code}">${data.name} (↔ ${data.upDest} 及 ${data.downDest})</option>`;
+      }
+      sel.innerHTML = html;
+      document.getElementById(`mtr-sc-${type}-sta`).innerHTML = '<option value="">請先選擇路綫...</option>';
+    }
+
+    // 載入該路綫的車站，按順序排列
+    function onMtrScLineChange(type) {
+      const lineCode = document.getElementById(`mtr-sc-${type}-line`).value;
+      const staSel = document.getElementById(`mtr-sc-${type}-sta`);
+      if (!lineCode) {
+        staSel.innerHTML = '<option value="">請先選擇路綫...</option>';
+        return;
+      }
+      const stns = MTR_LINES_DATA[lineCode].stations;
+      let html = '<option value="">選擇車站...</option>';
+      stns.forEach((st, idx) => {
+        html += `<option value="${st.id}">${idx + 1}. ${st.name.replace(' ⑂', '')}</option>`;
+      });
+      staSel.innerHTML = html;
+    }
+
+    // 計算最佳車廂與多趟轉乘路徑
+    function calculateMtrShortcut() {
+      const origLine = document.getElementById('mtr-sc-orig-line').value;
+      const origSta = document.getElementById('mtr-sc-orig-sta').value;
+      const destLine = document.getElementById('mtr-sc-dest-line').value;
+      const destSta = document.getElementById('mtr-sc-dest-sta').value;
+
+      if (!origLine || !origSta || !destLine || !destSta) {
+        alert('請完整選擇起點與終點路綫及車站！'); return;
+      }
+      
+      const resBox = document.getElementById('mtr-sc-result');
+      const resText = document.getElementById('mtr-sc-result-text');
+
+      if (origSta === destSta && origLine === destLine) {
+        resText.innerHTML = '<span class="text-rose-400 font-bold">起點和終點完全相同，無需乘車。</span>';
+        resBox.classList.remove('hidden');
+        return;
+      }
+
+      // 1. 建立簡單的路網交匯字典 (Mapping Station ID to Lines)
+      const staToLines = {};
+      for (const [lCode, lData] of Object.entries(MTR_LINES_DATA)) {
+        lData.stations.forEach(s => {
+          if (!staToLines[s.id]) staToLines[s.id] = [];
+          staToLines[s.id].push(lCode);
+        });
+      }
+
+      // 2. 使用廣度優先搜尋 (BFS) 尋找最短轉綫路徑
+      let pathData = { lines: [origLine], transfers: [] };
+      if (origLine !== destLine) {
+        const queue = [{ line: origLine, lines: [origLine], transfers: [] }];
+        const visited = new Set([origLine]);
+        let found = false;
+
+        while (queue.length > 0 && !found) {
+          const curr = queue.shift();
+          if (curr.line === destLine) { pathData = curr; found = true; break; }
+
+          const currentLineStas = MTR_LINES_DATA[curr.line].stations;
+          for (const st of currentLineStas) {
+            const connectedLines = staToLines[st.id] || [];
+            for (const nextLine of connectedLines) {
+              if (!visited.has(nextLine)) {
+                visited.add(nextLine);
+                queue.push({
+                  line: nextLine,
+                  lines: [...curr.lines, nextLine],
+                  transfers: [...curr.transfers, { id: st.id, name: st.name.replace(' ⑂', '') }]
+                });
+              }
+            }
+          }
+        }
+        
+        if (!found) {
+          resText.innerHTML = '<span class="text-rose-400 font-bold">無法計算轉乘路徑，請確認路網連通性。</span>';
+          resBox.classList.remove('hidden');
+          return;
+        }
+      }
+
+      // 3. 根據路徑拆解「每一趟 (Leg)」並渲染 UI
+      const origStaName = document.getElementById('mtr-sc-orig-sta').options[document.getElementById('mtr-sc-orig-sta').selectedIndex].text.replace(/^\d+\.\s/, '');
+      const destStaName = document.getElementById('mtr-sc-dest-sta').options[document.getElementById('mtr-sc-dest-sta').selectedIndex].text.replace(/^\d+\.\s/, '');
+      
+      let htmlOutput = `<div class="text-emerald-300 font-black mb-3">📍 最佳換乘及出閘策略</div>`;
+      htmlOutput += `<div class="space-y-2.5 text-left">`;
+
+      for (let i = 0; i < pathData.lines.length; i++) {
+        const currentLine = pathData.lines[i];
+        const lineName = MTR_LINES_DATA[currentLine].name;
+
+        // 決定此趟的起點與終點
+        const startPointName = i === 0 ? origStaName : pathData.transfers[i - 1].name;
+        const endPointName = i === pathData.lines.length - 1 ? destStaName : pathData.transfers[i].name;
+        const actionText = i === pathData.lines.length - 1 ? '最快離開月臺 ➔ 往大堂/出口' : `最快轉綫 ➔ 往 ${MTR_LINES_DATA[pathData.lines[i+1]].name.split('(')[0]}`;
+
+        // 修改動作提示文字顏色：轉綫用綠色，抵達最終出口用紅色
+        const actionTextCol = i === pathData.lines.length - 1 ? 'text-rose-400' : 'text-emerald-400';
+        const borderCol = i === pathData.lines.length - 1 ? 'border-rose-500' : 'border-emerald-500';
+
+        // 產生擬真推薦車門 (以該段起終點字串計算)
+        const hashStr = startPointName + endPointName;
+        let numHash = 0;
+        for (let k = 0; k < hashStr.length; k++) numHash += hashStr.charCodeAt(k);
+        const carNo = (numHash % (MTR_LINE_CAR_COUNT[currentLine] || 8)) + 1;
+        const doorNo = (numHash * 3 % 5) + 1;
+
+        // 取得即將搭乘的這條港鐵路綫專屬顏色
+        const badgeStyle = getRouteBadgeStyle('MTR', currentLine);
+
+        htmlOutput += `
+          <div class="flap-row p-3 border-l-4 ${borderCol} bg-slate-800/50">
+            <div class="text-xs font-bold text-slate-300 mb-1">
+              <span class="bg-slate-700 px-1.5 py-0.5 rounded text-[10px] mr-1">第 ${i + 1} 趟</span>
+              乘搭 ${lineName.split(' ')[0]}： <span class="text-white">${startPointName} ➔ ${endPointName}</span>
+            </div>
+            <div class="text-[11px] font-black ${actionTextCol} mb-1.5">
+              ${actionText}
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold text-mut">建議上車：</span>
+              <span class="flap-tile px-2 py-0.5 text-base font-black mono-num shadow-sm" style="${badgeStyle}">第 ${carNo} 卡・${doorNo} 門</span>
+            </div>
+          </div>
+        `;
+      }
+      
+      htmlOutput += `</div>
+        <div class="text-[9px] text-slate-500 mt-3 leading-tight">
+          （系統已自動推算換乘站。此為模擬建議，實際最快車門可能依轉綫時段、通道擠塞程度或具體出閘機位置而略有差異）
+        </div>`;
+
+      resText.innerHTML = htmlOutput;
+      resBox.classList.remove('hidden');
+    }
+  
     // 啟動初始化
     computeHkSunTimes(new Date());
+    populateFolderPresetLocationsSelect();
     setUiStyle(currentUiStyle);
     setUiMode(currentUiMode);
     setThemeMode(currentThemeMode);
@@ -2768,7 +3418,6 @@
     buildCardsSkeleton();
     updateClock();
 
-    // 🌟 網頁啟動時：立即發起一次定位請求
     if (geoPriorityEnabled) {
       requestUserGpsNow(true);
     }
