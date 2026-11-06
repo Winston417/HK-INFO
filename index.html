@@ -10,6 +10,7 @@
   <!-- SQLite WebAssembly 解析器 (用於讀取 7 個港鐵/輕鐵 .db/.sqlite 檔案) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=VT323&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&family=Noto+Sans+HK:wght@500;700;900&family=Roboto:wght@500;700;900&display=swap');
 
     /* =========================================================================
@@ -62,6 +63,232 @@
       --row-bg: #161e2e; --row-border: #263147; --row-radius: 10px; --flap-bg-top: #1e2638; --flap-bg-bottom: #151b29; --flap-border: #05070c; --flap-hinge: rgba(0, 0, 0, 0.82);
       --btn-bg: #1a2336; --btn-border: #334155; --btn-radius: 8px; --text-main: #f8fafc; --text-sub: #cbd5e1; --text-muted: #94a3b8; --accent-color: #fbbf24; --urgent-color: #34d399;
       --track-bg: #070b12; --track-border: #1e293b; --dock-bg: rgba(17, 23, 38, 0.96); font-family: 'Noto Sans HK', sans-serif;
+    }
+
+/* =========================================================================
+       風格 4：全頁面嚴格三色 LED 點陣看板 (style-led：僅限 黃 / 綠 / 紅 + 黑底)
+       ========================================================================= */
+    body.style-led {
+      /* 純黑點陣底板 */
+      --bg-board: radial-gradient(#12151a 22%, #020305 22%), #020305;
+      background-size: 5px 5px;
+      
+      /* 標準三色 LED 定義 */
+      --led-amber: #ffaa00;
+      --led-green: #00ff55;
+      --led-red:   #ff2a2a;
+      --led-dim:   #664400; /* 暗琥珀色：用於次要文字與邊框，維持單一色系 */
+
+      --panel-bg: #05070a;
+      --panel-border: var(--led-dim);
+      --panel-shadow: 0 0 0 2px #000, 0 8px 24px rgba(0, 0, 0, 0.95);
+      --panel-radius: 6px;
+      --panel-blur: none;
+      
+      --row-bg: #020305;
+      --row-border: #3d2800;
+      --row-radius: 4px;
+      
+      --tile-bg: #000000;
+      --tile-border: var(--led-amber);
+      --tile-radius: 3px;
+      
+      --btn-bg: #080a0f;
+      --btn-border: var(--led-amber);
+      --btn-radius: 4px;
+
+      --text-main: var(--led-amber);
+      --text-sub: var(--led-green);
+      --text-muted: var(--led-amber);
+      --accent-color: var(--led-amber);
+      --urgent-color: var(--led-green);
+      --track-bg: #000000;
+      --track-border: #3d2800;
+      --dock-bg: #05070a;
+
+      font-family: 'DotGothic16', 'Noto Sans HK', monospace !important;
+      color: var(--led-amber) !important;
+    }
+
+    /* 1. 強制全站所有容器、彈出視窗、輸入框、下拉選單轉為純黑底 + 琥珀黃框 */
+    body.style-led .airport-panel,
+    body.style-led .flap-row,
+    body.style-led .jr-board,
+    body.style-led .ctrl-btn,
+    body.style-led input,
+    body.style-led select,
+    body.style-led option,
+    body.style-led #mtrSqliteFloatingBox,
+    body.style-led [class*="bg-slate-"],
+    body.style-led [class*="bg-sky-"],
+    body.style-led [class*="bg-indigo-"],
+    body.style-led [class*="bg-amber-9"],
+    body.style-led [class*="bg-emerald-9"] {
+      background: #030406 !important;
+      background-color: #030406 !important;
+      background-image: none !important;
+      border-color: var(--led-dim) !important;
+      color: var(--led-amber) !important;
+      box-shadow: none !important;
+    }
+
+    /* 2. 強制消滅所有白字、灰字、藍字、紫字，統一歸納為「黃、綠、紅」三色 */
+    /* 琥珀黃 (預設主色：涵蓋原本的白、灰、黃、橙) */
+    body.style-led .text-pri,
+    body.style-led .text-mut,
+    body.style-led .flap-amber,
+    body.style-led [class*="text-white"],
+    body.style-led [class*="text-slate-"],
+    body.style-led [class*="text-neutral-"],
+    body.style-led [class*="text-amber-"],
+    body.style-led [class*="text-yellow-"],
+    body.style-led [class*="text-orange-"] {
+      color: var(--led-amber) !important;
+      text-shadow: 0 0 4px rgba(255, 170, 0, 0.55) !important;
+    }
+
+    /* 點陣綠 (涵蓋原本的綠、藍、青色，用於次要強調、到站、導航按鈕) */
+    body.style-led .text-sec,
+    body.style-led .flap-green,
+    body.style-led [class*="text-emerald-"],
+    body.style-led [class*="text-green-"],
+    body.style-led [class*="text-sky-"],
+    body.style-led [class*="text-blue-"],
+    body.style-led [class*="text-indigo-"],
+    body.style-led [class*="text-teal-"] {
+      color: var(--led-green) !important;
+      text-shadow: 0 0 4px rgba(0, 255, 85, 0.55) !important;
+    }
+
+    /* 點陣紅 (涵蓋原本的紅、玫瑰紅，用於尾班車、刪除、異常、終點提示) */
+    body.style-led [class*="text-rose-"],
+    body.style-led [class*="text-red-"],
+    body.style-led .mtr-car-high {
+      color: var(--led-red) !important;
+      border-color: var(--led-red) !important;
+      text-shadow: 0 0 5px rgba(255, 42, 42, 0.65) !important;
+    }
+
+    /* 3. 強制覆蓋所有路線號碼牌 (九巴/城巴/港鐵各綫)、行程大站名方塊的彩色背景 */
+    body.style-led .flap-tile,
+    body.style-led #rd-route-badge,
+    body.style-led #live-trip-content [style*="background-color"] {
+      background: #000000 !important;
+      background-color: #000000 !important;
+      background-image: none !important;
+      color: var(--led-amber) !important;
+      border: 1.5px solid var(--led-amber) !important;
+      box-shadow: 0 0 6px rgba(255, 170, 0, 0.4) !important;
+    }
+
+    /* 4. 強制覆蓋所有彩色實心按鈕 (如加路線、搜尋、開始行程、選擇路線按鈕) */
+    body.style-led button[class*="bg-amber-"],
+    body.style-led button[class*="bg-sky-"] {
+      background: #000000 !important;
+      color: var(--led-amber) !important;
+      border: 1.5px solid var(--led-amber) !important;
+      box-shadow: 0 0 8px rgba(255, 170, 0, 0.4) !important;
+    }
+    body.style-led button[class*="bg-emerald-"],
+    body.style-led a[class*="bg-emerald-"],
+    body.style-led .mobile-search-fab {
+      background: #000000 !important;
+      background-image: none !important;
+      color: var(--led-green) !important;
+      border: 1.5px solid var(--led-green) !important;
+      box-shadow: 0 0 8px rgba(0, 255, 85, 0.4) !important;
+    }
+    body.style-led span[class*="bg-rose-"],
+    body.style-led button[class*="bg-rose-"] {
+      background: #000000 !important;
+      color: var(--led-red) !important;
+      border: 1px solid var(--led-red) !important;
+    }
+
+    /* 5. 行程規劃器站點膠囊按鈕：起點綠、終點紅、未選黃 */
+    body.style-led .station-pill {
+      background: #000000 !important;
+      color: var(--led-amber) !important;
+      border: 1px solid var(--led-dim) !important;
+    }
+    body.style-led .station-pill.is-orig {
+      background: #00220b !important;
+      color: var(--led-green) !important;
+      border: 1.5px solid var(--led-green) !important;
+      box-shadow: 0 0 6px rgba(0, 255, 85, 0.5) !important;
+    }
+    body.style-led .station-pill.is-dest {
+      background: #2a0000 !important;
+      color: var(--led-red) !important;
+      border: 1.5px solid var(--led-red) !important;
+      box-shadow: 0 0 6px rgba(255, 42, 42, 0.5) !important;
+    }
+
+    /* 6. 翻頁時鐘：防重疊並鎖定琥珀黃 */
+    body.style-led .split-flap-clock-card {
+      background: #000000 !important;
+      border: 1.5px solid var(--led-amber) !important;
+      border-radius: 4px !important;
+      color: var(--led-amber) !important;
+      text-shadow: 0 0 6px rgba(255, 170, 0, 0.8) !important;
+    }
+    body.style-led .sfc-sizer,
+    body.style-led .sfc-bottom,
+    body.style-led .sfc-leaf-front,
+    body.style-led .sfc-leaf-back,
+    body.style-led .sfc-hinge {
+      display: none !important;
+    }
+    body.style-led .sfc-top {
+      position: static !important;
+      clip-path: none !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* 7. 橫向/縱向路軌與動態導航路軌：統一三色化 */
+    body.style-led .jr-rail-line {
+      background: linear-gradient(90deg, var(--led-dim) 0%, var(--led-amber) 70%, var(--led-green) 100%) !important;
+    }
+    body.style-led #route-detail-track svg line,
+    body.style-led #route-detail-track svg path {
+      stroke: var(--led-amber) !important;
+    }
+    body.style-led .jr-station-node,
+    body.style-led .v-stop-node {
+      border-radius: 2px !important;
+      background: #000000 !important;
+      border: 2px solid var(--led-dim) !important;
+    }
+    body.style-led .jr-station-node.is-lit {
+      background: var(--led-amber) !important;
+      border-color: var(--led-amber) !important;
+      box-shadow: 0 0 8px var(--led-amber) !important;
+    }
+    body.style-led .jr-station-node.is-target,
+    body.style-led .jr-station-node.is-arriving,
+    body.style-led .v-stop-node.target {
+      background: var(--led-green) !important;
+      border-color: var(--led-green) !important;
+      box-shadow: 0 0 10px var(--led-green) !important;
+    }
+    body.style-led .jr-bus-pill {
+      background: #000000 !important;
+      color: var(--led-amber) !important;
+      border: 1.5px solid var(--led-amber) !important;
+      border-radius: 2px !important;
+      box-shadow: 0 0 8px rgba(255, 170, 0, 0.7) !important;
+    }
+    body.style-led .jr-bus-pill.is-arriving {
+      color: var(--led-green) !important;
+      border-color: var(--led-green) !important;
+      box-shadow: 0 0 8px rgba(0, 255, 85, 0.7) !important;
+    }
+
+    /* 8. 將頁面所有 Emoji 與小圖示也透過濾鏡轉為琥珀黃/綠光感，消除雜色 */
+    body.style-led img#weather-icon {
+      filter: sepia(100%) saturate(400%) brightness(1.1) hue-rotate(5deg);
     }
 
     body { background: var(--bg-board); background-attachment: fixed; color: var(--text-main); transition: background 0.35s ease, color 0.35s ease; -webkit-tap-highlight-color: transparent; }
@@ -283,10 +510,11 @@
 
         <div>
           <label class="block font-black text-pri mb-1.5">🎨 2. 介面視覺風格</label>
-          <div class="grid grid-cols-3 gap-2">
-            <button onclick="setUiStyle('apple')" id="set-style-apple" class="ctrl-btn py-2 text-xs font-black"> 毛玻璃</button>
+          <div class="grid grid-cols-4 gap-2">
+            <button onclick="setUiStyle('apple')" id="set-style-apple" class="ctrl-btn py-2 text-xs font-black">IOS</button>
             <button onclick="setUiStyle('android')" id="set-style-android" class="ctrl-btn py-2 text-xs font-black">Android</button>
             <button onclick="setUiStyle('flap')" id="set-style-flap" class="ctrl-btn py-2 text-xs font-black">翻頁</button>
+            <button onclick="setUiStyle('led')" id="set-style-led" class="ctrl-btn py-2 text-xs font-black">點陣</button>
           </div>
         </div>
 
@@ -1079,7 +1307,26 @@
     // =========================================================================
     const UI_STYLE_KEY = 'dashboard_ui_style_v1';
     let currentUiStyle = localStorage.getItem(UI_STYLE_KEY) || 'apple';
-    function setUiStyle(styleName) { if (!['apple', 'android', 'flap'].includes(styleName)) styleName = 'apple'; currentUiStyle = styleName; localStorage.setItem(UI_STYLE_KEY, styleName); document.body.classList.remove('style-apple', 'style-android', 'style-flap'); document.body.classList.add(`style-${styleName}`); ['apple', 'android', 'flap'].forEach(s => { const btn = document.getElementById(`set-style-${s}`); if (btn) btn.className = s === styleName ? 'py-2 rounded-xl text-xs font-black bg-sky-500 text-white shadow' : 'ctrl-btn py-2 text-xs font-bold'; }); }
+    function setUiStyle(styleName) {
+      const validStyles = ['apple', 'android', 'flap', 'led'];
+      if (!validStyles.includes(styleName)) styleName = 'apple';
+      currentUiStyle = styleName;
+      localStorage.setItem(UI_STYLE_KEY, styleName);
+
+      // 移除所有風格 class 並套用新風格
+      document.body.classList.remove('style-apple', 'style-android', 'style-flap', 'style-led');
+      document.body.classList.add(`style-${styleName}`);
+
+      // 同步設定選單按鈕的高亮狀態
+      validStyles.forEach(s => {
+        const btn = document.getElementById(`set-style-${s}`);
+        if (btn) {
+          btn.className = (s === styleName)
+            ? 'py-2 rounded-xl text-xs font-black bg-sky-500 text-white shadow'
+            : 'ctrl-btn py-2 text-xs font-bold';
+        }
+      });
+    }
 
     const UI_LAYOUT_MODE_KEY = 'dashboard_ui_layout_mode_v2';
     let currentUiMode = localStorage.getItem(UI_LAYOUT_MODE_KEY) || (window.innerWidth < 768 ? 'mobile' : 'normal');
